@@ -25,7 +25,12 @@ public:
 	int addColumn(unsigned int);
 	int fillRowWithData(int*, unsigned int);
 	int fillColumnWithData(int*, unsigned int);
-
+	unsigned int verifyMatrixDimensionY(void);
+	unsigned int verifyMatrixDimensionX(void);
+	//debug
+	unsigned int verifyMatrixCapacityY(void);
+	unsigned int verifyMatrixCapacityX(void);
+	//end of debug
 	int vector_multiple(int*, int*, unsigned int);
 
 };
