@@ -12,76 +12,101 @@ matrix::matrix() {
 
 }
 
-matrix::matrix(unsigned int noOfRows, unsigned int noOfColums) {
-	if(!noOfRows || !noOfColums) {
-		printf ("Rows and Column amount cannot be 0!");
+matrix::matrix(unsigned int no_of_rows = 1, unsigned int no_of_colums = 1) {
+	if(!no_of_rows || !no_of_colums) {
+		printf ("Amount of rows and column cannot be 0!\n");
 		return;
 	}
-	this->allocateMatrixVectors(noOfRows, noOfColums);
+	this->allocateMatrixVectors(no_of_rows, no_of_colums);
 }
 
 matrix::~matrix() {
 	// TODO Auto-generated destructor stub
 }
 
-void matrix::allocateMatrixVectors(unsigned int noOfRows, unsigned int noOfColums) {
-	matrixData.resize(noOfRows);
-	for (unsigned int i=0; i < noOfRows; i++) {
-		matrixData[i].resize(noOfColums, 0);
+void matrix::allocateMatrixVectors(unsigned int no_of_rows, unsigned int no_of_colums) {
+	matrixData.resize(no_of_rows);
+	for (unsigned int i=0; i < no_of_rows; i++) {
+		matrixData[i].resize(no_of_colums, 0);
 	}
 }
 
-int matrix::addRow(unsigned int noOfElements) {
+int matrix::addRow(unsigned int no_of_elements) {
 	if(matrixData.empty()) {
 		matrixData.resize(1);
 		vector<vector<int> >::iterator it = matrixData.begin();
-		it->resize(noOfElements, 0);
+		it->resize(no_of_elements, 0);
 		return 0;
 	} else {
-		//TODO delete noOfElements
 		vector<vector<int> >::iterator it = matrixData.begin();
-		if(it->size() == noOfElements) {
-			matrixData.resize(matrixData.size() + 1);
-			it = matrixData.end();
-			it->resize(noOfElements, 0);
-			return 0;
+		if(it->size() == no_of_elements) {
+			return this->addRow();
 		}
 		else {
-			printf ("Cannot add: Size of elements doesn't fit to matrix, matrix row size: %d, provided %d\n", it->size(), noOfElements);
+			printf ("Cannot add: Size of elements doesn't fit to matrix, matrix row size: %d, provided %d\n", it->size(), no_of_elements);
 			return 1;
 		}
 	}
-	printf ("Cannot add: Unexpected error, noOfElements %d\n", noOfElements);
+	printf ("Cannot add: Unexpected error, no_of_elements %d\n", no_of_elements);
 	return 1;
 }
 
-int matrix::addColumn(unsigned int noOfElements) {
+int matrix::addRow() {
 	if(matrixData.empty()) {
-		matrixData.resize(noOfElements);
+		printf ("Cannot add: Matrix desn't have any rows\n");
+		return 1;
+	} else {
+		unsigned int x_size = matrixData.size();
+		vector<vector<int> >::iterator it = matrixData.begin();
+		unsigned int y_size = it->size();
+		matrixData.resize(x_size + 1);
+		it = matrixData.end();
+		it->resize(y_size, 0);
+		return 0;
+	}
+	printf ("Cannot add: Unexpected error, while adding row\n");
+	return 1;
+}
+
+int matrix::addColumn(unsigned int no_of_elements) {
+	if(matrixData.empty()) {
+		matrixData.resize(no_of_elements);
 		for(vector<vector<int> >::iterator it = matrixData.begin(); it != matrixData.end(); ++it) {
 			it->resize(1, 0);
 		}
 		return 0;
 	} else {
-		//TODO delete noOfElements
-		if(matrixData.size() == noOfElements) {
-			for(vector<vector<int> >::iterator it = matrixData.begin(); it != matrixData.end(); ++it) {
-				it->resize(it->size() + 1, 0);
-			}
+		if(matrixData.size() == no_of_elements) {
+			this->addColumn();
 			return 0;
 		} else {
-			printf ("Cannot add: Size of elements doesn't fit to matrix, matrix column size: %d, provided %d\n", matrixData.size(), noOfElements);
+			printf ("Cannot add: Size of elements doesn't fit to matrix, matrix column size: %d, provided %d\n", matrixData.size(), no_of_elements);
 			return 1;
 		}
 	}
-	printf ("Cannot add: Unexpected error, noOfElements %d\n", noOfElements);
+	printf ("Cannot add: Unexpected error, no_of_elements %d\n", no_of_elements);
 	return 1;
 }
 
+int matrix::addColumn() {
+	if(matrixData.empty()) {
+		printf ("Cannot add: Matrix desn't have any columns\n");
+		return 1;
+	} else {
+		vector<vector<int> >::iterator it = matrixData.begin();
+		unsigned int y_size = it->size();
+		for( ; it != matrixData.end(); ++it) {
+			it->resize(y_size + 1, 0);
+		}
+		return 0;
+	}
+	printf ("Cannot add: Unexpected error, while adding column\n");
+	return 1;
+}
 
-int matrix::fillRowWithData(int* data, unsigned int rowIndex) {
-	if(rowIndex > matrixData.size()) {
-		printf ("Cannot fill: rowIndex out of matrix range, matrix row size: %d, rowIndex %d\n", matrixData.size(), rowIndex);
+int matrix::fillRowWithData(int* data, unsigned int row_index) {
+	if(row_index > matrixData.size()) {
+		printf ("Cannot fill: rowIndex out of matrix range, matrix row size: %d, row_index %d\n", matrixData.size(), row_index);
 		return 1;
 	} else {
 		// TODO
@@ -89,10 +114,10 @@ int matrix::fillRowWithData(int* data, unsigned int rowIndex) {
 	return 1;
 }
 
-int matrix::fillColumnWithData(int* data, unsigned int columnIndex) {
+int matrix::fillColumnWithData(int* data, unsigned int column_index) {
 	vector<vector<int> >::iterator it = matrixData.begin();
-	if(columnIndex > it->size()) {
-		printf ("Cannot fill: columnIndex out of matrix range, matrix column size: %d, columnIndex %d\n", it->size(), columnIndex);
+	if(column_index > it->size()) {
+		printf ("Cannot fill: columnIndex out of matrix range, matrix column size: %d, column_index %d\n", it->size(), column_index);
 		return 1;
 	} else {
 		// TODO
@@ -108,9 +133,10 @@ unsigned int matrix::verifyMatrixDimensionY() {
 unsigned int matrix::verifyMatrixDimensionX() {
 	if(matrixData.empty()) {
 		printf ("Verification failed: Vector is empty\n");
-		return 1;
+		return 0;
 	}
 	//TODO No of Row = 1 case
+	// After all this not needed
 	vector<vector<int> >::iterator it = matrixData.begin();
 	while(it != matrixData.end()) {
 		if(it->size() != (++it)->size()) {
@@ -130,11 +156,11 @@ unsigned int matrix::verifyMatrixCapacityX() {
 	return it->capacity();
 }
 
-int matrix::vector_multiple(int* vectorX, int* vectorY, unsigned int lenght) {
+int matrix::vector_multiple(int* vector_x, int* vector_y, unsigned int lenght) {
 	//TODO del lenght
-	int resoult = 0;
+	int result = 0;
 	for(unsigned int i=0; i < lenght; i++) {
-		resoult += (*vectorX++)*(*vectorY++);
+		result += (*vector_x++)*(*vector_y++);
 	}
-	return resoult;
+	return result;
 }

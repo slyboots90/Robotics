@@ -22,7 +22,9 @@ public:
 	matrix(unsigned int, unsigned int);
 	virtual ~matrix();
 	int addRow(unsigned int);
+	int addRow(void);
 	int addColumn(unsigned int);
+	int addColumn(void);
 	int fillRowWithData(int*, unsigned int);
 	int fillColumnWithData(int*, unsigned int);
 	unsigned int verifyMatrixDimensionY(void);
