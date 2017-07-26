@@ -9,12 +9,12 @@
 #include <stdio.h> 		//printf
 
 matrix::matrix() {
-
+	this->allocateMatrixVectors(1, 1);
 }
 
-matrix::matrix(unsigned int no_of_rows = 1, unsigned int no_of_colums = 1) {
+matrix::matrix(unsigned int no_of_rows, unsigned int no_of_colums) {
 	if(!no_of_rows || !no_of_colums) {
-		printf ("Amount of rows and column cannot be 0!\n");
+		printf ("Amount of rows or columns cannot be 0!\n");
 		return;
 	}
 	this->allocateMatrixVectors(no_of_rows, no_of_colums);
@@ -126,25 +126,27 @@ int matrix::fillColumnWithData(int* data, unsigned int column_index) {
 }
 
 unsigned int matrix::verifyMatrixDimensionY() {
+	// After all this not needed
 	if(matrixData.empty()) return 0;
 	return matrixData.size();
 }
 
 unsigned int matrix::verifyMatrixDimensionX() {
+	// After all this not needed
 	if(matrixData.empty()) {
 		printf ("Verification failed: Vector is empty\n");
 		return 0;
-	}
-	//TODO No of Row = 1 case
-	// After all this not needed
-	vector<vector<int> >::iterator it = matrixData.begin();
-	while(it != matrixData.end()) {
-		if(it->size() != (++it)->size()) {
-			printf ("Verification failed: amount of columns are different: %d, %d\n", (it-1)->size(), it->size());
+	} else if(matrixData.size() == 1) {
+		return matrixData.begin()->size();
+	} else {
+		vector<vector<int> >::iterator it = matrixData.begin();
+		while(it != matrixData.end() - 1) {
+			if(it->size() != (++it)->size()) {
+				printf ("Verification failed: amount of columns are different: %d, %d\n", (it-1)->size(), it->size());
+			}
 		}
-		printf ("Debug: amount of columns: %d\n", it->size());
+		return matrixData.begin()->size();
 	}
-	return matrixData.begin()->size();
 }
 
 unsigned int matrix::verifyMatrixCapacityY() {
@@ -152,8 +154,7 @@ unsigned int matrix::verifyMatrixCapacityY() {
 }
 
 unsigned int matrix::verifyMatrixCapacityX() {
-	vector<vector<int> >::iterator it = matrixData.begin();
-	return it->capacity();
+	return matrixData.begin()->capacity();
 }
 
 int matrix::vector_multiple(int* vector_x, int* vector_y, unsigned int lenght) {

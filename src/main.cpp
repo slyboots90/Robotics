@@ -13,7 +13,7 @@ using namespace std;
 
 int main() {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	matrix Eva(1,5);
+	matrix Eva(56,32);
 	//matrix Adam;
 
 	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
