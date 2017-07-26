@@ -6,7 +6,7 @@
  */
 
 #include "../include/matrix.h"
-#include <stdio.h> 		//printf
+#include <stdio.h> 							//printf
 
 matrix::matrix() {
 	this->allocateMatrixVectors(1, 1);
@@ -145,7 +145,6 @@ unsigned int matrix::verifyMatrixDimensionX() {
 			if(it->size() != (++it)->size()) {
 				printf ("Verification failed: amount of columns are different: %d, %d\n", (it-1)->size(), it->size());
 			}
-			printf("end: %d\n", it->size());
 		}
 		return matrixData.begin()->size();
 	}

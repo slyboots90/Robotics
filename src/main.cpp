@@ -11,30 +11,36 @@
 
 using namespace std;
 
+void test(void);
+
 int main() {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	matrix Eva(4,11);
+	test();
+	return 0;
+}
+
+void test() {
+	matrix Eva(1,1);
 	//matrix Adam;
 
 	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
 	//cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
 
-	cout << "Eva CapacityX: " << (int) Eva.verifyMatrixCapacityX() << " Eva CapacityY: " << (int) Eva.verifyMatrixCapacityY() << endl;
+	//cout << "Eva CapacityX: " << (int) Eva.verifyMatrixCapacityX() << " Eva CapacityY: " << (int) Eva.verifyMatrixCapacityY() << endl;
 	//cout << "Adam CapacityX: " << (int) Adam.verifyMatrixCapacityX() << " Adam CapacityY: " << (int) Adam.verifyMatrixCapacityY() << endl;
 
 	//Eva.addRow(5);
 	Eva.addRow();
+	//Eva.addColumn();
+	Eva.addRow();
+	Eva.addColumn();
+	//Eva.addColumn();
 	//Adam.addColumn(7);
 
 	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
 	//cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
 
-	cout << "Eva CapacityX: " << (int) Eva.verifyMatrixCapacityX() << " Eva CapacityY: " << (int) Eva.verifyMatrixCapacityY() << endl;
+	//cout << "Eva CapacityX: " << (int) Eva.verifyMatrixCapacityX() << " Eva CapacityY: " << (int) Eva.verifyMatrixCapacityY() << endl;
 	//cout << "Adam CapacityX: " << (int) Adam.verifyMatrixCapacityX() << " Adam CapacityY: " << (int) Adam.verifyMatrixCapacityY() << endl;
 
-
-	return 0;
 }
-
-
-
