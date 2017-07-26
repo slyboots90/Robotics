@@ -61,7 +61,7 @@ int matrix::addRow() {
 		unsigned int y_size = it->size();
 		matrixData.resize(x_size + 1);
 		it = matrixData.end();
-		it->resize(y_size, 0);
+		(--it)->resize(y_size, 0);
 		return 0;
 	}
 	printf ("Cannot add: Unexpected error, while adding row\n");
@@ -140,10 +140,12 @@ unsigned int matrix::verifyMatrixDimensionX() {
 		return matrixData.begin()->size();
 	} else {
 		vector<vector<int> >::iterator it = matrixData.begin();
-		while(it != matrixData.end() - 1) {
+		vector<vector<int> >::iterator it_end = matrixData.end();
+		while(it != it_end - 1) {
 			if(it->size() != (++it)->size()) {
 				printf ("Verification failed: amount of columns are different: %d, %d\n", (it-1)->size(), it->size());
 			}
+			printf("end: %d\n", it->size());
 		}
 		return matrixData.begin()->size();
 	}
