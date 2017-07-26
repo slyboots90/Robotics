@@ -27,9 +27,11 @@ public:
 	int addColumn(void);
 	int fillRowWithData(int*, unsigned int);
 	int fillColumnWithData(int*, unsigned int);
+	unsigned int getRowsNo(void);
+	unsigned int getColumnNo(void);
+	//debug
 	unsigned int verifyMatrixDimensionY(void);
 	unsigned int verifyMatrixDimensionX(void);
-	//debug
 	unsigned int verifyMatrixCapacityY(void);
 	unsigned int verifyMatrixCapacityX(void);
 	//end of debug

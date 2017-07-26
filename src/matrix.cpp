@@ -104,9 +104,32 @@ int matrix::addColumn() {
 	return 1;
 }
 
-int matrix::fillRowWithData(int* data, unsigned int row_index) {
-	if(row_index > matrixData.size()) {
-		printf ("Cannot fill: rowIndex out of matrix range, matrix row size: %d, row_index %d\n", matrixData.size(), row_index);
+int matrix::fillRowWithData(int* data_ptr, unsigned int row_index) {
+	if(row_index == 0) {
+		printf ("Cannot fill: row_index cannot be 0!\n");
+		return 1;
+	} else if(row_index > matrixData.size()) {
+		printf ("Cannot fill: row_index out of matrix range, matrix row size: %d, row_index %d\n", matrixData.size(), row_index);
+		return 1;
+	} else {
+		// TODO
+		vector<int> buffor[matrixData[row_index].size()] = matrixData[row_index];
+		printf("buffor size %d\n", buffor->size() );
+		for(unsigned int i = 0; i < matrixData[row_index].size(); i++, data_ptr++) {
+			matrixData[row_index].push_back(*data_ptr);
+		}
+		return 0;
+	}
+	return 1;
+}
+
+int matrix::fillColumnWithData(int* data_ptr, unsigned int column_index) {
+	vector<vector<int> >::iterator it = matrixData.begin();
+	if(column_index == 0) {
+		printf ("Cannot fill: column_index cannot be 0!\n");
+		return 1;
+	} else if(column_index > it->size()) {
+		printf ("Cannot fill: column_index out of matrix range, matrix column size: %d, column_index %d\n", it->size(), column_index);
 		return 1;
 	} else {
 		// TODO
@@ -114,15 +137,14 @@ int matrix::fillRowWithData(int* data, unsigned int row_index) {
 	return 1;
 }
 
-int matrix::fillColumnWithData(int* data, unsigned int column_index) {
-	vector<vector<int> >::iterator it = matrixData.begin();
-	if(column_index > it->size()) {
-		printf ("Cannot fill: columnIndex out of matrix range, matrix column size: %d, column_index %d\n", it->size(), column_index);
-		return 1;
-	} else {
-		// TODO
-	}
-	return 1;
+unsigned int matrix::getRowsNo() {
+	if(matrixData.empty()) return 0;
+	return matrixData.size();
+}
+
+unsigned int matrix::getColumnNo() {
+	if(matrixData.empty()) return 0;
+	return matrixData.begin()->size();
 }
 
 unsigned int matrix::verifyMatrixDimensionY() {
