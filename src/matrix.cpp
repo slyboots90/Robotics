@@ -26,7 +26,11 @@ matrix::~matrix() {
 
 void matrix::allocateMatrixVectors(unsigned int no_of_rows, unsigned int no_of_colums) {
 	matrixData.resize(no_of_rows);
-	for (unsigned int i=0; i < no_of_rows; i++) {
+	for(unsigned int i = 0; i < matrixData.size(); i++ ) {
+		vector<int> allocation_vector;
+		matrixData.at(i) = allocation_vector;
+	}
+	for (unsigned int i = 0; i < no_of_rows; i++) {
 		matrixData[i].resize(no_of_colums, 0);
 	}
 }
@@ -34,6 +38,8 @@ void matrix::allocateMatrixVectors(unsigned int no_of_rows, unsigned int no_of_c
 int matrix::addRow(unsigned int no_of_elements) {
 	if(matrixData.empty()) {
 		matrixData.resize(1);
+		vector<int> allocation_vector;
+		matrixData.push_back(allocation_vector);
 		vector<vector<int> >::iterator it = matrixData.begin();
 		it->resize(no_of_elements, 0);
 		return 0;
@@ -41,8 +47,7 @@ int matrix::addRow(unsigned int no_of_elements) {
 		vector<vector<int> >::iterator it = matrixData.begin();
 		if(it->size() == no_of_elements) {
 			return this->addRow();
-		}
-		else {
+		} else {
 			printf ("Cannot add: Size of elements doesn't fit to matrix, matrix row size: %d, provided %d\n", it->size(), no_of_elements);
 			return 1;
 		}
@@ -60,6 +65,8 @@ int matrix::addRow() {
 		vector<vector<int> >::iterator it = matrixData.begin();
 		unsigned int y_size = it->size();
 		matrixData.resize(x_size + 1);
+		vector<int> allocation_vector;
+		matrixData.at(matrixData.size() - 1) = allocation_vector;
 		it = matrixData.end();
 		(--it)->resize(y_size, 0);
 		return 0;
@@ -105,6 +112,7 @@ int matrix::addColumn() {
 }
 
 int matrix::fillRowWithData(int* data_ptr, unsigned int row_index) {
+	printf("matrixData[row_index].size() %d\n", matrixData[row_index - 1].size());
 	if(row_index == 0) {
 		printf ("Cannot fill: row_index cannot be 0!\n");
 		return 1;
@@ -113,10 +121,9 @@ int matrix::fillRowWithData(int* data_ptr, unsigned int row_index) {
 		return 1;
 	} else {
 		// TODO
-		vector<int> buffor[matrixData[row_index].size()] = matrixData[row_index];
-		printf("buffor size %d\n", buffor->size() );
-		for(unsigned int i = 0; i < matrixData[row_index].size(); i++, data_ptr++) {
-			matrixData[row_index].push_back(*data_ptr);
+		//vector<int> buffor[matrixData[row_index].size()] = matrixData[row_index];
+		for(vector<int>::iterator it = matrixData[row_index - 1].begin(); it < matrixData[row_index - 1].end(); it++, data_ptr++) {
+			*it = *data_ptr;
 		}
 		return 0;
 	}

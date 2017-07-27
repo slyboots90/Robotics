@@ -20,7 +20,7 @@ int main() {
 }
 
 void test() {
-	matrix Eva(1,1);
+	matrix Eva(1,2);
 	//matrix Adam;
 
 	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
@@ -31,9 +31,10 @@ void test() {
 
 	//Eva.addRow(5);
 	Eva.addRow();
-	//Eva.addColumn();
+	Eva.addColumn();
 	Eva.addRow();
 	Eva.addColumn();
+	//Eva.addColumn();
 	//Eva.addColumn();
 	//Adam.addColumn(7);
 	int tab[3] = {4,5,6};
