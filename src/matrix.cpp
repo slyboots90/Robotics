@@ -112,22 +112,45 @@ int matrix::addColumn() {
 }
 
 int matrix::fillRowWithData(int* data_ptr, unsigned int row_index) {
-	printf("matrixData[row_index].size() %d\n", matrixData[row_index - 1].size());
+	if(this->verifyRowIndex(row_index)) {
+		return 1;
+	} else {
+		for(vector<int>::iterator it = matrixData[row_index - 1].begin(); it < matrixData[row_index - 1].end(); it++, data_ptr++) {
+			*it = *data_ptr;
+			printf("it: %d\n", *it);
+		}
+		return 0;
+	}
+	return 1;
+}
+
+int matrix::fillRowWithData(vector<int>* data_ptr, unsigned int row_index) {
+	if(this->verifyRowIndex(row_index)) {
+		return 1;
+	} else {
+		if(data_ptr->size() !=  matrixData[row_index - 1].size()) {
+			printf ("Cannot fill: Size of data vector doesn't match the Matrix!\n");
+			return 1;
+		} else {
+			matrixData[row_index - 1] = *data_ptr;
+			for(vector<int>::iterator it = matrixData[row_index - 1].begin(); it < matrixData[row_index - 1].end(); it++) {
+				printf("it: %d\n", *it);
+			}
+		}
+		return 0;
+	}
+	return 1;
+}
+
+bool matrix::verifyRowIndex(unsigned int row_index) {
 	if(row_index == 0) {
 		printf ("Cannot fill: row_index cannot be 0!\n");
 		return 1;
 	} else if(row_index > matrixData.size()) {
 		printf ("Cannot fill: row_index out of matrix range, matrix row size: %d, row_index %d\n", matrixData.size(), row_index);
 		return 1;
-	} else {
-		// TODO
-		//vector<int> buffor[matrixData[row_index].size()] = matrixData[row_index];
-		for(vector<int>::iterator it = matrixData[row_index - 1].begin(); it < matrixData[row_index - 1].end(); it++, data_ptr++) {
-			*it = *data_ptr;
-		}
-		return 0;
 	}
-	return 1;
+	return 0;
 }
 
 int matrix::fillColumnWithData(int* data_ptr, unsigned int column_index) {

@@ -14,6 +14,7 @@ using namespace std;
 class matrix {
 
 	void allocateMatrixVectors(unsigned int, unsigned int);
+	bool verifyRowIndex(unsigned int);
 
 	vector< vector<int> > matrixData;
 
@@ -26,6 +27,7 @@ public:
 	int addColumn(unsigned int);
 	int addColumn(void);
 	int fillRowWithData(int*, unsigned int);
+	int fillRowWithData(vector<int>*, unsigned int);
 	int fillColumnWithData(int*, unsigned int);
 	unsigned int getRowsNo(void);
 	unsigned int getColumnNo(void);
