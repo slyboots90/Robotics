@@ -136,8 +136,8 @@ int matrix::fillRowWithData(vector<int>* data_ptr, unsigned int row_index) {
 			for(vector<int>::iterator it = matrixData[row_index - 1].begin(); it < matrixData[row_index - 1].end(); it++) {
 				printf("it: %d\n", *it);
 			}
+			return 0;
 		}
-		return 0;
 	}
 	return 1;
 }
