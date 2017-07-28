@@ -123,6 +123,7 @@ bool matrix::fillRowWithData(int* data_ptr, unsigned int row_index) {
 		}
 		return 0;
 	}
+	printf ("Cannot fill: Unexpected error, while filling Row\n");
 	return 1;
 }
 
@@ -141,6 +142,37 @@ bool matrix::fillRowWithData(vector<int>* data_ptr, unsigned int row_index) {
 			return 0;
 		}
 	}
+	printf ("Cannot fill: Unexpected error, while filling Row\n");
+	return 1;
+}
+
+bool matrix::fillColumnWithData(int* data_ptr, unsigned int column_index) {
+	if(this->verifyColumnIndex(column_index)) {
+		return 1;
+	} else {
+		// TODO
+	}
+	printf ("Cannot fill: Unexpected error, while filling Column\n");
+	return 1;
+}
+
+bool matrix::fillColumnWithData(vector<int>* data_ptr, unsigned int column_index) {
+	if(this->verifyColumnIndex(column_index)) {
+		return 1;
+	} else {
+		if(data_ptr->size() !=  matrixData.size()) {
+			printf ("Cannot fill: Size of data vector doesn't match the Matrix!\n");
+			return 1;
+		} else {
+			// TODO
+			vector<vector<int> >::iterator it = matrixData.begin();
+			vector<int>::iterator it_data = data_ptr->begin();
+			for( ;  it != matrixData.end(); it++, it_data++) {
+				//it->at(column_index) = it_data;
+			}
+		}
+	}
+	printf ("Cannot fill: Unexpected error, while filling Column\n");
 	return 1;
 }
 
@@ -155,18 +187,15 @@ bool matrix::verifyRowIndex(unsigned int row_index) {
 	return 0;
 }
 
-bool matrix::fillColumnWithData(int* data_ptr, unsigned int column_index) {
-	vector<vector<int> >::iterator it = matrixData.begin();
+bool matrix::verifyColumnIndex(unsigned int column_index) {
 	if(column_index == 0) {
 		printf ("Cannot fill: column_index cannot be 0!\n");
 		return 1;
-	} else if(column_index > it->size()) {
-		printf ("Cannot fill: column_index out of matrix range, matrix column size: %d, column_index %d\n", it->size(), column_index);
+	} else if(column_index > matrixData.begin()->size()) {
+		printf ("Cannot fill: column_index out of matrix range, matrix column size: %d, column_index %d\n", matrixData.begin()->size(), column_index);
 		return 1;
-	} else {
-		// TODO
 	}
-	return 1;
+	return 0;
 }
 
 unsigned int matrix::getRowsNo() {
