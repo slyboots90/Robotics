@@ -15,6 +15,7 @@ class matrix {
 
 	void allocateMatrixVectors(unsigned int, unsigned int);
 	bool verifyRowIndex(unsigned int);
+	void allocateVectorInVector(unsigned int);
 
 	vector< vector<int> > matrixData;
 
@@ -22,13 +23,13 @@ public:
 	matrix();
 	matrix(unsigned int, unsigned int);
 	virtual ~matrix();
-	int addRow(unsigned int);
-	int addRow(void);
-	int addColumn(unsigned int);
-	int addColumn(void);
-	int fillRowWithData(int*, unsigned int);
-	int fillRowWithData(vector<int>*, unsigned int);
-	int fillColumnWithData(int*, unsigned int);
+	bool addRow(unsigned int);
+	bool addRow(void);
+	bool addColumn(unsigned int);
+	bool addColumn(void);
+	bool fillRowWithData(int*, unsigned int);
+	bool fillRowWithData(vector<int>*, unsigned int);
+	bool fillColumnWithData(int*, unsigned int);
 	unsigned int getRowsNo(void);
 	unsigned int getColumnNo(void);
 	//debug

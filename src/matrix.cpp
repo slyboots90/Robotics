@@ -27,19 +27,17 @@ matrix::~matrix() {
 void matrix::allocateMatrixVectors(unsigned int no_of_rows, unsigned int no_of_colums) {
 	matrixData.resize(no_of_rows);
 	for(unsigned int i = 0; i < matrixData.size(); i++ ) {
-		vector<int> allocation_vector;
-		matrixData.at(i) = allocation_vector;
+		this->allocateVectorInVector(i);
 	}
 	for (unsigned int i = 0; i < no_of_rows; i++) {
 		matrixData[i].resize(no_of_colums, 0);
 	}
 }
 
-int matrix::addRow(unsigned int no_of_elements) {
+bool matrix::addRow(unsigned int no_of_elements) {
 	if(matrixData.empty()) {
 		matrixData.resize(1);
-		vector<int> allocation_vector;
-		matrixData.push_back(allocation_vector);
+		this->allocateVectorInVector(matrixData.size() - 1);
 		vector<vector<int> >::iterator it = matrixData.begin();
 		it->resize(no_of_elements, 0);
 		return 0;
@@ -56,7 +54,7 @@ int matrix::addRow(unsigned int no_of_elements) {
 	return 1;
 }
 
-int matrix::addRow() {
+bool matrix::addRow() {
 	if(matrixData.empty()) {
 		printf ("Cannot add: Matrix desn't have any rows\n");
 		return 1;
@@ -65,8 +63,7 @@ int matrix::addRow() {
 		vector<vector<int> >::iterator it = matrixData.begin();
 		unsigned int y_size = it->size();
 		matrixData.resize(x_size + 1);
-		vector<int> allocation_vector;
-		matrixData.at(matrixData.size() - 1) = allocation_vector;
+		this->allocateVectorInVector(matrixData.size() - 1);
 		it = matrixData.end();
 		(--it)->resize(y_size, 0);
 		return 0;
@@ -75,7 +72,7 @@ int matrix::addRow() {
 	return 1;
 }
 
-int matrix::addColumn(unsigned int no_of_elements) {
+bool matrix::addColumn(unsigned int no_of_elements) {
 	if(matrixData.empty()) {
 		matrixData.resize(no_of_elements);
 		for(vector<vector<int> >::iterator it = matrixData.begin(); it != matrixData.end(); ++it) {
@@ -95,7 +92,7 @@ int matrix::addColumn(unsigned int no_of_elements) {
 	return 1;
 }
 
-int matrix::addColumn() {
+bool matrix::addColumn() {
 	if(matrixData.empty()) {
 		printf ("Cannot add: Matrix desn't have any columns\n");
 		return 1;
@@ -111,7 +108,12 @@ int matrix::addColumn() {
 	return 1;
 }
 
-int matrix::fillRowWithData(int* data_ptr, unsigned int row_index) {
+void matrix::allocateVectorInVector(unsigned int index) {
+	vector<int> allocation_vector;
+	matrixData.at(index) = allocation_vector;
+}
+
+bool matrix::fillRowWithData(int* data_ptr, unsigned int row_index) {
 	if(this->verifyRowIndex(row_index)) {
 		return 1;
 	} else {
@@ -124,7 +126,7 @@ int matrix::fillRowWithData(int* data_ptr, unsigned int row_index) {
 	return 1;
 }
 
-int matrix::fillRowWithData(vector<int>* data_ptr, unsigned int row_index) {
+bool matrix::fillRowWithData(vector<int>* data_ptr, unsigned int row_index) {
 	if(this->verifyRowIndex(row_index)) {
 		return 1;
 	} else {
@@ -153,7 +155,7 @@ bool matrix::verifyRowIndex(unsigned int row_index) {
 	return 0;
 }
 
-int matrix::fillColumnWithData(int* data_ptr, unsigned int column_index) {
+bool matrix::fillColumnWithData(int* data_ptr, unsigned int column_index) {
 	vector<vector<int> >::iterator it = matrixData.begin();
 	if(column_index == 0) {
 		printf ("Cannot fill: column_index cannot be 0!\n");
