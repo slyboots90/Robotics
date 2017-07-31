@@ -43,8 +43,13 @@ void test() {
 	a.push_back(7);
 	a.push_back(9);
 	a.push_back(92);
+	vector<int> b;
+	b.push_back(44);
+	b.push_back(35);
+	b.push_back(23);
 	Eva.fillRowWithData(tab, 1);
 	Eva.fillRowWithData(&a, 3);
+	Eva.fillColumnWithData(&b, 1);
 	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
 	//cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
 
