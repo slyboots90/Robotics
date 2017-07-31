@@ -39,9 +39,8 @@ public:
 	// Debug
 	unsigned int verifyMatrixDimensionY(void);
 	unsigned int verifyMatrixDimensionX(void);
-	unsigned int verifyMatrixCapacityY(void);
-	unsigned int verifyMatrixCapacityX(void);
 	//end of debug
+	void printMatrix(void);
 	int vector_multiple(int*, int*, unsigned int);
 
 };

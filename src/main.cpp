@@ -47,15 +47,16 @@ void test() {
 	vector<int> b;
 	b.push_back(44);
 	b.push_back(35);
-	b.push_back(23);
+	b.push_back(23458);
 	Eva.fillRowWithData(tab, 1);
 	Eva.fillRowWithData(&a, 3);
 	Eva.fillColumnWithData(&b, 1);
-	Eva.fillColumnWithData(tabs, 3);
+	Eva.fillColumnWithData(tabs, 4);
 	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
 	//cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
 
 	//cout << "Eva CapacityX: " << (int) Eva.verifyMatrixCapacityX() << " Eva CapacityY: " << (int) Eva.verifyMatrixCapacityY() << endl;
 	//cout << "Adam CapacityX: " << (int) Adam.verifyMatrixCapacityX() << " Adam CapacityY: " << (int) Adam.verifyMatrixCapacityY() << endl;
 
+	Eva.printMatrix();
 }

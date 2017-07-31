@@ -233,12 +233,14 @@ unsigned int matrix::verifyMatrixDimensionX() {
 	}
 }
 
-unsigned int matrix::verifyMatrixCapacityY() {
-	return matrixData.capacity();
-}
-
-unsigned int matrix::verifyMatrixCapacityX() {
-	return matrixData.begin()->capacity();
+void matrix::printMatrix() {
+	for(unsigned i = 0 ; i < matrixData.size() ; i++) {
+		printf("|");
+		for(vector<int>::iterator it = matrixData[i].begin(); it != matrixData[i].end(); ++it ) {
+			printf("%5d ", *it);
+		}
+		printf("|\n");
+	}
 }
 
 int matrix::vector_multiple(int* vector_x, int* vector_y, unsigned int lenght) {
