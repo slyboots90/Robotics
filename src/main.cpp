@@ -38,6 +38,7 @@ void test() {
 	//Eva.addColumn();
 	//Adam.addColumn(7);
 	int tab[4] = {4,66,77,88};
+	int tabs[3] = {42,76,52};
 	vector<int> a;
 	a.push_back(3);
 	a.push_back(7);
@@ -50,6 +51,7 @@ void test() {
 	Eva.fillRowWithData(tab, 1);
 	Eva.fillRowWithData(&a, 3);
 	Eva.fillColumnWithData(&b, 1);
+	Eva.fillColumnWithData(tabs, 3);
 	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
 	//cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
 

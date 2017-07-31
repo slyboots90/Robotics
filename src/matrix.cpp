@@ -119,7 +119,6 @@ bool matrix::fillRowWithData(int* data_ptr, unsigned int row_index) {
 	} else {
 		for(vector<int>::iterator it = matrixData[row_index - 1].begin(); it < matrixData[row_index - 1].end(); it++, data_ptr++) {
 			*it = *data_ptr;
-			//printf("it: %d\n", *it);
 		}
 		return 0;
 	}
@@ -137,7 +136,6 @@ bool matrix::fillRowWithData(vector<int>* data_ptr, unsigned int row_index) {
 		} else {
 			matrixData[row_index - 1] = *data_ptr;
 			for(vector<int>::iterator it = matrixData[row_index - 1].begin(); it < matrixData[row_index - 1].end(); it++) {
-				//printf("it: %d\n", *it);
 			}
 			return 0;
 		}
@@ -150,7 +148,10 @@ bool matrix::fillColumnWithData(int* data_ptr, unsigned int column_index) {
 	if(this->verifyColumnIndex(column_index)) {
 		return 1;
 	} else {
-		// TODO
+		for(vector<vector<int> >::iterator it = matrixData.begin(); it < matrixData.end(); it++, data_ptr++) {
+			it->at(column_index - 1) = *data_ptr;
+		}
+		return 0;
 	}
 	printf ("Cannot fill: Unexpected error, while filling Column\n");
 	return 1;
@@ -165,12 +166,8 @@ bool matrix::fillColumnWithData(vector<int>* data_ptr, unsigned int column_index
 			return 1;
 		} else {
 			vector<vector<int> >::iterator it = matrixData.begin();
-			vector<int>::iterator it_data = data_ptr->begin();
-			for( ;  it != matrixData.end(); it++, it_data++) {
-				//printf(" it_data: %d\n" , *it_data);
-				//printf(" it: %d\n" , it->front());
+			for(vector<int>::iterator it_data = data_ptr->begin();  it != matrixData.end(); it++, it_data++) {
 				it->at(column_index - 1) = *it_data;
-				//printf(" it: %d\n" , it->front());
 			}
 			return 0;
 		}
