@@ -7,7 +7,9 @@
 //============================================================================
 
 #include <iostream>
-#include "../include/matrix.h"
+
+#include "../include/Matrix.h"
+
 
 using namespace std;
 
@@ -20,43 +22,66 @@ int main() {
 }
 
 void test() {
-	matrix Eva(1,2);
-	//matrix Adam;
+	Matrix Eva(4,3);
+	Matrix Adam;
 
 	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
-	//cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
+	cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
 
-	//cout << "Eva CapacityX: " << (int) Eva.verifyMatrixCapacityX() << " Eva CapacityY: " << (int) Eva.verifyMatrixCapacityY() << endl;
-	//cout << "Adam CapacityX: " << (int) Adam.verifyMatrixCapacityX() << " Adam CapacityY: " << (int) Adam.verifyMatrixCapacityY() << endl;
 
-	//Eva.addRow(5);
-	Eva.addRow();
-	Eva.addColumn();
-	Eva.addRow();
-	Eva.addColumn();
-	//Eva.addColumn();
-	//Eva.addColumn();
-	//Adam.addColumn(7);
-	int tab[4] = {4,66,77,88};
-	int tabs[3] = {42,76,52};
-	vector<int> a;
-	a.push_back(3);
-	a.push_back(7);
-	a.push_back(9);
-	a.push_back(92);
-	vector<int> b;
-	b.push_back(44);
-	b.push_back(35);
-	b.push_back(23458);
-	Eva.fillRowWithData(tab, 1);
-	Eva.fillRowWithData(&a, 3);
-	Eva.fillColumnWithData(&b, 1);
-	Eva.fillColumnWithData(tabs, 4);
-	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
-	//cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
+	Adam.addColumn();
+	Adam.addColumn();
+	Adam.addColumn();
+	Adam.addRow();
+	Adam.addRow();
 
-	//cout << "Eva CapacityX: " << (int) Eva.verifyMatrixCapacityX() << " Eva CapacityY: " << (int) Eva.verifyMatrixCapacityY() << endl;
-	//cout << "Adam CapacityX: " << (int) Adam.verifyMatrixCapacityX() << " Adam CapacityY: " << (int) Adam.verifyMatrixCapacityY() << endl;
+	vector<int> a1, a2, a3, a4;
+	vector<int> b1, b2, b3;
+
+	a1.push_back(7);
+	a1.push_back(5);
+	a1.push_back(8);
+
+	a2.push_back(4);
+	a2.push_back(2);
+	a2.push_back(1);
+
+	a3.push_back(9);
+	a3.push_back(0);
+	a3.push_back(2);
+
+	a4.push_back(6);
+	a4.push_back(4);
+	a4.push_back(8);
+
+	b1.push_back(3);
+	b1.push_back(9);
+	b1.push_back(0);
+	b1.push_back(1);
+
+	b2.push_back(0);
+	b2.push_back(8);
+	b2.push_back(2);
+	b2.push_back(2);
+
+	b3.push_back(7);
+	b3.push_back(1);
+	b3.push_back(5);
+	b3.push_back(6);
+
+	Eva.fillRowWithData(&a1, 1);
+	Eva.fillRowWithData(&a2, 2);
+	Eva.fillRowWithData(&a3, 3);
+	Eva.fillRowWithData(&a4, 4);
+
+	Adam.fillRowWithData(&b1, 1);
+	Adam.fillRowWithData(&b2, 2);
+	Adam.fillRowWithData(&b3, 3);
 
 	Eva.printMatrix();
+	Adam.printMatrix();
+
+	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
+	cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
+
 }
