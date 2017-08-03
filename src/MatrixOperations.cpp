@@ -22,16 +22,18 @@ MatrixOperations::~MatrixOperations() {
 Matrix & MatrixOperations::multiplication( const Matrix & multiplicand , const Matrix & multiplier ) {
 	Matrix * resoult = new Matrix( multiplicand.getRowsNo() , multiplier.getColumnNo() );
 
+	//this->vectorMultiplication();
+
 	return * resoult;
 }
 
-int MatrixOperations::vectorMultiplication( vector<int> * vector_x , vector<int> * vector_y ) {
+int MatrixOperations::vectorMultiplication( vector<int> * row_vector , vector<int> * column_vector ) {
 	int resoult;
-	if( vector_x->size() != vector_y->size() ) {
+	if( row_vector->size() != column_vector->size() ) {
 		printf ( "Size of multiplied vectors isn't equal - must be the same! \n" );
 	} else {
-		for( unsigned int i = 0 ; i < vector_x->size() ; i++ ) {
-			resoult += vector_x->at( i ) * vector_y->at( i );
+		for( unsigned int i = 0 ; i < row_vector->size() ; i++ ) {
+			resoult += row_vector->at( i ) * column_vector->at( i );
 		}
 		return resoult;
 	}

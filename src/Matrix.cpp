@@ -258,7 +258,7 @@ unsigned int Matrix::verifyMatrixDimensionX() {
 
 void Matrix::printMatrix() {
 	printf( "\n" );
-	for( unsigned i = 0 ; i < matrixData.size() ; i++) {
+	for( unsigned i = 0 ; i < matrixData.size() ; i++ ) {
 		printf( "|" );
 		for( vector<int>::iterator it = matrixData[ i ].begin() ; it != matrixData[ i ].end() ; ++it ) {
 			printf( "%5d " , * it );

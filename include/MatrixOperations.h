@@ -12,10 +12,10 @@
 #include "Matrix.h"
 using namespace std;
 
-class MatrixOperations {
+class MatrixOperations : private Matrix {
 
-	static vector<int> getColumnVector(unsigned int);
-	static int vectorMultiplication(vector<int>*, vector<int>*);
+	static vector<int> getColumnVector( unsigned int );
+	static int vectorMultiplication( vector<int> * , vector<int> * );
 
 
 public:

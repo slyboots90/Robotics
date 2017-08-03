@@ -18,6 +18,8 @@ class Matrix {
 	bool verifyRowIndex( unsigned int );
 	bool verifyColumnIndex( unsigned int );
 
+protected:
+
 	vector< vector<int> > matrixData;
 
 public:
