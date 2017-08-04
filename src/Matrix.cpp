@@ -36,11 +36,11 @@ void Matrix::allocateMatrixVectors( unsigned int no_of_rows , unsigned int no_of
 }
 
 void Matrix::allocateVectorInVector( unsigned int index ) {
-	vector<int> allocation_vector;
+	vector < int > allocation_vector;
 	matrixData.at( index ) = allocation_vector;
 }
 
-bool Matrix::verifyRowIndex( unsigned int row_index ) {
+bool Matrix::verifyRowIndex( unsigned int row_index ) const {
 	if( row_index == 0 ) {
 		printf ( "Error: row_index cannot be 0!\n" );
 		return 1;
@@ -51,7 +51,7 @@ bool Matrix::verifyRowIndex( unsigned int row_index ) {
 	return 0;
 }
 
-bool Matrix::verifyColumnIndex( unsigned int column_index ) {
+bool Matrix::verifyColumnIndex( unsigned int column_index ) const {
 	if( column_index == 0 ) {
 		printf ( "Error: column_index cannot be 0!\n" );
 		return 1;
@@ -66,11 +66,11 @@ bool Matrix::addRow( unsigned int no_of_elements ) {
 	if( matrixData.empty() ) {
 		matrixData.resize( 1 );
 		this->allocateVectorInVector( matrixData.size() - 1 );
-		vector<vector<int> >::iterator it = matrixData.begin();
+		vector < vector < int > >::iterator it = matrixData.begin();
 		it->resize( no_of_elements , 0 );
 		return 0;
 	} else {
-		vector<vector<int> >::iterator it = matrixData.begin();
+		vector < vector < int > >::iterator it = matrixData.begin();
 		if( it->size() == no_of_elements ) {
 			return this->addRow();
 		} else {
@@ -87,8 +87,9 @@ bool Matrix::addRow() {
 		printf ( "Cannot add: Matrix desn't have any rows\n" );
 		return 1;
 	} else {
+		//TODO Bug while adding vector in column size if using default constructor
 		unsigned int x_size = matrixData.size();
-		vector<vector<int> >::iterator it = matrixData.begin();
+		vector < vector < int > >::iterator it = matrixData.begin();
 		unsigned int y_size = it->size();
 		matrixData.resize( x_size + 1 );
 		this->allocateVectorInVector( matrixData.size() - 1 );
@@ -100,7 +101,7 @@ bool Matrix::addRow() {
 	return 1;
 }
 
-bool Matrix::addRowWithData( vector<int> * data_ptr ) {
+bool Matrix::addRowWithData( vector < int > * data_ptr ) {
 	if( ! (this->addRow() ) ) {
 		return this->fillRowWithData( data_ptr , matrixData.size() - 1 );
 	} else {
@@ -114,7 +115,7 @@ bool Matrix::fillRowWithData( int * data_ptr , unsigned int row_index ) {
 	if( this->verifyRowIndex( row_index ) ) {
 		return 1;
 	} else {
-		for( vector<int>::iterator it = matrixData[ row_index - 1 ].begin() ; it < matrixData[ row_index - 1 ].end() ; it++ , data_ptr++ ) {
+		for( vector < int >::iterator it = matrixData[ row_index - 1 ].begin() ; it < matrixData[ row_index - 1 ].end() ; it++ , data_ptr++ ) {
 			* it = * data_ptr;
 		}
 		return 0;
@@ -123,16 +124,17 @@ bool Matrix::fillRowWithData( int * data_ptr , unsigned int row_index ) {
 	return 1;
 }
 
-bool Matrix::fillRowWithData( vector<int> * data_ptr , unsigned int row_index ) {
+bool Matrix::fillRowWithData( vector < int > * data_ptr , unsigned int row_index ) {
 	if( this->verifyRowIndex( row_index ) ) {
 		return 1;
 	} else {
+		//TODO matrixData[ row_index - 1 ].size() always 1 when using default constructor
 		if( data_ptr->size() !=  matrixData[ row_index - 1 ].size() ) {
-			printf ( "Cannot fill: Size of data vector doesn't match the Matrix!\n" );
+			printf ( "Cannot fill: Size of data vector doesn't match the Matrix! data size %d, Matrix row size %d\n" , data_ptr->size() , matrixData[ row_index - 1 ].size() );
 			return 1;
 		} else {
 			matrixData[ row_index - 1 ] = * data_ptr;
-			for( vector<int>::iterator it = matrixData[ row_index - 1 ].begin() ; it < matrixData[ row_index - 1 ].end() ; it++ ) {
+			for( vector < int >::iterator it = matrixData[ row_index - 1 ].begin() ; it < matrixData[ row_index - 1 ].end() ; it++ ) {
 			}
 			return 0;
 		}
@@ -146,10 +148,20 @@ unsigned int Matrix::getRowsNo() const {
 	return matrixData.size();
 }
 
+const vector< int > * Matrix::getRow( unsigned int index ) const {
+	if( this->verifyRowIndex( index ) ) {
+		printf( "ERROR: Cannot getRow - index of of range\n" );
+		return & matrixData[ 0 ];
+	} else {
+		return & matrixData[ index - 1 ];
+	}
+	return & matrixData[ 0 ];
+}
+
 bool Matrix::addColumn( unsigned int no_of_elements ) {
 	if( matrixData.empty() ) {
 		matrixData.resize( no_of_elements );
-		for( vector<vector<int> >::iterator it = matrixData.begin() ; it != matrixData.end() ; ++it ) {
+		for( vector < vector < int > >::iterator it = matrixData.begin() ; it != matrixData.end() ; ++it ) {
 			it->resize( 1 , 0 );
 		}
 		return 0;
@@ -171,7 +183,7 @@ bool Matrix::addColumn() {
 		printf ( "Cannot add: Matrix desn't have any columns\n" );
 		return 1;
 	} else {
-		vector<vector<int> >::iterator it = matrixData.begin();
+		vector < vector < int > >::iterator it = matrixData.begin();
 		unsigned int y_size = it->size();
 		for( ; it != matrixData.end() ; ++it ) {
 			it->resize( y_size + 1 , 0 );
@@ -182,7 +194,7 @@ bool Matrix::addColumn() {
 	return 1;
 }
 
-bool Matrix::addColumnWithData( vector<int> * data_ptr ) {
+bool Matrix::addColumnWithData( vector < int > * data_ptr ) {
 	if( ! ( this->addColumn() ) ) {
 		return this->fillRowWithData( data_ptr , matrixData.begin()->size() - 1 );
 	} else {
@@ -196,7 +208,7 @@ bool Matrix::fillColumnWithData( int * data_ptr , unsigned int column_index ) {
 	if( this->verifyColumnIndex( column_index ) ) {
 		return 1;
 	} else {
-		for( vector<vector<int> >::iterator it = matrixData.begin() ; it < matrixData.end() ; it++ , data_ptr++ ) {
+		for( vector < vector < int > >::iterator it = matrixData.begin() ; it < matrixData.end() ; it++ , data_ptr++ ) {
 			it->at( column_index - 1 ) = * data_ptr;
 		}
 		return 0;
@@ -205,7 +217,7 @@ bool Matrix::fillColumnWithData( int * data_ptr , unsigned int column_index ) {
 	return 1;
 }
 
-bool Matrix::fillColumnWithData( vector<int> * data_ptr , unsigned int column_index ) {
+bool Matrix::fillColumnWithData( vector < int > * data_ptr , unsigned int column_index ) {
 	if( this->verifyColumnIndex( column_index ) ) {
 		return 1;
 	} else {
@@ -213,8 +225,8 @@ bool Matrix::fillColumnWithData( vector<int> * data_ptr , unsigned int column_in
 			printf ( "Cannot fill: Size of data vector doesn't match the Matrix!\n" );
 			return 1;
 		} else {
-			vector<vector<int> >::iterator it = matrixData.begin();
-			for( vector<int>::iterator it_data = data_ptr->begin() ;  it != matrixData.end() ; it++ , it_data++ ) {
+			vector < vector < int > >::iterator it = matrixData.begin();
+			for( vector < int >::iterator it_data = data_ptr->begin() ;  it != matrixData.end() ; it++ , it_data++ ) {
 				it->at( column_index - 1 ) = * it_data;
 			}
 			return 0;
@@ -227,6 +239,19 @@ bool Matrix::fillColumnWithData( vector<int> * data_ptr , unsigned int column_in
 unsigned int Matrix::getColumnNo() const {
 	if( matrixData.empty() ) return 0;
 	return matrixData.begin()->size();
+}
+
+bool Matrix::getColumn( vector< const int * > * column_vector , unsigned int index ) const {
+	if( this->verifyColumnIndex( index ) ) {
+		printf( "ERROR: Cannot getColumn - index of of range\n" );
+		return 1;
+	} else {
+		for( unsigned int i = 0 ; i < matrixData.size() ; i++ ) {
+			column_vector->push_back( & matrixData[ i ].at( index - 1 ) );
+		}
+		return 0;
+	}
+	return 1;
 }
 
 //-------------DEBUG------------//
@@ -244,8 +269,8 @@ unsigned int Matrix::verifyMatrixDimensionX() {
 	} else if( matrixData.size() == 1 ) {
 		return matrixData.begin()->size();
 	} else {
-		vector<vector<int> >::iterator it = matrixData.begin();
-		vector<vector<int> >::iterator it_end = matrixData.end(); 	// need it for subtract 1
+		vector < vector < int > >::iterator it = matrixData.begin();
+		vector < vector < int > >::iterator it_end = matrixData.end(); 	// need it for subtract 1
 		while( it != it_end - 1 ) {
 			if( it->size() != ( ++it )->size() ) {
 				printf ( "Verification failed: amount of columns are different: %d, %d\n" , ( it - 1 )->size() , it->size() );
@@ -260,7 +285,7 @@ void Matrix::printMatrix() {
 	printf( "\n" );
 	for( unsigned i = 0 ; i < matrixData.size() ; i++ ) {
 		printf( "|" );
-		for( vector<int>::iterator it = matrixData[ i ].begin() ; it != matrixData[ i ].end() ; ++it ) {
+		for( vector < int >::iterator it = matrixData[ i ].begin() ; it != matrixData[ i ].end() ; ++it ) {
 			printf( "%5d " , * it );
 		}
 		printf( "|\n" );
@@ -273,12 +298,12 @@ Matrix & Matrix::operator =( const Matrix & argument ) {
 }
 
 Matrix & Matrix::operator *( const Matrix & argument ) {
-	Matrix * resoult;
+	Matrix * result;
 	if( this->getColumnNo() == argument.getRowsNo() ) {
-		resoult = & ( MatrixOperations::multiplication( * this , argument ) );
+		result = & ( MatrixOperations::multiplication( * this , argument ) );
 	} else {
 		printf( "ERROR: Cannot multiple - size of Matrix doesn't match!\n" );
-		resoult = new Matrix();
+		result = new Matrix();
 	}
-	return * resoult;
+	return * result;
 }

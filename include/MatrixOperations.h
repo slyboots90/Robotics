@@ -12,16 +12,15 @@
 #include "Matrix.h"
 using namespace std;
 
-class MatrixOperations : private Matrix {
+class MatrixOperations {
 
-	static vector<int> getColumnVector( unsigned int );
-	static int vectorMultiplication( vector<int> * , vector<int> * );
-
+	static int vectorMultiplication( const vector<int> * , vector< const int * > * );
 
 public:
 	MatrixOperations();
 	virtual ~MatrixOperations();
-	static Matrix & multiplication(const Matrix &, const Matrix &);
+	static Matrix & multiplication(const Matrix & , const Matrix & );
+
 };
 
 #endif /* MATRIXOPERATIONS_H_ */
