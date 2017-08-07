@@ -21,7 +21,7 @@ MatrixOperations::~MatrixOperations() {
 Matrix & MatrixOperations::multiplication( const Matrix & multiplicand , const Matrix & multiplier ) {
 	const vector < int > * row_pointer;
 	Matrix * result = new Matrix();
-	if( multiplicand.getRowsNo() && multiplier.getColumnNo() ) {
+	if( !multiplicand.isEmpty() && !multiplier.isEmpty() ) {
 		//TODO creating here Matrix is work around until Matrix will be fixed - column issue
 		Matrix * result = new Matrix( 1 , multiplier.getColumnNo() );
 		for( unsigned int i = 1 ; i <= multiplicand.getRowsNo() ; i++ ) {
@@ -62,7 +62,7 @@ Matrix & MatrixOperations::addition( const Matrix & component_a , const Matrix &
 	const vector < int > * component_a_row_pointer;
 	const vector < int > * component_b_row_pointer;
 	Matrix * result = new Matrix();
-		if( component_a.getRowsNo() && component_b.getRowsNo() ) {
+		if( !component_a.isEmpty() && !component_b.isEmpty() ) {
 			//TODO creating here Matrix is work around until Matrix will be fixed - column issue
 			Matrix * result = new Matrix( 1 , component_a.getColumnNo() );
 			for( unsigned int i = 1 ; i <= component_a.getRowsNo() ; i++ ) {

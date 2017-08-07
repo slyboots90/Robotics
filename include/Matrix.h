@@ -23,6 +23,8 @@ public:
 	Matrix();
 	Matrix( unsigned int , unsigned int );
 	virtual ~Matrix();
+	bool isEmpty( void ) const;
+	bool isEqualSize( const Matrix & ) const;
 	// Rows
 	bool addRow( unsigned int );
 	bool addRow( void );

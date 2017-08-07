@@ -25,6 +25,20 @@ Matrix::~Matrix() {
 	// TODO Auto-generated destructor stub
 }
 
+bool Matrix::isEmpty() const {
+	if ( this->getColumnNo() || this->getRowsNo() ) {
+		return 0;
+	}
+	return 1;
+}
+
+bool Matrix::isEqualSize( const Matrix & argument ) const {
+	if( this->getColumnNo() == argument.getColumnNo() && this->getRowsNo() == argument.getRowsNo() ) {
+		return 1;
+	}
+	return 0;
+}
+
 void Matrix::allocateMatrixVectors( unsigned int no_of_rows , unsigned int no_of_colums ) {
 	matrixData.resize( no_of_rows );
 	for( unsigned int i = 0 ; i < matrixData.size() ; i++ ) {
@@ -310,7 +324,7 @@ Matrix & Matrix::operator *( const Matrix & argument ) {
 
 Matrix & Matrix::operator +( const Matrix & argument ) {
 	Matrix * result;
-	if( this->getColumnNo() == argument.getColumnNo() && this->getRowsNo() == argument.getRowsNo() ) {
+	if( this->isEqualSize( argument ) ) {
 		result = & ( MatrixOperations::addition( * this , argument ) );
 	} else {
 		printf( "ERROR: Cannot add - size of Matrix doesn't match!\n" );
