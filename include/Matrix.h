@@ -46,6 +46,7 @@ public:
 	void printMatrix( void );
 	Matrix & operator =( const Matrix & argument );
 	Matrix & operator *( const Matrix & argument );
+	Matrix & operator +( const Matrix & argument );
 };
 
 #endif /* MATRIX_H_ */

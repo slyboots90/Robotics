@@ -307,3 +307,14 @@ Matrix & Matrix::operator *( const Matrix & argument ) {
 	}
 	return * result;
 }
+
+Matrix & Matrix::operator +( const Matrix & argument ) {
+	Matrix * result;
+	if( this->getColumnNo() == argument.getColumnNo() && this->getRowsNo() == argument.getRowsNo() ) {
+		result = & ( MatrixOperations::addition( * this , argument ) );
+	} else {
+		printf( "ERROR: Cannot add - size of Matrix doesn't match!\n" );
+		result = new Matrix();
+	}
+	return * result;
+}

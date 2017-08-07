@@ -20,6 +20,7 @@ public:
 	MatrixOperations();
 	virtual ~MatrixOperations();
 	static Matrix & multiplication(const Matrix & , const Matrix & );
+	static Matrix & addition(const Matrix & , const Matrix & );
 
 };
 
