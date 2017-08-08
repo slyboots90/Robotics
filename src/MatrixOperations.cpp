@@ -70,14 +70,14 @@ Matrix & MatrixOperations::addition( const Matrix & component_a , const Matrix &
 				component_a_row_pointer = component_a.getRow( i );
 				component_b_row_pointer = component_b.getRow( i );
 				for ( unsigned int j = 1 ; j <= component_a.getColumnNo() ; j++ ) {
-					int outcome_value = component_a_row_pointer->at( j ) + component_b_row_pointer->at( j );
+					int outcome_value = component_a_row_pointer->at( j - 1 ) + component_b_row_pointer->at( j - 1 );
 					temporary_vector.push_back( outcome_value );
 				}
 				if ( result->addRowWithData( & temporary_vector ) ) {
 					printf( "Fail to add temporary_vector to Matrix\n" );
 				}
 			}
-			//TODO delete after all
+		//	//TODO delete after all
 			result->printMatrix();
 			//TODO return * result;  here is work around until Matrix fix
 			return * result;

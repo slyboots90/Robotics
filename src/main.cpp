@@ -24,6 +24,7 @@ int main() {
 void test() {
 	Matrix Eva(4,3);
 	Matrix Adam;
+	Matrix Pankracy;
 
 	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
 	cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
@@ -35,8 +36,15 @@ void test() {
 	Adam.addRow();
 	Adam.addRow();
 
+	Pankracy.addColumn();
+	Pankracy.addColumn();
+	Pankracy.addColumn();
+	Pankracy.addRow();
+	Pankracy.addRow();
+
 	vector<int> a1, a2, a3, a4;
 	vector<int> b1, b2, b3;
+	vector<int> c1, c2, c3;
 
 	a1.push_back(7);
 	a1.push_back(5);
@@ -69,6 +77,21 @@ void test() {
 	b3.push_back(5);
 	b3.push_back(6);
 
+	c1.push_back(1);
+	c1.push_back(1);
+	c1.push_back(1);
+	c1.push_back(1);
+
+	c2.push_back(2);
+	c2.push_back(2);
+	c2.push_back(2);
+	c2.push_back(2);
+
+	c3.push_back(3);
+	c3.push_back(3);
+	c3.push_back(3);
+	c3.push_back(3);
+
 	Eva.fillRowWithData(&a1, 1);
 	Eva.fillRowWithData(&a2, 2);
 	Eva.fillRowWithData(&a3, 3);
@@ -78,13 +101,19 @@ void test() {
 	Adam.fillRowWithData(&b2, 2);
 	Adam.fillRowWithData(&b3, 3);
 
+	Pankracy.fillRowWithData(&c1, 1);
+	Pankracy.fillRowWithData(&c2, 2);
+	Pankracy.fillRowWithData(&c3, 3);
+
 	Eva.printMatrix();
 	Adam.printMatrix();
+	Pankracy.printMatrix();
 
 	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
 	cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
 
 	Eva * Adam;
+	Pankracy + Adam;
 
 	Eva.printMatrix();
 	Adam.printMatrix();

@@ -308,7 +308,12 @@ void Matrix::printMatrix() {
 }
 
 Matrix & Matrix::operator =( const Matrix & argument ) {
-
+	//TODO czy return porzebny wewnatrz klasy ?
+	if ( argument.isEqualSize( argument ) ) {
+		//TODO przypisanie wartosci do wierszy
+	} else {
+		//TODO Wyczyc maciez i zapisz nowymi wartosciami
+	}
 }
 
 Matrix & Matrix::operator *( const Matrix & argument ) {
