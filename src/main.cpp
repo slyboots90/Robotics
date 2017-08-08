@@ -92,18 +92,18 @@ void test() {
 	c3.push_back(3);
 	c3.push_back(3);
 
-	Eva.fillRowWithData(&a1, 1);
-	Eva.fillRowWithData(&a2, 2);
-	Eva.fillRowWithData(&a3, 3);
-	Eva.fillRowWithData(&a4, 4);
+	Eva.fillRowWithData(&a1, 0);
+	Eva.fillRowWithData(&a2, 1);
+	Eva.fillRowWithData(&a3, 2);
+	Eva.fillRowWithData(&a4, 3);
 
-	Adam.fillRowWithData(&b1, 1);
-	Adam.fillRowWithData(&b2, 2);
-	Adam.fillRowWithData(&b3, 3);
+	Adam.fillRowWithData(&b1, 0);
+	Adam.fillRowWithData(&b2, 1);
+	Adam.fillRowWithData(&b3, 2);
 
-	Pankracy.fillRowWithData(&c1, 1);
-	Pankracy.fillRowWithData(&c2, 2);
-	Pankracy.fillRowWithData(&c3, 3);
+	Pankracy.fillRowWithData(&c1, 0);
+	Pankracy.fillRowWithData(&c2, 1);
+	Pankracy.fillRowWithData(&c3, 2);
 
 	Eva.printMatrix();
 	Adam.printMatrix();

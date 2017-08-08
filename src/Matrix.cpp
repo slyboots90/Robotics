@@ -55,10 +55,7 @@ void Matrix::allocateVectorInVector( unsigned int index ) {
 }
 
 bool Matrix::verifyRowIndex( unsigned int row_index ) const {
-	if ( row_index == 0 ) {
-		printf ( "Error: row_index cannot be 0!\n" );
-		return 1;
-	} else if ( row_index > matrixData.size() ) {
+	if ( row_index >= matrixData.size() ) {
 		printf ( "Error: row_index out of matrix range, matrix row size: %d, row_index %d\n" , matrixData.size() , row_index );
 		return 1;
 	}
@@ -66,10 +63,7 @@ bool Matrix::verifyRowIndex( unsigned int row_index ) const {
 }
 
 bool Matrix::verifyColumnIndex( unsigned int column_index ) const {
-	if ( column_index == 0 ) {
-		printf ( "Error: column_index cannot be 0!\n" );
-		return 1;
-	} else if ( column_index > matrixData.begin()->size() ) {
+	if ( column_index >= matrixData.begin()->size() ) {
 		printf ( "Error: column_index out of matrix range, matrix column size: %d, column_index %d\n" , matrixData.begin()->size() , column_index );
 		return 1;
 	}
@@ -129,7 +123,7 @@ bool Matrix::fillRowWithData( int * data_ptr , unsigned int row_index ) {
 	if ( this->verifyRowIndex( row_index ) ) {
 		return 1;
 	} else {
-		for ( vector < int >::iterator it = matrixData[ row_index - 1 ].begin() ; it < matrixData[ row_index - 1 ].end() ; it++ , data_ptr++ ) {
+		for ( vector < int >::iterator it = matrixData[ row_index ].begin() ; it < matrixData[ row_index ].end() ; it++ , data_ptr++ ) {
 			* it = * data_ptr;
 		}
 		return 0;
@@ -143,13 +137,11 @@ bool Matrix::fillRowWithData( vector < int > * data_ptr , unsigned int row_index
 		return 1;
 	} else {
 		//TODO matrixData[ row_index - 1 ].size() always 1 when using default constructor
-		if ( data_ptr->size() !=  matrixData[ row_index - 1 ].size() ) {
-			printf ( "Cannot fill: Size of data vector doesn't match the Matrix! data size %d, Matrix row size %d\n" , data_ptr->size() , matrixData[ row_index - 1 ].size() );
+		if ( data_ptr->size() !=  matrixData[ row_index ].size() ) {
+			printf ( "Cannot fill: Size of data vector doesn't match the Matrix! data size %d, Matrix row size %d\n" , data_ptr->size() , matrixData[ row_index ].size() );
 			return 1;
 		} else {
-			matrixData[ row_index - 1 ] = * data_ptr;
-			for ( vector < int >::iterator it = matrixData[ row_index - 1 ].begin() ; it < matrixData[ row_index - 1 ].end() ; it++ ) {
-			}
+			matrixData[ row_index ] = * data_ptr;
 			return 0;
 		}
 	}
@@ -167,7 +159,7 @@ const vector< int > * Matrix::getRow( unsigned int index ) const {
 		printf( "ERROR: Cannot getRow - index of of range\n" );
 		return & matrixData[ 0 ];
 	} else {
-		return & matrixData[ index - 1 ];
+		return & matrixData[ index ];
 	}
 	return & matrixData[ 0 ];
 }
@@ -223,7 +215,7 @@ bool Matrix::fillColumnWithData( int * data_ptr , unsigned int column_index ) {
 		return 1;
 	} else {
 		for ( vector < vector < int > >::iterator it = matrixData.begin() ; it < matrixData.end() ; it++ , data_ptr++ ) {
-			it->at( column_index - 1 ) = * data_ptr;
+			it->at( column_index ) = * data_ptr;
 		}
 		return 0;
 	}
@@ -241,7 +233,7 @@ bool Matrix::fillColumnWithData( vector < int > * data_ptr , unsigned int column
 		} else {
 			vector < vector < int > >::iterator it = matrixData.begin();
 			for ( vector < int >::iterator it_data = data_ptr->begin() ;  it != matrixData.end() ; it++ , it_data++ ) {
-				it->at( column_index - 1 ) = * it_data;
+				it->at( column_index ) = * it_data;
 			}
 			return 0;
 		}
@@ -261,7 +253,7 @@ bool Matrix::getColumn( vector< const int * > * column_vector , unsigned int ind
 		return 1;
 	} else {
 		for ( unsigned int i = 0 ; i < matrixData.size() ; i++ ) {
-			column_vector->push_back( & matrixData[ i ].at( index - 1 ) );
+			column_vector->push_back( & matrixData[ i ].at( index ) );
 		}
 		return 0;
 	}
