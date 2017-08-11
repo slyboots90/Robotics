@@ -19,8 +19,9 @@ class MatrixOperations {
 public:
 	MatrixOperations();
 	virtual ~MatrixOperations();
-	static Matrix & multiplication(const Matrix & , const Matrix & );
-	static Matrix & addition(const Matrix & , const Matrix & );
+	static Matrix & multiplication( const Matrix & , const Matrix & );
+	static Matrix & addition( const Matrix & , const Matrix & );
+	static void subtraction( Matrix & , const Matrix & , const Matrix & );
 
 };
 

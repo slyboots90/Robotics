@@ -26,8 +26,8 @@ void test() {
 	Matrix Adam;
 	Matrix Pankracy;
 
-	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
-	cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
+	//cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
+	//cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
 
 
 	Adam.addColumn();
@@ -72,7 +72,7 @@ void test() {
 	b2.push_back(2);
 	b2.push_back(2);
 
-	b3.push_back(7);
+	b3.push_back(78);
 	b3.push_back(1);
 	b3.push_back(5);
 	b3.push_back(6);
@@ -105,16 +105,27 @@ void test() {
 	Pankracy.fillRowWithData(&c2, 1);
 	Pankracy.fillRowWithData(&c3, 2);
 
+	//Eva.printMatrix();
+	//Adam.printMatrix();
+	//Pankracy.printMatrix();
+
+	//cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
+	//cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
+
+
+	Matrix Ziom(4,4);
+	Ziom.fillRowWithData(&c3, 0);
+	//Ziom.printMatrix();
+	Ziom = Eva * Adam;
+	//Pankracy + Adam;
+	{
+		//Matrix Maciek(4,4);
+	}
 	Eva.printMatrix();
 	Adam.printMatrix();
-	Pankracy.printMatrix();
-
-	cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
-	cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
-
-	Eva * Adam;
-	Pankracy + Adam;
-
-	Eva.printMatrix();
+	{
+	Matrix Huh(4,3);
+	Huh = Adam;
+	}
 	Adam.printMatrix();
 }

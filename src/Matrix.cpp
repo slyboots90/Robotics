@@ -9,11 +9,11 @@
 #include "../include/MatrixOperations.h"
 #include <stdio.h> 							//printf
 
-Matrix::Matrix() {
+Matrix::Matrix() : test1 ( *this ) {
 	this->allocateMatrixVectors( 1 , 1 );
 }
 
-Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) {
+Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) : test1 ( *this ), test2 (this) {
 	if ( ! no_of_rows || ! no_of_colums ) {
 		printf ( "Amount of rows or columns cannot be 0!\n" );
 		return;
@@ -23,6 +23,7 @@ Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) {
 
 Matrix::~Matrix() {
 	// TODO Auto-generated destructor stub
+	//delete &test1;
 }
 
 bool Matrix::isEmpty() const {
@@ -299,12 +300,15 @@ void Matrix::printMatrix() {
 	printf( "\n" );
 }
 
-Matrix & Matrix::operator =( const Matrix & argument ) {
+void Matrix::operator =( const Matrix & argument ) {
 	//TODO czy return porzebny wewnatrz klasy ?
-	if ( argument.isEqualSize( argument ) ) {
+	if ( this->isEqualSize( argument ) ) {
 		//TODO przypisanie wartosci do wierszy
+		this->matrixData = argument.matrixData;
+		test1 = argument;
 	} else {
 		//TODO Wyczyc maciez i zapisz nowymi wartosciami
+		printf ("LOL");
 	}
 }
 
@@ -329,3 +333,15 @@ Matrix & Matrix::operator +( const Matrix & argument ) {
 	}
 	return * result;
 }
+
+Matrix & Matrix::operator -( const Matrix & argument ) {
+	Matrix * result = new Matrix( 1 , argument.getColumnNo() );
+	if ( this->isEqualSize( argument ) ) {
+		MatrixOperations::subtraction( * result , * this , argument);
+	} else {
+		printf( "ERROR: Cannot add - size of Matrix doesn't match!\n" );
+		//result = new Matrix();
+	}
+	return * result;
+}
+

@@ -84,3 +84,24 @@ Matrix & MatrixOperations::addition( const Matrix & component_a , const Matrix &
 		}
 	return * result;
 }
+
+void MatrixOperations::subtraction( Matrix & difference , const Matrix & minuend , const Matrix & subtrahend ) {
+	const vector < int > * component_a_row_pointer;
+	const vector < int > * component_b_row_pointer;
+		if ( ! minuend.isEmpty() && ! subtrahend.isEmpty() ) {
+			for ( unsigned int i = 0 ; i < minuend.getRowsNo() ; i++ ) {
+				vector < int > temporary_vector;
+				component_a_row_pointer = minuend.getRow( i );
+				component_b_row_pointer = subtrahend.getRow( i );
+				for ( unsigned int j = 0 ; j < minuend.getColumnNo() ; j++ ) {
+					int outcome_value = component_a_row_pointer->at( j ) - component_b_row_pointer->at( j );
+					temporary_vector.push_back( outcome_value );
+				}
+				if ( difference.addRowWithData( & temporary_vector ) ) {
+					printf( "Fail to add temporary_vector to Matrix\n" );
+				}
+			}
+		//	//TODO delete after all
+			difference.printMatrix();
+		}
+}

@@ -18,6 +18,8 @@ class Matrix {
 	bool verifyRowIndex( unsigned int ) const;
 	bool verifyColumnIndex( unsigned int ) const ;
 	vector < vector < int > > matrixData;
+	Matrix & test1;
+	Matrix * test2;
 
 public:
 	Matrix();
@@ -46,9 +48,10 @@ public:
 	unsigned int verifyMatrixDimensionX( void );
 	//end of debug
 	void printMatrix( void );
-	Matrix & operator =( const Matrix & argument );
+	void operator =( const Matrix & argument );
 	Matrix & operator *( const Matrix & argument );
 	Matrix & operator +( const Matrix & argument );
+	Matrix & operator -( const Matrix & argument );
 };
 
 #endif /* MATRIX_H_ */
