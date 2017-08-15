@@ -313,28 +313,31 @@ void Matrix::operator =( const Matrix & argument ) {
 }
 
 Matrix & Matrix::operator *( const Matrix & argument ) {
-	Matrix * result;
+	//TODO creating here Matrix is work around until Matrix will be fixed - column issue
+	Matrix * result = new Matrix( 1 , argument.getColumnNo() );
 	if ( this->getColumnNo() == argument.getRowsNo() ) {
-		result = & ( MatrixOperations::multiplication( * this , argument ) );
+		MatrixOperations::multiplication( * result , * this , argument );
 	} else {
 		printf( "ERROR: Cannot multiple - size of Matrix doesn't match!\n" );
-		result = new Matrix();
+		// result = new Matrix();
 	}
 	return * result;
 }
 
 Matrix & Matrix::operator +( const Matrix & argument ) {
-	Matrix * result;
+	//TODO creating here Matrix is work around until Matrix will be fixed - column issue
+	Matrix * result = new Matrix( 1 , argument.getColumnNo() );
 	if ( this->isEqualSize( argument ) ) {
-		result = & ( MatrixOperations::addition( * this , argument ) );
+		MatrixOperations::addition( * result , * this , argument );
 	} else {
 		printf( "ERROR: Cannot add - size of Matrix doesn't match!\n" );
-		result = new Matrix();
+		// return * (new Matrix());
 	}
 	return * result;
 }
 
 Matrix & Matrix::operator -( const Matrix & argument ) {
+	//TODO creating here Matrix is work around until Matrix will be fixed - column issue
 	Matrix * result = new Matrix( 1 , argument.getColumnNo() );
 	if ( this->isEqualSize( argument ) ) {
 		MatrixOperations::subtraction( * result , * this , argument);

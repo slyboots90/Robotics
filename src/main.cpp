@@ -106,8 +106,8 @@ void test() {
 	Pankracy.fillRowWithData(&c3, 2);
 
 	//Eva.printMatrix();
-	//Adam.printMatrix();
-	//Pankracy.printMatrix();
+	Adam.printMatrix();
+	Pankracy.printMatrix();
 
 	//cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
 	//cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
@@ -116,8 +116,9 @@ void test() {
 	Matrix Ziom(4,4);
 	Ziom.fillRowWithData(&c3, 0);
 	//Ziom.printMatrix();
-	Ziom = Eva * Adam;
+	//Ziom = Eva * Adam;
 	//Pankracy + Adam;
+	Pankracy - Adam;
 	{
 		//Matrix Maciek(4,4);
 	}

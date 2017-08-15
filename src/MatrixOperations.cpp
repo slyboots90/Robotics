@@ -18,12 +18,9 @@ MatrixOperations::~MatrixOperations() {
 	// TODO Auto-generated destructor stub
 }
 
-Matrix & MatrixOperations::multiplication( const Matrix & multiplicand , const Matrix & multiplier ) {
+void MatrixOperations::multiplication( Matrix & product , const Matrix & multiplicand , const Matrix & multiplier ) {
 	const vector < int > * row_pointer;
-	Matrix * result = new Matrix();
 	if ( ! multiplicand.isEmpty() && ! multiplier.isEmpty() ) {
-		//TODO creating here Matrix is work around until Matrix will be fixed - column issue
-		Matrix * result = new Matrix( 1 , multiplier.getColumnNo() );
 		for ( unsigned int i = 0 ; i < multiplicand.getRowsNo() ; i++ ) {
 			vector < int > temporary_vector;
 			for ( unsigned int j = 0 ; j < multiplier.getColumnNo() ; j++ ) {
@@ -33,16 +30,13 @@ Matrix & MatrixOperations::multiplication( const Matrix & multiplicand , const M
 				int outcome_value = MatrixOperations::vectorMultiplication( row_pointer , & pointers_to_column );
 				temporary_vector.push_back( outcome_value );
 			}
-			if ( result->addRowWithData( & temporary_vector ) ) {
+			if ( product.addRowWithData( & temporary_vector ) ) {
 				printf( "Fail to add temporary_vector to Matrix\n" );
 			}
 		}
 		//TODO delete after all
-		result->printMatrix();
-		//TODO return * result;  here is work around until Matrix fix
-		return * result;
+		product.printMatrix();
 	}
-	return * result;
 }
 
 int MatrixOperations::vectorMultiplication( const vector < int > * row_pointer , vector < const int * > * column_pointer ) {
@@ -58,13 +52,10 @@ int MatrixOperations::vectorMultiplication( const vector < int > * row_pointer ,
 	return 0;
 }
 
-Matrix & MatrixOperations::addition( const Matrix & component_a , const Matrix & component_b ) {
+void MatrixOperations::addition( Matrix & sum , const Matrix & component_a , const Matrix & component_b ) {
 	const vector < int > * component_a_row_pointer;
 	const vector < int > * component_b_row_pointer;
-	Matrix * result = new Matrix();
 		if ( ! component_a.isEmpty() && ! component_b.isEmpty() ) {
-			//TODO creating here Matrix is work around until Matrix will be fixed - column issue
-			Matrix * result = new Matrix( 1 , component_a.getColumnNo() );
 			for ( unsigned int i = 0 ; i < component_a.getRowsNo() ; i++ ) {
 				vector < int > temporary_vector;
 				component_a_row_pointer = component_a.getRow( i );
@@ -73,35 +64,32 @@ Matrix & MatrixOperations::addition( const Matrix & component_a , const Matrix &
 					int outcome_value = component_a_row_pointer->at( j ) + component_b_row_pointer->at( j );
 					temporary_vector.push_back( outcome_value );
 				}
-				if ( result->addRowWithData( & temporary_vector ) ) {
+				if ( sum.addRowWithData( & temporary_vector ) ) {
 					printf( "Fail to add temporary_vector to Matrix\n" );
 				}
 			}
-		//	//TODO delete after all
-			result->printMatrix();
-			//TODO return * result;  here is work around until Matrix fix
-			return * result;
+			//TODO delete after all
+			sum.printMatrix();
 		}
-	return * result;
 }
 
 void MatrixOperations::subtraction( Matrix & difference , const Matrix & minuend , const Matrix & subtrahend ) {
-	const vector < int > * component_a_row_pointer;
-	const vector < int > * component_b_row_pointer;
+	const vector < int > * minuend_row_pointer;
+	const vector < int > * subtrahend_row_pointer;
 		if ( ! minuend.isEmpty() && ! subtrahend.isEmpty() ) {
 			for ( unsigned int i = 0 ; i < minuend.getRowsNo() ; i++ ) {
 				vector < int > temporary_vector;
-				component_a_row_pointer = minuend.getRow( i );
-				component_b_row_pointer = subtrahend.getRow( i );
+				minuend_row_pointer = minuend.getRow( i );
+				subtrahend_row_pointer = subtrahend.getRow( i );
 				for ( unsigned int j = 0 ; j < minuend.getColumnNo() ; j++ ) {
-					int outcome_value = component_a_row_pointer->at( j ) - component_b_row_pointer->at( j );
+					int outcome_value = minuend_row_pointer->at( j ) - subtrahend_row_pointer->at( j );
 					temporary_vector.push_back( outcome_value );
 				}
 				if ( difference.addRowWithData( & temporary_vector ) ) {
 					printf( "Fail to add temporary_vector to Matrix\n" );
 				}
 			}
-		//	//TODO delete after all
+			//TODO delete after all
 			difference.printMatrix();
 		}
 }
