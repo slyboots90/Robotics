@@ -113,20 +113,20 @@ void test() {
 	//cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
 
 
-	Matrix Ziom(4,4);
-	Ziom.fillRowWithData(&c3, 0);
+	//Matrix Ziom(4,4);
+	//Ziom.fillRowWithData(&c3, 0);
 	//Ziom.printMatrix();
 	//Ziom = Eva * Adam;
 	//Pankracy + Adam;
 	Pankracy - Adam;
-	{
-		//Matrix Maciek(4,4);
-	}
-	Eva.printMatrix();
-	Adam.printMatrix();
-	{
-	Matrix Huh(4,3);
-	Huh = Adam;
-	}
-	Adam.printMatrix();
+	//{
+	//	Matrix Maciek(4,4);
+	//}
+	//Eva.printMatrix();
+	//Adam.printMatrix();
+	//{
+	//Matrix Huh(4,3);
+	//Huh = Adam;
+	//}
+	//Adam.printMatrix();
 }

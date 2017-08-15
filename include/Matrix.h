@@ -13,13 +13,13 @@ using namespace std;
 
 class Matrix {
 
+	void storeResultClassPointer( Matrix * );
 	void allocateMatrixVectors( unsigned int , unsigned int );
 	void allocateVectorInVector( unsigned int );
 	bool verifyRowIndex( unsigned int ) const;
 	bool verifyColumnIndex( unsigned int ) const ;
 	vector < vector < int > > matrixData;
-	Matrix & test1;
-	Matrix * test2;
+	Matrix * result_class_pointer;
 
 public:
 	Matrix();
@@ -27,6 +27,7 @@ public:
 	virtual ~Matrix();
 	bool isEmpty( void ) const;
 	bool isEqualSize( const Matrix & ) const;
+	bool isColumnNoEqualRowNo( const Matrix & ) const;
 	// Rows
 	bool addRow( unsigned int );
 	bool addRow( void );
@@ -41,7 +42,7 @@ public:
 	bool addColumnWithData( vector < int > * );
 	bool fillColumnWithData( int * , unsigned int );
 	bool fillColumnWithData( vector < int > * , unsigned int );
-	unsigned int getColumnNo( void ) const;
+	unsigned int getColumnsNo( void ) const;
 	bool getColumn( vector< const int * > * , unsigned int ) const;
 	// Debug
 	unsigned int verifyMatrixDimensionY( void );

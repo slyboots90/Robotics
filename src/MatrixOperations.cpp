@@ -23,7 +23,7 @@ void MatrixOperations::multiplication( Matrix & product , const Matrix & multipl
 	if ( ! multiplicand.isEmpty() && ! multiplier.isEmpty() ) {
 		for ( unsigned int i = 0 ; i < multiplicand.getRowsNo() ; i++ ) {
 			vector < int > temporary_vector;
-			for ( unsigned int j = 0 ; j < multiplier.getColumnNo() ; j++ ) {
+			for ( unsigned int j = 0 ; j < multiplier.getColumnsNo() ; j++ ) {
 				vector < const int * > pointers_to_column;
 				row_pointer = multiplicand.getRow( i );
 				multiplier.getColumn( & pointers_to_column , j );
@@ -60,7 +60,7 @@ void MatrixOperations::addition( Matrix & sum , const Matrix & component_a , con
 				vector < int > temporary_vector;
 				component_a_row_pointer = component_a.getRow( i );
 				component_b_row_pointer = component_b.getRow( i );
-				for ( unsigned int j = 0 ; j < component_a.getColumnNo() ; j++ ) {
+				for ( unsigned int j = 0 ; j < component_a.getColumnsNo() ; j++ ) {
 					int outcome_value = component_a_row_pointer->at( j ) + component_b_row_pointer->at( j );
 					temporary_vector.push_back( outcome_value );
 				}
@@ -81,7 +81,7 @@ void MatrixOperations::subtraction( Matrix & difference , const Matrix & minuend
 				vector < int > temporary_vector;
 				minuend_row_pointer = minuend.getRow( i );
 				subtrahend_row_pointer = subtrahend.getRow( i );
-				for ( unsigned int j = 0 ; j < minuend.getColumnNo() ; j++ ) {
+				for ( unsigned int j = 0 ; j < minuend.getColumnsNo() ; j++ ) {
 					int outcome_value = minuend_row_pointer->at( j ) - subtrahend_row_pointer->at( j );
 					temporary_vector.push_back( outcome_value );
 				}

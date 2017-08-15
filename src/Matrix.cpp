@@ -9,11 +9,11 @@
 #include "../include/MatrixOperations.h"
 #include <stdio.h> 							//printf
 
-Matrix::Matrix() : test1 ( *this ) {
+Matrix::Matrix() : result_class_pointer ( this )  {
 	this->allocateMatrixVectors( 1 , 1 );
 }
 
-Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) : test1 ( *this ), test2 (this) {
+Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) :  result_class_pointer (this) {
 	if ( ! no_of_rows || ! no_of_colums ) {
 		printf ( "Amount of rows or columns cannot be 0!\n" );
 		return;
@@ -22,19 +22,34 @@ Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) : test1 ( 
 }
 
 Matrix::~Matrix() {
-	// TODO Auto-generated destructor stub
-	//delete &test1;
+	if ( this->result_class_pointer != this ) {
+		delete & ( this->result_class_pointer );
+	}
+}
+
+void Matrix::storeResultClassPointer( Matrix * class_pointer ) {
+	if ( this->result_class_pointer != this ) {
+		delete & ( this->result_class_pointer );  	//Delete old class to avoid memory leak
+	}
+	this->result_class_pointer = class_pointer;
 }
 
 bool Matrix::isEmpty() const {
-	if ( this->getColumnNo() || this->getRowsNo() ) {
+	if ( this->getColumnsNo() || this->getRowsNo() ) {
 		return 0;
 	}
 	return 1;
 }
 
 bool Matrix::isEqualSize( const Matrix & argument ) const {
-	if ( this->getColumnNo() == argument.getColumnNo() && this->getRowsNo() == argument.getRowsNo() ) {
+	if ( this->getColumnsNo() == argument.getColumnsNo() && this->getRowsNo() == argument.getRowsNo() ) {
+		return 1;
+	}
+	return 0;
+}
+
+bool Matrix::isColumnNoEqualRowNo( const Matrix & argument ) const {
+	if ( this->getColumnsNo() == argument.getRowsNo() ) {
 		return 1;
 	}
 	return 0;
@@ -243,7 +258,7 @@ bool Matrix::fillColumnWithData( vector < int > * data_ptr , unsigned int column
 	return 1;
 }
 
-unsigned int Matrix::getColumnNo() const {
+unsigned int Matrix::getColumnsNo() const {
 	if ( matrixData.empty() ) return 0;
 	return matrixData.begin()->size();
 }
@@ -305,7 +320,6 @@ void Matrix::operator =( const Matrix & argument ) {
 	if ( this->isEqualSize( argument ) ) {
 		//TODO przypisanie wartosci do wierszy
 		this->matrixData = argument.matrixData;
-		test1 = argument;
 	} else {
 		//TODO Wyczyc maciez i zapisz nowymi wartosciami
 		printf ("LOL");
@@ -313,38 +327,40 @@ void Matrix::operator =( const Matrix & argument ) {
 }
 
 Matrix & Matrix::operator *( const Matrix & argument ) {
-	//TODO creating here Matrix is work around until Matrix will be fixed - column issue
-	Matrix * result = new Matrix( 1 , argument.getColumnNo() );
-	if ( this->getColumnNo() == argument.getRowsNo() ) {
+	//Matrix * result = new Matrix();
+	//TODO creating Matrix with column size is work around until Matrix will be fixed - column issue
+	Matrix * result = new Matrix( 1 , argument.getColumnsNo() );
+	if ( this->isColumnNoEqualRowNo( argument ) ) {
 		MatrixOperations::multiplication( * result , * this , argument );
 	} else {
 		printf( "ERROR: Cannot multiple - size of Matrix doesn't match!\n" );
-		// result = new Matrix();
 	}
+	this->storeResultClassPointer( result );
 	return * result;
 }
 
 Matrix & Matrix::operator +( const Matrix & argument ) {
-	//TODO creating here Matrix is work around until Matrix will be fixed - column issue
-	Matrix * result = new Matrix( 1 , argument.getColumnNo() );
+	//Matrix * result = new Matrix();
+	//TODO creating Matrix with column size is work around until Matrix will be fixed - column issue
+	Matrix * result = new Matrix( 1 , argument.getColumnsNo() );
 	if ( this->isEqualSize( argument ) ) {
 		MatrixOperations::addition( * result , * this , argument );
 	} else {
 		printf( "ERROR: Cannot add - size of Matrix doesn't match!\n" );
-		// return * (new Matrix());
 	}
+	this->storeResultClassPointer( result );
 	return * result;
 }
 
 Matrix & Matrix::operator -( const Matrix & argument ) {
-	//TODO creating here Matrix is work around until Matrix will be fixed - column issue
-	Matrix * result = new Matrix( 1 , argument.getColumnNo() );
+	//Matrix * result = new Matrix();
+	//TODO creating Matrix with column size is work around until Matrix will be fixed - column issue
+	Matrix * result = new Matrix( 1 , argument.getColumnsNo() );
 	if ( this->isEqualSize( argument ) ) {
-		MatrixOperations::subtraction( * result , * this , argument);
+		MatrixOperations::subtraction( * result , * this , argument );
 	} else {
 		printf( "ERROR: Cannot add - size of Matrix doesn't match!\n" );
-		//result = new Matrix();
 	}
+	this->storeResultClassPointer( result );
 	return * result;
 }
-
