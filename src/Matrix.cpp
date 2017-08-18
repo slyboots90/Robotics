@@ -7,10 +7,14 @@
 
 #include "../include/Matrix.h"
 #include "../include/MatrixOperations.h"
-#include <stdio.h> 							//printf
+#include <stdio.h> 							// printf
+
+#define matrixData matrixDataPtr.get()
+
 
 Matrix::Matrix() : result_class_pointer ( this )  {
-	this->allocateMatrixVectors( 1 , 1 );
+	matrixDataPtr = shared_ptr < vector < vector < int > > > ( new vector < vector < int > > );
+	this->allocateMatrixVectors( 0 , 0 );
 }
 
 Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) :  result_class_pointer (this) {
@@ -18,6 +22,7 @@ Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) :  result_
 		printf ( "Amount of rows or columns cannot be 0!\n" );
 		return;
 	}
+	matrixDataPtr = shared_ptr < vector < vector < int > > > ( new vector < vector < int > > );
 	this->allocateMatrixVectors( no_of_rows , no_of_colums );
 }
 
@@ -29,7 +34,7 @@ Matrix::~Matrix() {
 
 void Matrix::storeResultClassPointer( Matrix * class_pointer ) {
 	if ( this->result_class_pointer != this ) {
-		delete & ( this->result_class_pointer );  	//Delete old class to avoid memory leak
+		delete & ( this->result_class_pointer );  	// Delete old class to avoid memory leak
 	}
 	this->result_class_pointer = class_pointer;
 }
@@ -48,99 +53,79 @@ bool Matrix::isEqualSize( const Matrix & argument ) const {
 	return 0;
 }
 
-bool Matrix::isColumnNoEqualRowNo( const Matrix & argument ) const {
+bool Matrix::isColumnsNoEqualRowsNo( const Matrix & argument ) const {
 	if ( this->getColumnsNo() == argument.getRowsNo() ) {
 		return 1;
 	}
 	return 0;
 }
 
+void Matrix::printMatrix() {
+	printf( "\n" );
+	for ( unsigned i = 0 ; i < matrixData->size() ; i++ ) {
+		printf( "|" );
+		for ( vector < int >::iterator it = matrixData->at( i ).begin() ; it != matrixData->at( i ).end() ; ++it ) {
+			printf( "%5d " , * it );
+		}
+		printf( "|\n" );
+	}
+	printf( "\n" );
+}
+
 void Matrix::allocateMatrixVectors( unsigned int no_of_rows , unsigned int no_of_colums ) {
-	matrixData.resize( no_of_rows );
-	for ( unsigned int i = 0 ; i < matrixData.size() ; i++ ) {
-		this->allocateVectorInVector( i );
+	for ( unsigned int i = 0 ; i < no_of_rows ; i++ ) {
+		this->allocateVectorInVector( );
 	}
 	for ( unsigned int i = 0 ; i < no_of_rows ; i++ ) {
-		matrixData[ i ].resize( no_of_colums , 0 );
+		for ( unsigned int j = 0 ; j < no_of_colums ; j++ ) {
+			matrixData->at( i ).push_back( 0 );
+		}
 	}
 }
 
-void Matrix::allocateVectorInVector( unsigned int index ) {
+void Matrix::allocateVectorInVector( ) {
 	vector < int > allocation_vector;
-	matrixData.at( index ) = allocation_vector;
+	matrixData->push_back( allocation_vector );
 }
 
 bool Matrix::verifyRowIndex( unsigned int row_index ) const {
-	if ( row_index >= matrixData.size() ) {
-		printf ( "Error: row_index out of matrix range, matrix row size: %d, row_index %d\n" , matrixData.size() , row_index );
+	if ( row_index >= matrixData->size() ) {
+		printf ( "Error: row_index out of matrix range, matrix row size: %d, row_index %d\n" , matrixData->size() , row_index );
 		return 1;
 	}
 	return 0;
 }
 
 bool Matrix::verifyColumnIndex( unsigned int column_index ) const {
-	if ( column_index >= matrixData.begin()->size() ) {
-		printf ( "Error: column_index out of matrix range, matrix column size: %d, column_index %d\n" , matrixData.begin()->size() , column_index );
+	if ( column_index >= matrixData->begin()->size() ) {
+		printf ( "Error: column_index out of matrix range, matrix column size: %d, column_index %d\n" , matrixData->begin()->size() , column_index );
 		return 1;
 	}
 	return 0;
 }
 
-bool Matrix::addRow( unsigned int no_of_elements ) {
-	if ( matrixData.empty() ) {
-		matrixData.resize( 1 );
-		this->allocateVectorInVector( matrixData.size() - 1 );
-		vector < vector < int > >::iterator it = matrixData.begin();
-		it->resize( no_of_elements , 0 );
-		return 0;
-	} else {
-		vector < vector < int > >::iterator it = matrixData.begin();
-		if ( it->size() == no_of_elements ) {
-			return this->addRow();
-		} else {
-			printf ( "Cannot add: Size of elements doesn't fit to matrix, matrix row size: %d, provided %d\n" , it->size() , no_of_elements );
-			return 1;
-		}
+void Matrix::addRow() {
+	this->allocateVectorInVector( );
+	vector < vector < int > >::iterator it = matrixData->end();
+	it--;																// Iterator set on new added row
+	unsigned int y_size;
+	matrixData->size() > 1 ? y_size = ( it - 1 )->size() : y_size = 1; // it - 1 because new row must be the same y size as previous
+	for ( unsigned int i = 0 ; i < y_size ; i++ ) {
+		( it )->push_back( 0 );
 	}
-	printf ( "Cannot add: Unexpected error, no_of_elements %d\n" , no_of_elements );
-	return 1;
-}
-
-bool Matrix::addRow() {
-	if ( matrixData.empty() ) {
-		printf ( "Cannot add: Matrix desn't have any rows\n" );
-		return 1;
-	} else {
-		//TODO Bug while adding vector in column size if using default constructor
-		unsigned int x_size = matrixData.size();
-		vector < vector < int > >::iterator it = matrixData.begin();
-		unsigned int y_size = it->size();
-		matrixData.resize( x_size + 1 );
-		this->allocateVectorInVector( matrixData.size() - 1 );
-		it = matrixData.end();
-		( --it )->resize( y_size , 0 );
-		return 0;
-	}
-	printf ( "Cannot add: Unexpected error, while adding row\n" );
-	return 1;
 }
 
 bool Matrix::addRowWithData( vector < int > * data_ptr ) {
-	if ( ! (this->addRow() ) ) {
-		return this->fillRowWithData( data_ptr , matrixData.size() - 1 );
-	} else {
-		return 1;
-	}
-	printf ( "Cannot fill: Unexpected error, while adding and filling Row\n" );
-	return 1;
+	this->addRow();
+	return this->fillRowWithData( data_ptr , matrixData->size() - 1 );
 }
 
 bool Matrix::fillRowWithData( int * data_ptr , unsigned int row_index ) {
 	if ( this->verifyRowIndex( row_index ) ) {
 		return 1;
 	} else {
-		for ( vector < int >::iterator it = matrixData[ row_index ].begin() ; it < matrixData[ row_index ].end() ; it++ , data_ptr++ ) {
-			* it = * data_ptr;
+		for ( vector < int >::iterator it = matrixData->at( row_index ).begin() ; it < matrixData->at( row_index ).end() ; it++ , data_ptr++ ) {
+			 * it = * data_ptr;
 		}
 		return 0;
 	}
@@ -152,12 +137,11 @@ bool Matrix::fillRowWithData( vector < int > * data_ptr , unsigned int row_index
 	if ( this->verifyRowIndex( row_index ) ) {
 		return 1;
 	} else {
-		//TODO matrixData[ row_index - 1 ].size() always 1 when using default constructor
-		if ( data_ptr->size() !=  matrixData[ row_index ].size() ) {
-			printf ( "Cannot fill: Size of data vector doesn't match the Matrix! data size %d, Matrix row size %d\n" , data_ptr->size() , matrixData[ row_index ].size() );
+		if ( data_ptr->size() !=  matrixData->at( row_index ).size() ) {
+			printf ( "Cannot fill: Size of data vector doesn't match the Matrix! data size %d, Matrix row size %d\n" , data_ptr->size() , matrixData->at( row_index ).size() );
 			return 1;
 		} else {
-			matrixData[ row_index ] = * data_ptr;
+			matrixData->at( row_index ) = * data_ptr;
 			return 0;
 		}
 	}
@@ -166,71 +150,42 @@ bool Matrix::fillRowWithData( vector < int > * data_ptr , unsigned int row_index
 }
 
 unsigned int Matrix::getRowsNo() const {
-	if ( matrixData.empty() ) return 0;
-	return matrixData.size();
+	if ( matrixData->empty() ) return 0;
+	return matrixData->size();
 }
 
 const vector< int > * Matrix::getRow( unsigned int index ) const {
-	if ( this->verifyRowIndex( index ) ) {
+	if ( matrixData->empty() ) {
+		printf( "ERROR: Cannot getRow - Matrix is empty\n" );
+		return NULL;
+	} else if ( this->verifyRowIndex( index ) ) {
 		printf( "ERROR: Cannot getRow - index of of range\n" );
-		return & matrixData[ 0 ];
-	} else {
-		return & matrixData[ index ];
+		return NULL;
 	}
-	return & matrixData[ 0 ];
+	return & matrixData->at( index );
 }
 
-bool Matrix::addColumn( unsigned int no_of_elements ) {
-	if ( matrixData.empty() ) {
-		matrixData.resize( no_of_elements );
-		for ( vector < vector < int > >::iterator it = matrixData.begin() ; it != matrixData.end() ; ++it ) {
-			it->resize( 1 , 0 );
-		}
-		return 0;
+void Matrix::addColumn() {
+	if ( matrixData->empty() ) {
+		this->addRow();
 	} else {
-		if ( matrixData.size() == no_of_elements ) {
-			this->addColumn();
-			return 0;
-		} else {
-			printf ( "Cannot add: Size of elements doesn't fit to matrix, matrix column size: %d, provided %d\n" , matrixData.size() , no_of_elements );
-			return 1;
+		vector < vector < int > >::iterator it;
+		for ( it = matrixData->begin() ; it != matrixData->end() ; ++it ) {
+			it->push_back( 0 );
 		}
 	}
-	printf ( "Cannot add: Unexpected error, no_of_elements %d\n" , no_of_elements );
-	return 1;
-}
-
-bool Matrix::addColumn() {
-	if ( matrixData.empty() ) {
-		printf ( "Cannot add: Matrix desn't have any columns\n" );
-		return 1;
-	} else {
-		vector < vector < int > >::iterator it = matrixData.begin();
-		unsigned int y_size = it->size();
-		for ( ; it != matrixData.end() ; ++it ) {
-			it->resize( y_size + 1 , 0 );
-		}
-		return 0;
-	}
-	printf ( "Cannot add: Unexpected error, while adding column\n" );
-	return 1;
 }
 
 bool Matrix::addColumnWithData( vector < int > * data_ptr ) {
-	if ( ! ( this->addColumn() ) ) {
-		return this->fillRowWithData( data_ptr , matrixData.begin()->size() - 1 );
-	} else {
-		return 1;
-	}
-	printf ( "Cannot fill: Unexpected error, while adding and filling Column\n" );
-	return 1;
+	this->addColumn();
+	return this->fillRowWithData( data_ptr , matrixData->begin()->size() - 1 );
 }
 
 bool Matrix::fillColumnWithData( int * data_ptr , unsigned int column_index ) {
 	if ( this->verifyColumnIndex( column_index ) ) {
 		return 1;
 	} else {
-		for ( vector < vector < int > >::iterator it = matrixData.begin() ; it < matrixData.end() ; it++ , data_ptr++ ) {
+		for ( vector < vector < int > >::iterator it = matrixData->begin() ; it < matrixData->end() ; it++ , data_ptr++ ) {
 			it->at( column_index ) = * data_ptr;
 		}
 		return 0;
@@ -243,12 +198,12 @@ bool Matrix::fillColumnWithData( vector < int > * data_ptr , unsigned int column
 	if ( this->verifyColumnIndex( column_index ) ) {
 		return 1;
 	} else {
-		if ( data_ptr->size() !=  matrixData.size() ) {
+		if ( data_ptr->size() !=  matrixData->size() ) {
 			printf ( "Cannot fill: Size of data vector doesn't match the Matrix!\n" );
 			return 1;
 		} else {
-			vector < vector < int > >::iterator it = matrixData.begin();
-			for ( vector < int >::iterator it_data = data_ptr->begin() ;  it != matrixData.end() ; it++ , it_data++ ) {
+			vector < vector < int > >::iterator it = matrixData->begin();
+			for ( vector < int >::iterator it_data = data_ptr->begin() ;  it != matrixData->end() ; it++ , it_data++ ) {
 				it->at( column_index ) = * it_data;
 			}
 			return 0;
@@ -259,8 +214,8 @@ bool Matrix::fillColumnWithData( vector < int > * data_ptr , unsigned int column
 }
 
 unsigned int Matrix::getColumnsNo() const {
-	if ( matrixData.empty() ) return 0;
-	return matrixData.begin()->size();
+	if ( matrixData->empty() ) return 0;
+	return matrixData->begin()->size();
 }
 
 bool Matrix::getColumn( vector< const int * > * column_vector , unsigned int index ) const {
@@ -268,74 +223,28 @@ bool Matrix::getColumn( vector< const int * > * column_vector , unsigned int ind
 		printf( "ERROR: Cannot getColumn - index of of range\n" );
 		return 1;
 	} else {
-		for ( unsigned int i = 0 ; i < matrixData.size() ; i++ ) {
-			column_vector->push_back( & matrixData[ i ].at( index ) );
+		for ( unsigned int i = 0 ; i < matrixData->size() ; i++ ) {
+			column_vector->push_back( & matrixData->at( i ).at( index ) );
 		}
 		return 0;
 	}
 	return 1;
 }
 
-//-------------DEBUG------------//
-unsigned int Matrix::verifyMatrixDimensionY() {
-	// After all this not needed
-	if ( matrixData.empty() ) return 0;
-	return matrixData.size();
-}
+void Matrix::operator =(  Matrix & argument ) {
 
-unsigned int Matrix::verifyMatrixDimensionX() {
-	// After all this not needed
-	if ( matrixData.empty() ) {
-		printf ( "Verification failed: Vector is empty\n" );
-		return 0;
-	} else if ( matrixData.size() == 1 ) {
-		return matrixData.begin()->size();
-	} else {
-		vector < vector < int > >::iterator it = matrixData.begin();
-		vector < vector < int > >::iterator it_end = matrixData.end(); 	// need it for subtract 1
-		while ( it != it_end - 1 ) {
-			if ( it->size() != ( ++it )->size() ) {
-				printf ( "Verification failed: amount of columns are different: %d, %d\n" , ( it - 1 )->size() , it->size() );
-			}
-		}
-		return matrixData.begin()->size();
-	}
-}
-//-----------EO DEBUG-----------//
-
-void Matrix::printMatrix() {
-	printf( "\n" );
-	for ( unsigned i = 0 ; i < matrixData.size() ; i++ ) {
-		printf( "|" );
-		for ( vector < int >::iterator it = matrixData[ i ].begin() ; it != matrixData[ i ].end() ; ++it ) {
-			printf( "%5d " , * it );
-		}
-		printf( "|\n" );
-	}
-	printf( "\n" );
-}
-
-void Matrix::operator =( const Matrix & argument ) {
-	//TODO czy return porzebny wewnatrz klasy ?
-	if ( this->isEqualSize( argument ) ) {
-		//TODO przypisanie wartosci do wierszy
-		this->matrixData = argument.matrixData;
-	} else {
-		//TODO Wyczyc maciez i zapisz nowymi wartosciami
-		printf ("LOL");
-	}
 }
 
 Matrix & Matrix::operator *( const Matrix & argument ) {
 	//Matrix * result = new Matrix();
 	//TODO creating Matrix with column size is work around until Matrix will be fixed - column issue
 	Matrix * result = new Matrix( 1 , argument.getColumnsNo() );
-	if ( this->isColumnNoEqualRowNo( argument ) ) {
+	if ( this->isColumnsNoEqualRowsNo( argument ) ) {
 		MatrixOperations::multiplication( * result , * this , argument );
 	} else {
 		printf( "ERROR: Cannot multiple - size of Matrix doesn't match!\n" );
 	}
-	this->storeResultClassPointer( result );
+	//this->storeResultClassPointer( result );
 	return * result;
 }
 
@@ -348,19 +257,21 @@ Matrix & Matrix::operator +( const Matrix & argument ) {
 	} else {
 		printf( "ERROR: Cannot add - size of Matrix doesn't match!\n" );
 	}
-	this->storeResultClassPointer( result );
+	//this->storeResultClassPointer( result );
 	return * result;
 }
 
 Matrix & Matrix::operator -( const Matrix & argument ) {
 	//Matrix * result = new Matrix();
 	//TODO creating Matrix with column size is work around until Matrix will be fixed - column issue
-	Matrix * result = new Matrix( 1 , argument.getColumnsNo() );
+	//Matrix * result = new Matrix( 1 , argument.getColumnsNo() );
+	//shared_ptr < Matrix > result ( new Matrix( 1 , argument.getColumnsNo() ) );
+	shared_ptr < Matrix > result ( new Matrix( ) );
 	if ( this->isEqualSize( argument ) ) {
 		MatrixOperations::subtraction( * result , * this , argument );
 	} else {
-		printf( "ERROR: Cannot add - size of Matrix doesn't match!\n" );
+		printf( "ERROR: Cannot subtract - size of Matrix doesn't match!\n" );
 	}
-	this->storeResultClassPointer( result );
+	//this->storeResultClassPointer( result );
 	return * result;
 }

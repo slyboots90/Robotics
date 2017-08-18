@@ -85,6 +85,7 @@ void MatrixOperations::subtraction( Matrix & difference , const Matrix & minuend
 					int outcome_value = minuend_row_pointer->at( j ) - subtrahend_row_pointer->at( j );
 					temporary_vector.push_back( outcome_value );
 				}
+				// TODO Przywrocic addRow( unsigned int no_of_elements ) oraz Column
 				if ( difference.addRowWithData( & temporary_vector ) ) {
 					printf( "Fail to add temporary_vector to Matrix\n" );
 				}
