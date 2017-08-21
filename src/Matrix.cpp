@@ -236,9 +236,7 @@ void Matrix::operator =(  Matrix & argument ) {
 }
 
 Matrix & Matrix::operator *( const Matrix & argument ) {
-	//Matrix * result = new Matrix();
-	//TODO creating Matrix with column size is work around until Matrix will be fixed - column issue
-	Matrix * result = new Matrix( 1 , argument.getColumnsNo() );
+	shared_ptr < Matrix > result ( new Matrix( ) );
 	if ( this->isColumnsNoEqualRowsNo( argument ) ) {
 		MatrixOperations::multiplication( * result , * this , argument );
 	} else {
@@ -248,9 +246,7 @@ Matrix & Matrix::operator *( const Matrix & argument ) {
 }
 
 Matrix & Matrix::operator +( const Matrix & argument ) {
-	//Matrix * result = new Matrix();
-	//TODO creating Matrix with column size is work around until Matrix will be fixed - column issue
-	Matrix * result = new Matrix( 1 , argument.getColumnsNo() );
+	shared_ptr < Matrix > result ( new Matrix( ) );
 	if ( this->isEqualSize( argument ) ) {
 		MatrixOperations::addition( * result , * this , argument );
 	} else {
@@ -260,10 +256,6 @@ Matrix & Matrix::operator +( const Matrix & argument ) {
 }
 
 Matrix & Matrix::operator -( const Matrix & argument ) {
-	//Matrix * result = new Matrix();
-	//TODO creating Matrix with column size is work around until Matrix will be fixed - column issue
-	//Matrix * result = new Matrix( 1 , argument.getColumnsNo() );
-	//shared_ptr < Matrix > result ( new Matrix( 1 , argument.getColumnsNo() ) );
 	shared_ptr < Matrix > result ( new Matrix( ) );
 	if ( this->isEqualSize( argument ) ) {
 		MatrixOperations::subtraction( * result , * this , argument );

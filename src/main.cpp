@@ -130,7 +130,9 @@ void test() {
 		rrrr.fillRowWithData(&c3, 2);
 		rrrr.printMatrix();
 		Adam.printMatrix();
-		Ziom = rrrr - Adam;
+		//Ziom = rrrr - Adam;
+		//Ziom = rrrr + Adam;
+		Ziom = rrrr * Adam;
 	}
 
 	Ziom.printMatrix();
