@@ -108,7 +108,11 @@ void Matrix::addRow() {
 }
 
 bool Matrix::addRowWithData( vector < int > * data_ptr ) {
-	this->addRow();
+	if ( ! matrixData->empty() ) {
+		this->addRow();
+	} else {
+		this->allocateMatrixVectors( 1 ,  data_ptr->size() );
+	}
 	return this->fillRowWithData( data_ptr , matrixData->size() - 1 );
 }
 
@@ -169,7 +173,11 @@ void Matrix::addColumn() {
 }
 
 bool Matrix::addColumnWithData( vector < int > * data_ptr ) {
-	this->addColumn();
+	if ( ! matrixData->empty() ) {
+		this->addColumn();
+	} else {
+		this->allocateMatrixVectors( data_ptr->size() , 1 );
+	}
 	return this->fillColumnWithData( data_ptr , matrixData->begin()->size() - 1 );
 }
 
