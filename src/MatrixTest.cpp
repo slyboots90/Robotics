@@ -68,6 +68,12 @@ void MatrixTest::TestSuiteFill( void ) {
 	FillMatrix3on3RowWithDataUsingVector( );
 	FillMatrix1on1ColumnWithDataUsingVector( );
 	FillMatrix3on3ColumnWithDataUsingVector( );
+	AddRowWithDataToEmptyMatrix(  );
+	AddRowWithDataTo1on1Matrix(  );
+	AddRowWithDataTo3on3Matrix(  );
+	AddColumnWithDataToEmptyMatrix(  );
+	AddColumnWithDataTo1on1Matrix(  );
+	AddColumnWithDataTo3on3Matrix(  );
 }
 
 void MatrixTest::CreateEmptyMatrix( void ) {
@@ -297,6 +303,66 @@ void MatrixTest::FillMatrix3on3ColumnWithDataUsingVector( void ) {
 				data_vector_ptr->clear();
 			}
 		}
+	delete data_vector_ptr;
+	Eva.printMatrix();
+}
+
+void MatrixTest::AddRowWithDataToEmptyMatrix( void ) {
+	Matrix Eva;
+	printf ( " TEST: AddRowWithDataToEmptyMatrix ");
+	data_vector_ptr = new std::vector < int >;
+	for(unsigned int i = 0 ; i < 1 ; i++ )  data_vector_ptr->push_back( testData[ i ] );
+	Eva.addRowWithData( data_vector_ptr );
+	delete data_vector_ptr;
+	Eva.printMatrix();
+}
+
+void MatrixTest::AddRowWithDataTo1on1Matrix( void ) {
+	Matrix Eva( 1 , 1 );
+	printf ( " TEST: AddRowWithDataTo1on1Matrix ");
+	data_vector_ptr = new std::vector < int >;
+	for(unsigned int i = 0 ; i < 1 ; i++ )  data_vector_ptr->push_back( testData[ i ] );
+	Eva.addRowWithData( data_vector_ptr );
+	delete data_vector_ptr;
+	Eva.printMatrix();
+}
+
+void MatrixTest::AddRowWithDataTo3on3Matrix( void ) {
+	Matrix Eva( 3 , 3 );
+	printf ( " TEST: AddRowWithDataTo3on3Matrix ");
+	data_vector_ptr = new std::vector < int >;
+	for(unsigned int i = 0 ; i < 3 ; i++ )  data_vector_ptr->push_back( testData[ i ] );
+	Eva.addRowWithData( data_vector_ptr );
+	delete data_vector_ptr;
+	Eva.printMatrix();
+}
+
+void MatrixTest::AddColumnWithDataToEmptyMatrix( void ) {
+	Matrix Eva;
+	printf ( " TEST: AddColumnWithDataToEmptyMatrix ");
+	data_vector_ptr = new std::vector < int >;
+	for(unsigned int i = 0 ; i < 1 ; i++ )  data_vector_ptr->push_back( testData[ i ] );
+	Eva.addColumnWithData( data_vector_ptr );
+	delete data_vector_ptr;
+	Eva.printMatrix();
+}
+
+void MatrixTest::AddColumnWithDataTo1on1Matrix( void ) {
+	Matrix Eva( 1 , 1 );
+	printf ( " TEST: AddColumnWithDataTo1on1Matrix ");
+	data_vector_ptr = new std::vector < int >;
+	for(unsigned int i = 0 ; i < 1 ; i++ )  data_vector_ptr->push_back( testData[ i ] );
+	Eva.addColumnWithData( data_vector_ptr );
+	delete data_vector_ptr;
+	Eva.printMatrix();
+}
+
+void MatrixTest::AddColumnWithDataTo3on3Matrix( void ) {
+	Matrix Eva( 3 , 3 );
+	printf ( " TEST: AddColumnWithDataTo3on3Matrix ");
+	data_vector_ptr = new std::vector < int >;
+	for(unsigned int i = 0 ; i < 3 ; i++ )  data_vector_ptr->push_back( testData[ i ] );
+	Eva.addColumnWithData( data_vector_ptr );
 	delete data_vector_ptr;
 	Eva.printMatrix();
 }

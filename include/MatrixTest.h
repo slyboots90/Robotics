@@ -52,6 +52,12 @@ class MatrixTest {
 	void FillMatrix3on3RowWithDataUsingVector( void );
 	void FillMatrix1on1ColumnWithDataUsingVector( void );
 	void FillMatrix3on3ColumnWithDataUsingVector( void );
+	void AddRowWithDataToEmptyMatrix( void );
+	void AddRowWithDataTo1on1Matrix( void );
+	void AddRowWithDataTo3on3Matrix( void );
+	void AddColumnWithDataToEmptyMatrix( void );
+	void AddColumnWithDataTo1on1Matrix( void );
+	void AddColumnWithDataTo3on3Matrix( void );
 
 public:
 	MatrixTest();

@@ -178,7 +178,7 @@ void Matrix::addColumn() {
 
 bool Matrix::addColumnWithData( vector < int > * data_ptr ) {
 	this->addColumn();
-	return this->fillRowWithData( data_ptr , matrixData->begin()->size() - 1 );
+	return this->fillColumnWithData( data_ptr , matrixData->begin()->size() - 1 );
 }
 
 bool Matrix::fillColumnWithData( int * data_ptr , unsigned int column_index ) {
