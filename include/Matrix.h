@@ -25,6 +25,11 @@ class Matrix {
 	bool verifyRowIndex( unsigned int ) const;
 	bool verifyColumnIndex( unsigned int ) const;
 
+	unsigned int getRowsNo( void ) const;
+	const vector< int > * getRow( unsigned int ) const;
+	unsigned int getColumnsNo( void ) const;
+	bool getColumn( vector< const int * > * , unsigned int ) const;
+
 public:
 	Matrix();
 	Matrix( unsigned int , unsigned int );
@@ -36,15 +41,11 @@ public:
 	bool addRowWithData( vector < int > * );
 	bool fillRowWithData( int * , unsigned int );
 	bool fillRowWithData( vector < int > * , unsigned int );
-	unsigned int getRowsNo( void ) const;
-	const vector< int > * getRow( unsigned int ) const;
 	// Columns
 	void addColumn( void );
 	bool addColumnWithData( vector < int > * );
 	bool fillColumnWithData( int * , unsigned int );
 	bool fillColumnWithData( vector < int > * , unsigned int );
-	unsigned int getColumnsNo( void ) const;
-	bool getColumn( vector< const int * > * , unsigned int ) const;
 	// Operators
 	void operator =(  Matrix & argument );
 	Matrix & operator *( const Matrix & argument );
