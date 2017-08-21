@@ -9,12 +9,37 @@
 #include "../include/Matrix.h"
 #include <stdio.h>
 
-MatrixTest::MatrixTest() {
+MatrixTest::MatrixTest() : data_ptr( testData ) {
+	TestInit();
+	TestSuiteCreate();
+	TestSuiteAdd();
+	TestSuiteFill();
+	TestTeardown();
+}
+
+MatrixTest::~MatrixTest() {
+	// TODO Auto-generated destructor stub
+}
+
+void MatrixTest::TestInit( void ) {
+	printf ( ":::::########## Matrix Test ##########:::::\n");
+}
+
+void MatrixTest::TestTeardown( void ) {
+	printf ( ":::::########## End of Matrix Test ##########:::::\n");
+}
+
+void MatrixTest::TestSuiteCreate( void ) {
+	printf ( "########## TEST SUITE : Create ##########\n");
 	CreateEmptyMatrix( );
 	Create1on1Matrix( );
 	Create3on3Matrix( );
 	Create3on5Matrix( );
 	Create5on3Matrix( );
+}
+
+void MatrixTest::TestSuiteAdd( void ) {
+	printf ( "########## TEST SUITE : Add ##########\n");
 	AddRowToEmptyMatrix( );
 	AddRowTo1on1Matrix( );
 	AddRowTo3on3Matrix( );
@@ -31,11 +56,18 @@ MatrixTest::MatrixTest() {
 	AddRowThenColumnTo1on1Matrix( );
 	AddColumnThenRowToEmptyMatrix( );
 	AddColumnThenRowTo1on1Matrix( );
-
 }
 
-MatrixTest::~MatrixTest() {
-	// TODO Auto-generated destructor stub
+void MatrixTest::TestSuiteFill( void ) {
+	printf ( "########## TEST SUITE : Fill ##########\n");
+	FillMatrix1on1RowWithDataUsingPointer( );
+	FillMatrix3on3RowWithDataUsingPointer( );
+	FillMatrix1on1ColumnWithDataUsingPointer( );
+	FillMatrix3on3ColumnWithDataUsingPointer( );
+	FillMatrix1on1RowWithDataUsingVector( );
+	FillMatrix3on3RowWithDataUsingVector( );
+	FillMatrix1on1ColumnWithDataUsingVector( );
+	FillMatrix3on3ColumnWithDataUsingVector( );
 }
 
 void MatrixTest::CreateEmptyMatrix( void ) {
@@ -186,3 +218,86 @@ void MatrixTest::AddColumnThenRowTo1on1Matrix( void ) {
 	Eva.addRow();
 	Eva.printMatrix();
 }
+
+void MatrixTest::FillMatrix1on1RowWithDataUsingPointer( void ) {
+	Matrix Eva( 1 , 1 );
+	printf ( " TEST: FillMatrix1on1RowWithDataUsingPointer ");
+	Eva.fillRowWithData( data_ptr , 0 );
+	Eva.printMatrix();
+}
+
+void MatrixTest::FillMatrix3on3RowWithDataUsingPointer( void ) {
+	Matrix Eva( 3 , 3 );
+	printf ( " TEST: FillMatrix3on3RowWithDataUsingPointer ");
+	Eva.fillRowWithData( data_ptr , 0 );
+	Eva.fillRowWithData( data_ptr + 3 , 1 );
+	Eva.fillRowWithData( data_ptr + 6 , 2 );
+	Eva.printMatrix();
+}
+
+void MatrixTest::FillMatrix1on1ColumnWithDataUsingPointer( void ) {
+	Matrix Eva( 1 , 1 );
+	printf ( " TEST: FillMatrix1on1ColumnWithDataUsingPointer ");
+	Eva.fillColumnWithData( data_ptr , 0 );
+	Eva.printMatrix();
+}
+
+void MatrixTest::FillMatrix3on3ColumnWithDataUsingPointer( void ) {
+	Matrix Eva( 3 , 3 );
+	printf ( " TEST: FillMatrix3on3ColumnWithDataUsingPointer ");
+	Eva.fillColumnWithData( data_ptr , 0 );
+	Eva.fillColumnWithData( data_ptr + 3 , 1 );
+	Eva.fillColumnWithData( data_ptr + 6 , 2 );
+	Eva.printMatrix();
+}
+
+void MatrixTest::FillMatrix1on1RowWithDataUsingVector( void ) {
+	Matrix Eva( 1 , 1 );
+	printf ( " TEST: FillMatrix1on1RowWithDataUsingVector ");
+	data_vector_ptr = new std::vector < int >;
+	for(unsigned int i = 0 ; i < 1 ; i++ ) data_vector_ptr->push_back( testData[ i ] );
+	Eva.fillRowWithData( data_vector_ptr , 0 );
+	delete data_vector_ptr;
+	Eva.printMatrix();
+}
+
+void MatrixTest::FillMatrix3on3RowWithDataUsingVector( void ) {
+	Matrix Eva( 3 , 3 );
+	printf ( " TEST: FillMatrix3on3RowWithDataUsingVector ");
+	data_vector_ptr = new std::vector < int >;
+	for(unsigned int i = 1 ; i < 10 ; i++ )  {
+		data_vector_ptr->push_back( testData[ i - 1 ] );
+		if ( ! ( i % 3 ) ) {
+			Eva.fillRowWithData( data_vector_ptr , ( i / 3 ) - 1 );
+			data_vector_ptr->clear();
+		}
+	}
+	delete data_vector_ptr;
+	Eva.printMatrix();
+}
+
+void MatrixTest::FillMatrix1on1ColumnWithDataUsingVector( void ) {
+	Matrix Eva( 1 , 1 );
+	printf ( " TEST: FillMatrix1on1ColumnWithDataUsingVector ");
+	data_vector_ptr = new std::vector < int >;
+	for(unsigned int i = 0 ; i < 1 ; i++ ) data_vector_ptr->push_back( testData[ i ] );
+	Eva.fillColumnWithData( data_vector_ptr , 0 );
+	delete data_vector_ptr;
+	Eva.printMatrix();
+}
+
+void MatrixTest::FillMatrix3on3ColumnWithDataUsingVector( void ) {
+	Matrix Eva( 3 , 3 );
+	printf ( " TEST: FillMatrix3on3ColumnWithDataUsingVector ");
+	data_vector_ptr = new std::vector < int >;
+	for(unsigned int i = 1 ; i < 10 ; i++ )  {
+			data_vector_ptr->push_back( testData[ i - 1 ] );
+			if ( ! ( i % 3 ) ) {
+				Eva.fillColumnWithData( data_vector_ptr , ( i / 3 ) - 1 );
+				data_vector_ptr->clear();
+			}
+		}
+	delete data_vector_ptr;
+	Eva.printMatrix();
+}
+

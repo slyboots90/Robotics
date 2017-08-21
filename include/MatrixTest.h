@@ -8,13 +8,24 @@
 #ifndef MATRIXTEST_H_
 #define MATRIXTEST_H_
 
+#include <vector>
+
 class MatrixTest {
 
+	int testData[9] = { 5 , 7 , 12 , 44 , 77 , 22 , 142 , 537 , 873 };
+	int * data_ptr;
+	std::vector < int > * data_vector_ptr;
+	void TestInit( void );
+	void TestTeardown( void );
+
+	void TestSuiteCreate( void );
 	void CreateEmptyMatrix( void );
 	void Create1on1Matrix( void );
 	void Create3on3Matrix( void );
 	void Create3on5Matrix( void );
 	void Create5on3Matrix( void );
+
+	void TestSuiteAdd( void );
 	void AddRowToEmptyMatrix( void );
 	void AddRowTo1on1Matrix( void );
 	void AddRowTo3on3Matrix( void );
@@ -31,6 +42,16 @@ class MatrixTest {
 	void AddRowThenColumnTo1on1Matrix( void );
 	void AddColumnThenRowToEmptyMatrix( void );
 	void AddColumnThenRowTo1on1Matrix( void );
+
+	void TestSuiteFill( void );
+	void FillMatrix1on1RowWithDataUsingPointer( void );
+	void FillMatrix3on3RowWithDataUsingPointer( void );
+	void FillMatrix1on1ColumnWithDataUsingPointer( void );
+	void FillMatrix3on3ColumnWithDataUsingPointer( void );
+	void FillMatrix1on1RowWithDataUsingVector( void );
+	void FillMatrix3on3RowWithDataUsingVector( void );
+	void FillMatrix1on1ColumnWithDataUsingVector( void );
+	void FillMatrix3on3ColumnWithDataUsingVector( void );
 
 public:
 	MatrixTest();
