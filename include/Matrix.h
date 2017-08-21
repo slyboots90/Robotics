@@ -47,10 +47,10 @@ public:
 	bool fillColumnWithData( int * , unsigned int );
 	bool fillColumnWithData( vector < int > * , unsigned int );
 	// Operators
-	void operator =(  Matrix & argument );
-	Matrix & operator *( const Matrix & argument );
-	Matrix & operator +( const Matrix & argument );
-	Matrix & operator -( const Matrix & argument );
+	void operator =( shared_ptr < Matrix > );
+	shared_ptr < Matrix > operator *( const Matrix & );
+	shared_ptr < Matrix > operator +( const Matrix & );
+	shared_ptr < Matrix > operator -( const Matrix & );
 };
 
 #endif /* MATRIX_H_ */

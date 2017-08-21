@@ -135,6 +135,7 @@ void test() {
 		Ziom = rrrr * Adam;
 	}
 
+
 	Ziom.printMatrix();
 	//{
 	//	Matrix Maciek(4,4);

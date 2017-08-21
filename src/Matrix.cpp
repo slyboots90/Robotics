@@ -231,36 +231,36 @@ bool Matrix::getColumn( vector< const int * > * column_vector , unsigned int ind
 	return 1;
 }
 
-void Matrix::operator =(  Matrix & argument ) {
-
+void Matrix::operator =( shared_ptr < Matrix > argument ) {
+	this->matrixDataPtr = argument->matrixDataPtr;
 }
 
-Matrix & Matrix::operator *( const Matrix & argument ) {
+shared_ptr < Matrix > Matrix::operator *( const Matrix & argument ) {
 	shared_ptr < Matrix > result ( new Matrix( ) );
 	if ( this->isColumnsNoEqualRowsNo( argument ) ) {
 		MatrixOperations::multiplication( * result , * this , argument );
 	} else {
 		printf( "ERROR: Cannot multiple - size of Matrix doesn't match!\n" );
 	}
-	return * result;
+	return result;
 }
 
-Matrix & Matrix::operator +( const Matrix & argument ) {
+shared_ptr < Matrix > Matrix::operator +( const Matrix & argument ) {
 	shared_ptr < Matrix > result ( new Matrix( ) );
 	if ( this->isEqualSize( argument ) ) {
 		MatrixOperations::addition( * result , * this , argument );
 	} else {
 		printf( "ERROR: Cannot add - size of Matrix doesn't match!\n" );
 	}
-	return * result;
+	return result;
 }
 
-Matrix & Matrix::operator -( const Matrix & argument ) {
+shared_ptr < Matrix > Matrix::operator -( const Matrix & argument ) {
 	shared_ptr < Matrix > result ( new Matrix( ) );
 	if ( this->isEqualSize( argument ) ) {
 		MatrixOperations::subtraction( * result , * this , argument );
 	} else {
 		printf( "ERROR: Cannot subtract - size of Matrix doesn't match!\n" );
 	}
-	return * result;
+	return result;
 }
