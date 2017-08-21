@@ -12,12 +12,12 @@
 #define matrixData matrixDataPtr.get()
 
 
-Matrix::Matrix() : result_class_pointer ( this )  {
+Matrix::Matrix() {
 	matrixDataPtr = shared_ptr < vector < vector < int > > > ( new vector < vector < int > > );
 	this->allocateMatrixVectors( 0 , 0 );
 }
 
-Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) :  result_class_pointer (this) {
+Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) {
 	if ( ! no_of_rows || ! no_of_colums ) {
 		printf ( "Amount of rows or columns cannot be 0!\n" );
 		return;
@@ -27,16 +27,7 @@ Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) :  result_
 }
 
 Matrix::~Matrix() {
-	if ( this->result_class_pointer != this ) {
-		delete & ( this->result_class_pointer );
-	}
-}
 
-void Matrix::storeResultClassPointer( Matrix * class_pointer ) {
-	if ( this->result_class_pointer != this ) {
-		delete & ( this->result_class_pointer );  	// Delete old class to avoid memory leak
-	}
-	this->result_class_pointer = class_pointer;
 }
 
 bool Matrix::isEmpty() const {
@@ -244,7 +235,6 @@ Matrix & Matrix::operator *( const Matrix & argument ) {
 	} else {
 		printf( "ERROR: Cannot multiple - size of Matrix doesn't match!\n" );
 	}
-	//this->storeResultClassPointer( result );
 	return * result;
 }
 
@@ -257,7 +247,6 @@ Matrix & Matrix::operator +( const Matrix & argument ) {
 	} else {
 		printf( "ERROR: Cannot add - size of Matrix doesn't match!\n" );
 	}
-	//this->storeResultClassPointer( result );
 	return * result;
 }
 
@@ -272,6 +261,5 @@ Matrix & Matrix::operator -( const Matrix & argument ) {
 	} else {
 		printf( "ERROR: Cannot subtract - size of Matrix doesn't match!\n" );
 	}
-	//this->storeResultClassPointer( result );
 	return * result;
 }

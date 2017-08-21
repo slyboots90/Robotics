@@ -14,13 +14,11 @@ using namespace std;
 
 class Matrix {
 
-	void storeResultClassPointer( Matrix * );
 	void allocateMatrixVectors( unsigned int , unsigned int );
 	void allocateVectorInVector( );
 	bool verifyRowIndex( unsigned int ) const;
 	bool verifyColumnIndex( unsigned int ) const ;
 	shared_ptr < vector < vector < int > > > matrixDataPtr;
-	Matrix * result_class_pointer;
 
 public:
 	Matrix();
