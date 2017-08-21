@@ -51,17 +51,6 @@ bool Matrix::isColumnsNoEqualRowsNo( const Matrix & argument ) const {
 	return 0;
 }
 
-void Matrix::printMatrix() {
-	printf( "\n" );
-	for ( unsigned i = 0 ; i < matrixData->size() ; i++ ) {
-		printf( "|" );
-		for ( vector < int >::iterator it = matrixData->at( i ).begin() ; it != matrixData->at( i ).end() ; ++it ) {
-			printf( "%5d " , * it );
-		}
-		printf( "|\n" );
-	}
-	printf( "\n" );
-}
 
 void Matrix::allocateMatrixVectors( unsigned int no_of_rows , unsigned int no_of_colums ) {
 	for ( unsigned int i = 0 ; i < no_of_rows ; i++ ) {
@@ -93,6 +82,18 @@ bool Matrix::verifyColumnIndex( unsigned int column_index ) const {
 		return 1;
 	}
 	return 0;
+}
+
+void Matrix::printMatrix() {
+	printf( "\n" );
+	for ( unsigned i = 0 ; i < matrixData->size() ; i++ ) {
+		printf( "|" );
+		for ( vector < int >::iterator it = matrixData->at( i ).begin() ; it != matrixData->at( i ).end() ; ++it ) {
+			printf( "%5d " , * it );
+		}
+		printf( "|\n" );
+	}
+	printf( "\n" );
 }
 
 void Matrix::addRow() {

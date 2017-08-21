@@ -14,19 +14,22 @@ using namespace std;
 
 class Matrix {
 
-	void allocateMatrixVectors( unsigned int , unsigned int );
-	void allocateVectorInVector( );
-	bool verifyRowIndex( unsigned int ) const;
-	bool verifyColumnIndex( unsigned int ) const ;
+	friend class MatrixOperations;
 	shared_ptr < vector < vector < int > > > matrixDataPtr;
+
+	bool isEmpty( void ) const;
+	bool isEqualSize( const Matrix & ) const;
+	bool isColumnsNoEqualRowsNo( const Matrix & ) const;
+	void allocateMatrixVectors( unsigned int , unsigned int );
+	void allocateVectorInVector( void );
+	bool verifyRowIndex( unsigned int ) const;
+	bool verifyColumnIndex( unsigned int ) const;
 
 public:
 	Matrix();
 	Matrix( unsigned int , unsigned int );
 	virtual ~Matrix();
-	bool isEmpty( void ) const;
-	bool isEqualSize( const Matrix & ) const;
-	bool isColumnsNoEqualRowsNo( const Matrix & ) const;
+
 	void printMatrix( void );
 	// Rows
 	void addRow( void );
@@ -42,7 +45,7 @@ public:
 	bool fillColumnWithData( vector < int > * , unsigned int );
 	unsigned int getColumnsNo( void ) const;
 	bool getColumn( vector< const int * > * , unsigned int ) const;
-	//
+	// Operators
 	void operator =(  Matrix & argument );
 	Matrix & operator *( const Matrix & argument );
 	Matrix & operator +( const Matrix & argument );
