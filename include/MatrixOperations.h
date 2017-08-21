@@ -14,14 +14,23 @@ using namespace std;
 
 class MatrixOperations {
 
-	static int vectorMultiplication( const vector<int> * , vector< const int * > * );
+	static int vectorMultiplication( const vector< int > * , vector< const int * > * );
 
 public:
 	MatrixOperations();
 	virtual ~MatrixOperations();
 	static void multiplication( Matrix & , const Matrix & , const Matrix & );
+	static void scalarmultiplication( Matrix & , const Matrix & , int );
+	static void scalarmultiplication( Matrix & , int );
 	static void addition( Matrix & , const Matrix & , const Matrix & );
 	static void subtraction( Matrix & , const Matrix & , const Matrix & );
+	//TODO Following implementation needed
+	static void transposition( Matrix & , const Matrix & );
+	static void transposition( Matrix & );
+	static int determinant( const Matrix & ); //return float?
+	static void inverse( Matrix & , const Matrix & );
+	static void inverse( Matrix & );
+	static void minor();
 
 };
 

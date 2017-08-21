@@ -49,6 +49,8 @@ public:
 	// Operators
 	void operator =( shared_ptr < Matrix > );
 	shared_ptr < Matrix > operator *( const Matrix & );
+	shared_ptr < Matrix > operator *( int );
+	void operator *=( int );
 	shared_ptr < Matrix > operator +( const Matrix & );
 	shared_ptr < Matrix > operator -( const Matrix & );
 };

@@ -41,8 +41,36 @@ void MatrixOperations::multiplication( Matrix & product , const Matrix & multipl
 				printf( "Fail to add temporary_vector to Matrix\n" );
 			}
 		}
-		//TODO delete after all
-		product.printMatrix();
+	}
+}
+
+void MatrixOperations::scalarmultiplication( Matrix & product , const Matrix & multiplicand , int multiplier ) {
+	const vector < int > * row_pointer = NULL;
+	if ( ! multiplicand.isEmpty() ) {
+		for ( unsigned int i = 0 ; i < multiplicand.getRowsNo() ; i++ ) {
+			vector < int > temporary_vector;
+			row_pointer = multiplicand.getRow( i );
+			if ( row_pointer == NULL) {
+				printf( "Fail to get Row from Matrix\n" );
+				break;
+			}
+			for ( unsigned int j = 0 ; j < row_pointer->size() ; j++ ) {
+				temporary_vector.push_back( row_pointer->at( j ) * multiplier );
+			}
+			if ( product.addRowWithData( & temporary_vector ) ) {
+				printf( "Fail to add temporary_vector to Matrix\n" );
+			}
+		}
+	}
+}
+
+void MatrixOperations::scalarmultiplication( Matrix & multiplicand , int multiplier ) {
+	if ( ! multiplicand.isEmpty() ) {
+		for ( unsigned int i = 0 ; i < multiplicand.getRowsNo() ; i++ ) {
+			for( unsigned int j = 0 ; j < multiplicand.getColumnsNo() ; j++ ) {
+				multiplicand.matrixDataPtr->at( i ).at( j ) *= multiplier;
+			}
+		}
 	}
 }
 
@@ -79,8 +107,6 @@ void MatrixOperations::addition( Matrix & sum , const Matrix & component_a , con
 					printf( "Fail to add temporary_vector to Matrix\n" );
 				}
 			}
-			//TODO delete after all
-			sum.printMatrix();
 		}
 }
 
@@ -104,7 +130,5 @@ void MatrixOperations::subtraction( Matrix & difference , const Matrix & minuend
 					printf( "Fail to add temporary_vector to Matrix\n" );
 				}
 			}
-			//TODO delete after all
-			difference.printMatrix();
 		}
 }

@@ -245,6 +245,24 @@ shared_ptr < Matrix > Matrix::operator *( const Matrix & argument ) {
 	return result;
 }
 
+shared_ptr < Matrix > Matrix::operator *( int argument ) {
+	shared_ptr < Matrix > result ( new Matrix( ) );
+	if ( ! this->isEmpty() ) {
+		MatrixOperations::scalarmultiplication( * result , * this , argument );
+	} else {
+		printf( "ERROR: Cannot multiple - Matrix is empty!\n" );
+	}
+	return result;
+}
+
+void Matrix::operator *=( int argument ) {
+	if ( ! this->isEmpty() ) {
+		MatrixOperations::scalarmultiplication( * this , argument );
+	} else {
+		printf( "ERROR: Cannot multiple - Matrix is empty!\n" );
+	}
+}
+
 shared_ptr < Matrix > Matrix::operator +( const Matrix & argument ) {
 	shared_ptr < Matrix > result ( new Matrix( ) );
 	if ( this->isEqualSize( argument ) ) {
