@@ -9,12 +9,19 @@
 #define MATRIXTEST_H_
 
 #include <vector>
+#include "../include/Matrix.h"
 
 class MatrixTest {
 
-	int testData[9] = { 5 , 7 , 12 , 44 , 77 , 22 , 142 , 537 , 873 };
+	int testData[15] = { 5 , 7 , 12 , 44 , 77 , 22 , 142 , 537 , 873 , 17 , 56 , 2 , 9 , 0 , 11 };
 	int * data_ptr;
 	std::vector < int > * data_vector_ptr;
+	int scalar = 2;
+	void Fill1on1Matrix( Matrix & matrix );
+	void Fill3on3Matrix( Matrix & matrix );
+	void Fill3on5Matrix( Matrix & matrix );
+	void Fill5on3Matrix( Matrix & matrix );
+
 	void TestInit( void );
 	void TestTeardown( void );
 
@@ -58,6 +65,37 @@ class MatrixTest {
 	void AddColumnWithDataToEmptyMatrix( void );
 	void AddColumnWithDataTo1on1Matrix( void );
 	void AddColumnWithDataTo3on3Matrix( void );
+
+	void TestSuiteOperations( void );
+	void SumTwo1on1Matrix( void );
+	void SumTwo3on3Matrix( void );
+	void SumTwo3on5Matrix( void );
+	void SumThree3on3Matrix( void );
+	void SubtractTwo1on1Matrix( void );
+	void SubtractTwo3on3Matrix( void );
+	void SubtractTwo3on5Matrix( void );
+	void SubtractThree3on3Matrix( void );
+	void MultipliTwo1on1Matrix( void );
+	void MultipliTwo3on3Matrix( void );
+	void Multipli3on5MatrixWith5on3Matrix( void );
+	void MultipliThree3on3Matrix( void );
+	void Multipli1on1MatrixbyScalarAndOverwriteMatrix( void );
+	void Multipli3on3MatrixbyScalarAndOverwriteMatrix( void );
+	void Multipli3on5MatrixbyScalarAndOverwriteMatrix( void );
+	void Multipli1on1MatrixbyScalarIntoNewMatrix( void );
+	void Multipli3on3MatrixbyScalarIntoNewMatrix( void );
+	void Multipli3on3MatrixbyScalarIntoEmptyMatrix( void );
+	void Multipli3on5MatrixbyScalarIntoNewMatrix( void );
+	void Assign1on1MatrixToEmptyMatrix( void );
+	void Assign3on3MatrixToEmptyMatrix( void );
+	void Assign3on3MatrixTo1on1Matrix( void );
+	void Assign3on5MatrixTo3on3Matrix( void );
+	void Invert1on1MatrixAndOverwriteMatrix( void );
+	void Invert3on3MatrixAndOverwriteMatrix( void );
+	void Invert3on5MatrixAndOverwriteMatrix( void );
+	void Invert1on1MatrixIntoNewMatrix( void );
+	void Invert3on3MatrixIntoNewMatrix( void );
+	void Invert3on5MatrixIntoNewMatrix( void );
 
 public:
 	MatrixTest();

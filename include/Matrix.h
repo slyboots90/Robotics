@@ -53,6 +53,8 @@ public:
 	void operator *=( int );
 	shared_ptr < Matrix > operator +( const Matrix & );
 	shared_ptr < Matrix > operator -( const Matrix & );
+	// Operations
+	int det( void );
 };
 
 #endif /* MATRIX_H_ */

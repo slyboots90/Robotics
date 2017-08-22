@@ -282,3 +282,12 @@ shared_ptr < Matrix > Matrix::operator -( const Matrix & argument ) {
 	}
 	return result;
 }
+
+int Matrix::det() {
+	if ( ! this->isEmpty() ) {
+		return MatrixOperations::determinant( * this );
+	} else {
+		printf( "ERROR: Cannot calculate determinant - Matrix is empty!\n" );
+	}
+	return 0;
+}

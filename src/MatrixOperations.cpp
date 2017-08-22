@@ -132,3 +132,7 @@ void MatrixOperations::subtraction( Matrix & difference , const Matrix & minuend
 			}
 		}
 }
+
+int MatrixOperations::determinant( const Matrix & base ) {
+
+}
