@@ -55,6 +55,8 @@ public:
 	shared_ptr < Matrix > operator -( const Matrix & );
 	// Operations
 	int det( void );
+	void transIntra( void );
+	shared_ptr < Matrix > transInter( void );
 };
 
 #endif /* MATRIX_H_ */

@@ -101,6 +101,13 @@ void MatrixTest::TestSuiteOperations( void ) {
 	Assign3on3MatrixToEmptyMatrix( );
 	Assign3on3MatrixTo1on1Matrix( );
 	Assign3on5MatrixTo3on3Matrix( );
+	Transpose1on1MatrixAndOverwriteMatrix( );
+	Transpose3on3MatrixAndOverwriteMatrix( );
+	Transpose3on5MatrixAndOverwriteMatrix( );
+	Transpose1on1MatrixIntoNewMatrix( );
+	Transpose3on3MatrixIntoNewMatrix( );
+	Transpose3on3MatrixIntoEmptyMatrix( );
+	Transpose3on5MatrixIntoNewMatrix( );
 	Invert1on1MatrixAndOverwriteMatrix( );
 	Invert3on3MatrixAndOverwriteMatrix( );
 	Invert3on5MatrixAndOverwriteMatrix( );
@@ -625,6 +632,69 @@ void MatrixTest::Assign3on5MatrixTo3on3Matrix( void ) {
 	printf ( " TEST: Assign3on5MatrixTo3on3Matrix " );
 	Fill3on5Matrix( Eva );
 	Adam = Eva;
+	Adam.printMatrix();
+}
+
+void MatrixTest::Transpose1on1MatrixAndOverwriteMatrix( void ) {
+	Matrix Eva( 1 , 1 );
+	printf ( " TEST: Transpose1on1MatrixAndOverwriteMatrix " );
+	Fill1on1Matrix( Eva );
+	Eva.transIntra();
+	Eva.printMatrix();
+}
+
+void MatrixTest::Transpose3on3MatrixAndOverwriteMatrix( void ) {
+	Matrix Eva( 3 , 3 );
+	printf ( " TEST: Transpose3on3MatrixAndOverwriteMatrix " );
+	Fill3on3Matrix( Eva );
+	Eva.transIntra();
+	Eva.printMatrix();
+}
+
+void MatrixTest::Transpose3on5MatrixAndOverwriteMatrix( void ) {
+	Matrix Eva( 3 , 5 );
+	printf ( " TEST: Transpose3on5MatrixAndOverwriteMatrix " );
+	Fill3on5Matrix( Eva );
+	Eva.transIntra();
+	Eva.printMatrix();
+}
+
+void MatrixTest::Transpose1on1MatrixIntoNewMatrix( void ) {
+	Matrix Eva( 1 , 1 );
+	Matrix Adam( 1 , 1 );
+	printf ( " TEST: Transpose1on1MatrixIntoNewMatrix " );
+	Fill1on1Matrix( Eva );
+	Fill1on1Matrix( Adam );
+	Adam = Eva.transInter();
+	Adam.printMatrix();
+}
+
+void MatrixTest::Transpose3on3MatrixIntoNewMatrix( void ) {
+	Matrix Eva( 3 , 3 );
+	Matrix Adam( 3 , 3 );
+	printf ( " TEST: Transpose3on3MatrixIntoNewMatrix " );
+	Fill3on3Matrix( Eva );
+	Fill3on3Matrix( Adam );
+	Adam = Eva.transInter();
+	Adam.printMatrix();
+}
+
+void MatrixTest::Transpose3on3MatrixIntoEmptyMatrix( void ) {
+	Matrix Eva( 3 , 3 );
+	Matrix Adam;
+	printf ( " TEST: Transpose3on3MatrixIntoEmptyMatrix " );
+	Fill3on3Matrix( Eva );
+	Adam = Eva.transInter();
+	Adam.printMatrix();
+}
+
+void MatrixTest::Transpose3on5MatrixIntoNewMatrix( void ) {
+	Matrix Eva( 3 , 5 );
+	Matrix Adam( 3 , 5 );
+	printf ( " TEST: Transpose3on5MatrixIntoNewMatrix " );
+	Fill3on5Matrix( Eva );
+	Fill3on5Matrix( Adam );
+	Adam = Eva.transInter();
 	Adam.printMatrix();
 }
 

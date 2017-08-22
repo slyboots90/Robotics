@@ -90,6 +90,13 @@ class MatrixTest {
 	void Assign3on3MatrixToEmptyMatrix( void );
 	void Assign3on3MatrixTo1on1Matrix( void );
 	void Assign3on5MatrixTo3on3Matrix( void );
+	void Transpose1on1MatrixAndOverwriteMatrix( void );
+	void Transpose3on3MatrixAndOverwriteMatrix( void );
+	void Transpose3on5MatrixAndOverwriteMatrix( void );
+	void Transpose1on1MatrixIntoNewMatrix( void );
+	void Transpose3on3MatrixIntoNewMatrix( void );
+	void Transpose3on3MatrixIntoEmptyMatrix( void );
+	void Transpose3on5MatrixIntoNewMatrix( void );
 	void Invert1on1MatrixAndOverwriteMatrix( void );
 	void Invert3on3MatrixAndOverwriteMatrix( void );
 	void Invert3on5MatrixAndOverwriteMatrix( void );

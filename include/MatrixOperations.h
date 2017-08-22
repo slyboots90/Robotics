@@ -26,7 +26,6 @@ public:
 	static void subtraction( Matrix & , const Matrix & , const Matrix & );
 	//TODO Following implementation needed
 	static void transposition( Matrix & , const Matrix & );
-	static void transposition( Matrix & );
 	static int determinant( const Matrix & ); //return float?
 	static void inverse( Matrix & , const Matrix & );
 	static void inverse( Matrix & );

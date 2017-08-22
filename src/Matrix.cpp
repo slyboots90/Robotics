@@ -30,7 +30,7 @@ Matrix::~Matrix() {
 
 }
 
-bool Matrix::isEmpty() const {
+bool Matrix::isEmpty( void ) const {
 	if ( this->getColumnsNo() || this->getRowsNo() ) {
 		return 0;
 	}
@@ -63,7 +63,7 @@ void Matrix::allocateMatrixVectors( unsigned int no_of_rows , unsigned int no_of
 	}
 }
 
-void Matrix::allocateVectorInVector( ) {
+void Matrix::allocateVectorInVector( void ) {
 	vector < int > allocation_vector;
 	matrixData->push_back( allocation_vector );
 }
@@ -84,7 +84,7 @@ bool Matrix::verifyColumnIndex( unsigned int column_index ) const {
 	return 0;
 }
 
-void Matrix::printMatrix() {
+void Matrix::printMatrix( void ) {
 	printf( "\n" );
 	for ( unsigned i = 0 ; i < matrixData->size() ; i++ ) {
 		printf( "|" );
@@ -96,7 +96,7 @@ void Matrix::printMatrix() {
 	printf( "\n" );
 }
 
-void Matrix::addRow() {
+void Matrix::addRow( void ) {
 	this->allocateVectorInVector( );
 	vector < vector < int > >::iterator it = matrixData->end();
 	it--;																// Iterator set on new added row
@@ -145,7 +145,7 @@ bool Matrix::fillRowWithData( vector < int > * data_ptr , unsigned int row_index
 	return 1;
 }
 
-unsigned int Matrix::getRowsNo() const {
+unsigned int Matrix::getRowsNo( void ) const {
 	if ( matrixData->empty() ) return 0;
 	return matrixData->size();
 }
@@ -161,7 +161,7 @@ const vector< int > * Matrix::getRow( unsigned int index ) const {
 	return & matrixData->at( index );
 }
 
-void Matrix::addColumn() {
+void Matrix::addColumn( void ) {
 	if ( matrixData->empty() ) {
 		this->addRow();
 	} else {
@@ -213,7 +213,7 @@ bool Matrix::fillColumnWithData( vector < int > * data_ptr , unsigned int column
 	return 1;
 }
 
-unsigned int Matrix::getColumnsNo() const {
+unsigned int Matrix::getColumnsNo( void ) const {
 	if ( matrixData->empty() ) return 0;
 	return matrixData->begin()->size();
 }
@@ -241,6 +241,7 @@ shared_ptr < Matrix > Matrix::operator *( const Matrix & argument ) {
 		MatrixOperations::multiplication( * result , * this , argument );
 	} else {
 		printf( "ERROR: Cannot multiple - size of Matrix doesn't match!\n" );
+		return NULL;
 	}
 	return result;
 }
@@ -251,6 +252,7 @@ shared_ptr < Matrix > Matrix::operator *( int argument ) {
 		MatrixOperations::scalarmultiplication( * result , * this , argument );
 	} else {
 		printf( "ERROR: Cannot multiple - Matrix is empty!\n" );
+		return NULL;
 	}
 	return result;
 }
@@ -269,6 +271,7 @@ shared_ptr < Matrix > Matrix::operator +( const Matrix & argument ) {
 		MatrixOperations::addition( * result , * this , argument );
 	} else {
 		printf( "ERROR: Cannot add - size of Matrix doesn't match!\n" );
+		return NULL;
 	}
 	return result;
 }
@@ -279,11 +282,12 @@ shared_ptr < Matrix > Matrix::operator -( const Matrix & argument ) {
 		MatrixOperations::subtraction( * result , * this , argument );
 	} else {
 		printf( "ERROR: Cannot subtract - size of Matrix doesn't match!\n" );
+		return NULL;
 	}
 	return result;
 }
 
-int Matrix::det() {
+int Matrix::det( void ) {
 	if ( ! this->isEmpty() ) {
 		return MatrixOperations::determinant( * this );
 	} else {
@@ -291,3 +295,25 @@ int Matrix::det() {
 	}
 	return 0;
 }
+
+void Matrix::transIntra( void ) {
+	shared_ptr < Matrix > result ( new Matrix( ) );
+	if ( ! this->isEmpty() ) {
+		MatrixOperations::transposition( * result , * this );
+		this->matrixDataPtr = result->matrixDataPtr;
+	} else {
+		printf( "ERROR: Cannot transposing - Matrix is empty!\n" );
+	}
+}
+
+shared_ptr < Matrix > Matrix::transInter( void ) {
+	shared_ptr < Matrix > result ( new Matrix( ) );
+	if ( ! this->isEmpty() ) {
+		MatrixOperations::transposition( * result , * this );
+	} else {
+		printf( "ERROR: Cannot transposing - Matrix is empty!\n" );
+		return NULL;
+	}
+	return result;
+}
+

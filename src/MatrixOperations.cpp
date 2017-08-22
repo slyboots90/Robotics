@@ -133,6 +133,24 @@ void MatrixOperations::subtraction( Matrix & difference , const Matrix & minuend
 		}
 }
 
-int MatrixOperations::determinant( const Matrix & base ) {
+void MatrixOperations::transposition( Matrix & matrix_base_T, const Matrix & matrix_base) {
+	const vector < int > * matrix_base_row_pointer = NULL;
+	if ( ! matrix_base.isEmpty() ) {
+		for ( unsigned int i = 0 ; i < matrix_base.getRowsNo() ; i++ ) {
+			vector < int > temporary_vector;
+			matrix_base_row_pointer = matrix_base.getRow( i );
+			if ( matrix_base_row_pointer == NULL ) {
+				printf( "Fail to get Row from Matrix\n" );
+				break;
+			}
+			for ( unsigned int j = 0 ; j < matrix_base.getColumnsNo() ; j++ ) {
+				temporary_vector.push_back( matrix_base_row_pointer->at( j ) );
+			}
+			matrix_base_T.addColumnWithData( & temporary_vector );
+		}
+	}
+}
 
+int MatrixOperations::determinant( const Matrix & base ) {
+	return 0;
 }
