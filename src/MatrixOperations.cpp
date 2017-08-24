@@ -159,22 +159,14 @@ int MatrixOperations::determinant( const Matrix & base ) {
 		return 0;
 	}
 	if ( base.isSquareSize( ) ) {
-		int base_size = base.getRowsNo( );
-		switch ( base_size ) {
-			case 1: {
-				const vector < int > * rp = base.getRow( 0 );
-				return rp->at( 0 );
-			}
-			case 2: {
-				const vector < int > * rpt = base.getRow( 0 );
-				const vector < int > * rpb = base.getRow( 1 );
-				return rpt->at( 0 ) * rpb->at( 1 ) - rpb->at( 0 ) * rpt->at( 1 );
-			}
+		switch ( base.getRowsNo( ) ) {
+			case 1:
+			case 2:
+				return smallDetCalculation( base );
 			case 3: {
 				detSarrusMethodFunWay( base );
 				return detSarrusMethod( base );
 			}
-
 			default:
 				return detLaplaceMethod( base );
 		}
@@ -184,7 +176,16 @@ int MatrixOperations::determinant( const Matrix & base ) {
 	return 0;
 }
 
-
+int MatrixOperations::smallDetCalculation( const Matrix & base ) {
+	if ( base.getRowsNo( ) == 1 ) {
+		const vector < int > * rp = base.getRow( 0 );
+		return rp->at( 0 );
+	} else {
+		const vector < int > * rpt = base.getRow( 0 );
+		const vector < int > * rpb = base.getRow( 1 );
+		return rpt->at( 0 ) * rpb->at( 1 ) - rpb->at( 0 ) * rpt->at( 1 );
+	}
+}
 
 int MatrixOperations::detSarrusMethod( const Matrix & base ) {
 	const vector < int > * rpt = base.getRow( 0 );
@@ -209,7 +210,7 @@ void MatrixOperations::detSarrusMethodFunWay( const Matrix & base ) {
 	for ( unsigned int i = 0 ; i < 2 ; i++ ) {
 		vector < const int * > pointers_to_column;
 		vector < int > new_column;
-		base.getColumn( &pointers_to_column , i );
+		base.getColumn( & pointers_to_column , i );
 		for ( unsigned int j = 0 ; j < pointers_to_column.size() ; j++ ) {
 			new_column.push_back( * pointers_to_column.at( j ) );
 		}
@@ -257,9 +258,9 @@ void MatrixOperations::createSubMatrix( const Matrix & base , Matrix & subMatrix
 		vector < int > * insert_column = new vector < int >;
 		base.getColumn( & column_ptr , i );
 		vector < const int * >::iterator it = column_ptr.begin();
-		for ( unsigned int j = 0 ; j < row ; j++) it++;
+		for ( unsigned int j = 0 ; j < row ; j++ ) it++;
 		column_ptr.erase( it );
-		for ( unsigned int j = 0 ; j < column_ptr.size() ; j++) {
+		for ( unsigned int j = 0 ; j < column_ptr.size() ; j++ ) {
 			//TODO avoid copy
 			insert_column->push_back( * column_ptr.at( j ) );
 		}

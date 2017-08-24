@@ -15,6 +15,7 @@ using namespace std;
 class MatrixOperations {
 
 	static int vectorMultiplication( const vector< int > * , vector< const int * > * );
+	static int smallDetCalculation( const Matrix & base );
 	static int detSarrusMethod( const Matrix & );
 	static void detSarrusMethodFunWay( const Matrix & );
 	static int detLaplaceMethod( const Matrix & );
