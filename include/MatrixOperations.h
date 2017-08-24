@@ -15,6 +15,11 @@ using namespace std;
 class MatrixOperations {
 
 	static int vectorMultiplication( const vector< int > * , vector< const int * > * );
+	static int detSarrusMethod( const Matrix & );
+	static void detSarrusMethodFunWay( const Matrix & );
+	static int detLaplaceMethod( const Matrix & );
+	static int detGaussMethod( const Matrix & );
+	static void createSubMatrix( const Matrix & , Matrix & , unsigned int , unsigned int );
 
 public:
 	MatrixOperations();
@@ -24,12 +29,12 @@ public:
 	static void scalarmultiplication( Matrix & , int );
 	static void addition( Matrix & , const Matrix & , const Matrix & );
 	static void subtraction( Matrix & , const Matrix & , const Matrix & );
-	//TODO Following implementation needed
 	static void transposition( Matrix & , const Matrix & );
-	static int determinant( const Matrix & ); //return float?
+	//TODO Following implementation needed
+	static int determinant( const Matrix & );
 	static void inverse( Matrix & , const Matrix & );
 	static void inverse( Matrix & );
-	static void minor();
+	static unsigned int rank( const Matrix & );
 
 };
 

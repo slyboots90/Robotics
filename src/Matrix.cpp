@@ -51,6 +51,12 @@ bool Matrix::isColumnsNoEqualRowsNo( const Matrix & argument ) const {
 	return 0;
 }
 
+bool Matrix::isSquareSize( void ) const {
+	if ( this->getRowsNo() == this->getColumnsNo() ) {
+			return 1;
+	}
+	return 0;
+}
 
 void Matrix::allocateMatrixVectors( unsigned int no_of_rows , unsigned int no_of_colums ) {
 	for ( unsigned int i = 0 ; i < no_of_rows ; i++ ) {
@@ -218,7 +224,7 @@ unsigned int Matrix::getColumnsNo( void ) const {
 	return matrixData->begin()->size();
 }
 
-bool Matrix::getColumn( vector< const int * > * column_vector , unsigned int index ) const {
+bool Matrix::getColumn( vector < const int * > * column_vector , unsigned int index ) const {
 	if ( this->verifyColumnIndex( index ) ) {
 		printf( "ERROR: Cannot getColumn - index of of range\n" );
 		return 1;

@@ -27,17 +27,17 @@ void test() {
 
 	//Matrix Eva(4,3);
 	//Eva.printMatrix();
-	Matrix Adam;
+//	Matrix Adam;
 
 //	Matrix Pankracy;
 //
-	Adam.addColumn();
-	Adam.addColumn();
-	Adam.addColumn();
-	Adam.addColumn();
-	Adam.addRow();
-	Adam.addRow();
-	Adam.addRow();
+//	Adam.addColumn();
+//	Adam.addColumn();
+//	Adam.addColumn();
+//	Adam.addColumn();
+//	Adam.addRow();
+//	Adam.addRow();
+//	Adam.addRow();
 
 //
 //	Pankracy.addColumn();
@@ -46,25 +46,39 @@ void test() {
 //	Pankracy.addRow();
 //	Pankracy.addRow();
 //
-//	vector<int> a1, a2, a3, a4;
+	vector<int> a1, a2, a3, a4, a5;
 	vector<int> b1, b2, b3;
 	vector<int> c1, c2, c3;
-//
-//	a1.push_back(7);
-//	a1.push_back(5);
-//	a1.push_back(8);
-//
-//	a2.push_back(4);
-//	a2.push_back(2);
-//	a2.push_back(1);
-//
-//	a3.push_back(9);
-//	a3.push_back(0);
-//	a3.push_back(2);
-//
-//	a4.push_back(6);
-//	a4.push_back(4);
-//	a4.push_back(8);
+
+	a1.push_back(7);
+	a1.push_back(5);
+	a1.push_back(8);
+	a1.push_back(6);
+	a1.push_back(2);
+
+	a2.push_back(4);
+	a2.push_back(2);
+	a2.push_back(1);
+	a2.push_back(12);
+	a2.push_back(33);
+
+	a3.push_back(9);
+	a3.push_back(0);
+	a3.push_back(2);
+	a3.push_back(7);
+	a3.push_back(23);
+
+	a4.push_back(14);
+	a4.push_back(16);
+	a4.push_back(6);
+	a4.push_back(4);
+	a4.push_back(8);
+
+	a5.push_back(7);
+	a5.push_back(5);
+	a5.push_back(80);
+	a5.push_back(6);
+	a5.push_back(2);
 //
 	b1.push_back(3);
 	b1.push_back(9);
@@ -101,11 +115,11 @@ void test() {
 //	Eva.fillRowWithData(&a3, 2);
 //	Eva.fillRowWithData(&a4, 3);
 //
-	Adam.fillRowWithData(&b1, 0);
-	Adam.fillRowWithData(&b2, 1);
-	Adam.fillRowWithData(&b3, 2);
-	Adam.fillRowWithData(&b1, 3);
-//
+//	Adam.fillRowWithData(&b1, 0);
+//	Adam.fillRowWithData(&b2, 1);
+//	Adam.fillRowWithData(&b3, 2);
+//	Adam.fillRowWithData(&b1, 3);
+////
 //	Pankracy.fillRowWithData(&c1, 0);
 //	Pankracy.fillRowWithData(&c2, 1);
 //	Pankracy.fillRowWithData(&c3, 2);
@@ -118,27 +132,31 @@ void test() {
 	//cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
 
 
-	Matrix Ziom(4,4);
+	//Matrix Ziom(4,4);
 	//Ziom.fillRowWithData(&c3, 0);
 	//Ziom.printMatrix();
 	//Ziom = Eva * Adam;
 	//Pankracy + Adam;
 	{
-		Matrix rrrr(4,4);
-		rrrr.fillRowWithData(&c1, 0);
-		rrrr.fillRowWithData(&c2, 1);
-		rrrr.fillRowWithData(&c3, 2);
+		Matrix rrrr(5,5);
+		rrrr.fillRowWithData(&a1, 0);
+		rrrr.fillRowWithData(&a2, 1);
+		rrrr.fillRowWithData(&a3, 2);
+		rrrr.fillRowWithData(&a4, 3);
+		rrrr.fillRowWithData(&a5, 4);
 		rrrr.printMatrix();
+#include <stdio.h>
+		printf ("Det : %d \n" , rrrr.det() );
 		//Adam.printMatrix();
 		//Ziom = rrrr - Adam;
 		//Ziom = rrrr + Adam;
 		//Ziom = rrrr * Adam;
 		//Ziom.printMatrix();
-		Ziom =  rrrr * 2;
+		//Ziom =  rrrr * 2;
 	}
 
 
-	Ziom.printMatrix();
+	//Ziom.printMatrix();
 	//{
 	//	Matrix Maciek(4,4);
 	//}

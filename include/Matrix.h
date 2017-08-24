@@ -20,6 +20,7 @@ class Matrix {
 	bool isEmpty( void ) const;
 	bool isEqualSize( const Matrix & ) const;
 	bool isColumnsNoEqualRowsNo( const Matrix & ) const;
+	bool isSquareSize( void ) const;
 	void allocateMatrixVectors( unsigned int , unsigned int );
 	void allocateVectorInVector( void );
 	bool verifyRowIndex( unsigned int ) const;
