@@ -76,7 +76,7 @@ void test() {
 
 	a5.push_back(7);
 	a5.push_back(5);
-	a5.push_back(80);
+	a5.push_back(8);
 	a5.push_back(6);
 	a5.push_back(2);
 //
@@ -144,9 +144,10 @@ void test() {
 		rrrr.fillRowWithData(&a3, 2);
 		rrrr.fillRowWithData(&a4, 3);
 		rrrr.fillRowWithData(&a5, 4);
-		rrrr.printMatrix();
+		//rrrr.printMatrix();
 #include <stdio.h>
-		printf ("Det : %d \n" , rrrr.det() );
+		//printf ("Det : %d \n" , rrrr.det() );
+		//printf ("rank : %d \n" , rrrr.rank() );
 		//Adam.printMatrix();
 		//Ziom = rrrr - Adam;
 		//Ziom = rrrr + Adam;
@@ -154,8 +155,19 @@ void test() {
 		//Ziom.printMatrix();
 		//Ziom =  rrrr * 2;
 	}
-
-
+	Matrix s(5,5);
+	int tab0[5] = { 4 ,  3 ,-5, 2, 3};
+	int tab1[5] = {8 ,6 ,-7, 4, 2};
+	int tab2[5] = {4 ,3 ,-8, 2, 7};
+	int tab3[5] = {4 ,3 ,1 ,2, -5};
+	int tab4[5] = {8 ,6 ,-1 ,4, -6};
+	s.fillRowWithData(tab0, 0);
+	s.fillRowWithData(tab1, 1);
+	s.fillRowWithData(tab2, 2);
+	s.fillRowWithData(tab3, 3);
+	s.fillRowWithData(tab4, 4);
+	s.printMatrix();
+	printf ("rank : %d \n" , s.rank() );
 	//Ziom.printMatrix();
 	//{
 	//	Matrix Maciek(4,4);

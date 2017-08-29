@@ -12,7 +12,7 @@
 #define matrixData matrixDataPtr.get()
 
 
-Matrix::Matrix() {
+Matrix::Matrix( ) {
 	matrixDataPtr = shared_ptr < vector < vector < int > > > ( new vector < vector < int > > );
 	this->allocateMatrixVectors( 0 , 0 );
 }
@@ -24,6 +24,16 @@ Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) {
 	}
 	matrixDataPtr = shared_ptr < vector < vector < int > > > ( new vector < vector < int > > );
 	this->allocateMatrixVectors( no_of_rows , no_of_colums );
+}
+
+Matrix::Matrix( const Matrix & base_M ) {
+	matrixDataPtr = shared_ptr < vector < vector < int > > > ( new vector < vector < int > > );
+	this->allocateMatrixVectors( base_M.getRowsNo() , base_M.getColumnsNo() );
+	for ( unsigned int i = 0 ; i < base_M.getRowsNo() ; i++ ) {
+		for ( unsigned int j = 0 ; j < base_M.getColumnsNo() ; j++ ) {
+			this->matrixDataPtr->at( i ).at( j ) = base_M.matrixDataPtr->at( i ).at( j );
+		}
+	}
 }
 
 Matrix::~Matrix() {
@@ -90,7 +100,7 @@ bool Matrix::verifyColumnIndex( unsigned int column_index ) const {
 	return 0;
 }
 
-void Matrix::printMatrix( void ) {
+void Matrix::printMatrix( void ) const {
 	printf( "\n" );
 	for ( unsigned i = 0 ; i < matrixData->size() ; i++ ) {
 		printf( "|" );
@@ -238,7 +248,7 @@ bool Matrix::getColumn( vector < const int * > * column_vector , unsigned int in
 }
 
 void Matrix::operator =( shared_ptr < Matrix > argument ) {
-	this->matrixDataPtr = argument->matrixDataPtr;
+	this->copyData( argument );
 }
 
 shared_ptr < Matrix > Matrix::operator *( const Matrix & argument ) {
@@ -302,6 +312,15 @@ int Matrix::det( void ) {
 	return 0;
 }
 
+unsigned int Matrix::rank( void ) {
+	if ( ! this->isEmpty() ) {
+		return MatrixOperations::rank( * this );
+	} else {
+		printf( "ERROR: Cannot calculate rank - Matrix is empty!\n" );
+	}
+	return 0;
+}
+
 void Matrix::transIntra( void ) {
 	shared_ptr < Matrix > result ( new Matrix( ) );
 	if ( ! this->isEmpty() ) {
@@ -321,5 +340,15 @@ shared_ptr < Matrix > Matrix::transInter( void ) {
 		return NULL;
 	}
 	return result;
+}
+
+void Matrix::copyData( shared_ptr < Matrix > base_M ) {
+	this->matrixDataPtr = shared_ptr < vector < vector < int > > > ( new vector < vector < int > > );
+	this->allocateMatrixVectors( base_M->getRowsNo() , base_M->getColumnsNo() );
+	for ( unsigned int i = 0 ; i < base_M->getRowsNo() ; i++ ) {
+		for ( unsigned int j = 0 ; j < base_M->getColumnsNo() ; j++ ) {
+			this->matrixDataPtr->at( i ).at( j ) = base_M->matrixDataPtr->at( i ).at( j );
+		}
+	}
 }
 

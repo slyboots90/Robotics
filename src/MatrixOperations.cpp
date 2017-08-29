@@ -135,62 +135,64 @@ void MatrixOperations::subtraction( Matrix & difference , const Matrix & minuend
 		}
 }
 
-void MatrixOperations::transposition( Matrix & matrix_base_T, const Matrix & matrix_base ) {
+void MatrixOperations::transposition( Matrix & base_MT, const Matrix & base_M ) {
 	const vector < int > * matrix_base_row_pointer = NULL;
-	if ( ! matrix_base.isEmpty() ) {
-		for ( unsigned int i = 0 ; i < matrix_base.getRowsNo() ; i++ ) {
+	if ( ! base_M.isEmpty() ) {
+		for ( unsigned int i = 0 ; i < base_M.getRowsNo() ; i++ ) {
 			vector < int > temporary_vector;
-			matrix_base_row_pointer = matrix_base.getRow( i );
+			matrix_base_row_pointer = base_M.getRow( i );
 			if ( matrix_base_row_pointer == NULL ) {
 				printf( "Fail to get Row from Matrix\n" );
 				break;
 			}
-			for ( unsigned int j = 0 ; j < matrix_base.getColumnsNo() ; j++ ) {
+			for ( unsigned int j = 0 ; j < base_M.getColumnsNo() ; j++ ) {
 				temporary_vector.push_back( matrix_base_row_pointer->at( j ) );
 			}
-			matrix_base_T.addColumnWithData( & temporary_vector );
+			base_MT.addColumnWithData( & temporary_vector );
 		}
 	}
 }
 
-int MatrixOperations::determinant( const Matrix & base ) {
-	if ( base.isEmpty( ) ) {
+int MatrixOperations::determinant( const Matrix & base_M ) {
+	if ( base_M.isEmpty( ) ) {
 		printf( "Fail to calculate determinant, Matrix is empty\n" );
 		return 0;
 	}
-	if ( base.isSquareSize( ) ) {
-		switch ( base.getRowsNo( ) ) {
+	if ( base_M.isSquareSize( ) ) {
+		switch ( base_M.getRowsNo( ) ) {
 			case 1:
-			case 2:
-				return smallDetCalculation( base );
+			case 2: {
+				return smallDetCalculation( base_M );
+			}
 			case 3: {
-				detSarrusMethodFunWay( base );
-				return detSarrusMethod( base );
+				//detSarrusMethodFunWay( base_M );
+				return detSarrusMethod( base_M );
 			}
 			default:
-				return detLaplaceMethod( base );
+				return detLaplaceMethod( base_M );
 		}
 	} else {
-		printf( "Fail to calculate determinant, Matrix isn't square size\n" );
+		printf( "Fail to calculate determinant, Matrix isn't square size: %dx%d\n" , base_M.getRowsNo() , base_M.getColumnsNo() );
+		base_M.printMatrix();
 	}
 	return 0;
 }
 
-int MatrixOperations::smallDetCalculation( const Matrix & base ) {
-	if ( base.getRowsNo( ) == 1 ) {
-		const vector < int > * rp = base.getRow( 0 );
+int MatrixOperations::smallDetCalculation( const Matrix & base_M ) {
+	if ( base_M.getRowsNo( ) == 1 ) {
+		const vector < int > * rp = base_M.getRow( 0 );
 		return rp->at( 0 );
 	} else {
-		const vector < int > * rpt = base.getRow( 0 );
-		const vector < int > * rpb = base.getRow( 1 );
+		const vector < int > * rpt = base_M.getRow( 0 );
+		const vector < int > * rpb = base_M.getRow( 1 );
 		return rpt->at( 0 ) * rpb->at( 1 ) - rpb->at( 0 ) * rpt->at( 1 );
 	}
 }
 
-int MatrixOperations::detSarrusMethod( const Matrix & base ) {
-	const vector < int > * rpt = base.getRow( 0 );
-	const vector < int > * rpm = base.getRow( 1 );
-	const vector < int > * rpb = base.getRow( 2 );
+int MatrixOperations::detSarrusMethod( const Matrix & base_M ) {
+	const vector < int > * rpt = base_M.getRow( 0 );
+	const vector < int > * rpm = base_M.getRow( 1 );
+	const vector < int > * rpb = base_M.getRow( 2 );
 	// a11a22a33+a12a23a31+a13a21a32-(a13a22a31+a11a23a32+a12a21a33)
 	int product_a = 0 , product_b = 0 , product_c = 0;
 	product_a = rpt->at( 0 ) * rpm->at( 1 ) * rpb->at( 2 );
@@ -204,13 +206,12 @@ int MatrixOperations::detSarrusMethod( const Matrix & base ) {
 	return minuend - subtrahend;
 }
 
-void MatrixOperations::detSarrusMethodFunWay( const Matrix & base ) {
-	shared_ptr < Matrix > subMatrix ( new Matrix( ) );
-	subMatrix->matrixDataPtr = base.matrixDataPtr;
+void MatrixOperations::detSarrusMethodFunWay( const Matrix & base_M ) {
+	shared_ptr < Matrix > subMatrix ( new Matrix( base_M ) );
 	for ( unsigned int i = 0 ; i < 2 ; i++ ) {
 		vector < const int * > pointers_to_column;
 		vector < int > new_column;
-		base.getColumn( & pointers_to_column , i );
+		base_M.getColumn( & pointers_to_column , i );
 		for ( unsigned int j = 0 ; j < pointers_to_column.size() ; j++ ) {
 			new_column.push_back( * pointers_to_column.at( j ) );
 		}
@@ -235,15 +236,15 @@ void MatrixOperations::detSarrusMethodFunWay( const Matrix & base ) {
 	printf ( "Det FunWay = %d\n" , sub_sum1 - sub_sum2 );
 }
 
-int MatrixOperations::detLaplaceMethod( const Matrix & base ) {
+int MatrixOperations::detLaplaceMethod( const Matrix & base_M ) {
 	unsigned int row = 0;
 	int det = 0 , minor = 0;
-	const vector < int > * main_row = base.getRow( row );
+	const vector < int > * main_row = base_M.getRow( row );
 	//TODO very slow operation
-	Matrix * subMatrix = new Matrix( base.getRowsNo() - 1 , base.getColumnsNo() - 1 );
+	Matrix * subMatrix = new Matrix( base_M.getRowsNo() - 1 , base_M.getColumnsNo() - 1 );
 	//det A = (-1)1+1 × a11 × M1,1 + (-1)1+2 × a12 × M1,2 + (-1)1+3 × a13 × M1,3 + n...
-	for ( unsigned int i = 0 ; i < base.getColumnsNo() ; i++ ) {
-		createSubMatrix( base , * subMatrix , row , i );
+	for ( unsigned int i = 0 ; i < base_M.getColumnsNo() ; i++ ) {
+		createSubMatrix( base_M , * subMatrix , row , i );
 		subMatrix->getColumnsNo() == 3 ? minor = detSarrusMethod( * subMatrix ) : minor = detLaplaceMethod( * subMatrix );
 		det += pow( -1 , row + i ) * main_row->at( i ) * minor;
 	}
@@ -251,12 +252,12 @@ int MatrixOperations::detLaplaceMethod( const Matrix & base ) {
 	return det;
 }
 
-void MatrixOperations::createSubMatrix( const Matrix & base , Matrix & subMatrix , unsigned int row , unsigned int column ) {
-	for ( unsigned int i = 0 , j = 0 ; i < base.getColumnsNo() ; i++ ) {
+void MatrixOperations::createSubMatrix( const Matrix & base_M , Matrix & subMatrix , unsigned int row , unsigned int column ) {
+	for ( unsigned int i = 0 , j = 0 ; i < base_M.getColumnsNo() ; i++ ) {
 		if ( i == column ) continue;
 		vector < const int * > column_ptr;
 		vector < int > * insert_column = new vector < int >;
-		base.getColumn( & column_ptr , i );
+		base_M.getColumn( & column_ptr , i );
 		vector < const int * >::iterator it = column_ptr.begin();
 		for ( unsigned int j = 0 ; j < row ; j++ ) it++;
 		column_ptr.erase( it );
@@ -269,6 +270,30 @@ void MatrixOperations::createSubMatrix( const Matrix & base , Matrix & subMatrix
 	}
 }
 
-int MatrixOperations::detGaussMethod( const Matrix & base ) {
+int MatrixOperations::detGaussMethod( const Matrix & base_M ) {
 	//TODO
+}
+
+unsigned int MatrixOperations::rank( const Matrix & base_M ) {
+	//TODO Matrix can be not square
+	if ( determinant( base_M ) ) return base_M.getRowsNo();
+	Matrix * loopBase =  new Matrix ( base_M );
+	for ( unsigned int size = base_M.getRowsNo() ; size > 0 ; size-- ) {
+		Matrix * subMatrix = new Matrix( size - 1 , size - 1 );
+		for ( unsigned int row = 0 ; row < size ; row++ ) {
+			for ( unsigned int column = 0 ; column < size ; column++ ) {
+				createSubMatrix( * loopBase , * subMatrix , row , column );
+				if ( determinant( * subMatrix ) ) {
+					unsigned int sub_matrix_rank = subMatrix->getRowsNo();
+					delete subMatrix;
+					delete loopBase;
+					return sub_matrix_rank;
+				}
+			}
+		}
+		loopBase->matrixDataPtr = subMatrix->matrixDataPtr;			// Not sure if its ok to do it that way or just copy data. Both will be del anyway.
+		delete subMatrix;
+	}
+	delete loopBase;
+	return 0;
 }

@@ -10,12 +10,15 @@
 
 #include <vector>
 #include <memory>							// shared_ptr
+
 using namespace std;
 
 class Matrix {
 
 	friend class MatrixOperations;
 	shared_ptr < vector < vector < int > > > matrixDataPtr;
+
+	Matrix( const Matrix & base_M );
 
 	bool isEmpty( void ) const;
 	bool isEqualSize( const Matrix & ) const;
@@ -36,7 +39,7 @@ public:
 	Matrix( unsigned int , unsigned int );
 	virtual ~Matrix();
 
-	void printMatrix( void );
+	void printMatrix( void ) const;
 	// Rows
 	void addRow( void );
 	bool addRowWithData( vector < int > * );
@@ -56,8 +59,12 @@ public:
 	shared_ptr < Matrix > operator -( const Matrix & );
 	// Operations
 	int det( void );
+	unsigned int rank( void );
 	void transIntra( void );
 	shared_ptr < Matrix > transInter( void );
+
+protected:
+	void copyData( shared_ptr < Matrix > );
 };
 
 #endif /* MATRIX_H_ */

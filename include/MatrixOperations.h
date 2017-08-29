@@ -10,6 +10,7 @@
 
 #include <vector>
 #include "Matrix.h"
+
 using namespace std;
 
 class MatrixOperations {
@@ -31,11 +32,12 @@ public:
 	static void addition( Matrix & , const Matrix & , const Matrix & );
 	static void subtraction( Matrix & , const Matrix & , const Matrix & );
 	static void transposition( Matrix & , const Matrix & );
-	//TODO Following implementation needed
 	static int determinant( const Matrix & );
+	static unsigned int rank( const Matrix & );
+	//TODO Following implementation needed
 	static void inverse( Matrix & , const Matrix & );
 	static void inverse( Matrix & );
-	static unsigned int rank( const Matrix & );
+
 
 };
 
