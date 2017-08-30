@@ -325,7 +325,7 @@ void Matrix::transIntra( void ) {
 	shared_ptr < Matrix > result ( new Matrix( ) );
 	if ( ! this->isEmpty() ) {
 		MatrixOperations::transposition( * result , * this );
-		this->matrixDataPtr = result->matrixDataPtr;
+		this->copyData( result );
 	} else {
 		printf( "ERROR: Cannot transposing - Matrix is empty!\n" );
 	}

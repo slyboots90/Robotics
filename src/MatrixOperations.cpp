@@ -272,28 +272,40 @@ void MatrixOperations::createSubMatrix( const Matrix & base_M , Matrix & subMatr
 
 int MatrixOperations::detGaussMethod( const Matrix & base_M ) {
 	//TODO
+	return 0;
 }
 
 unsigned int MatrixOperations::rank( const Matrix & base_M ) {
-	//TODO Matrix can be not square
-	if ( determinant( base_M ) ) return base_M.getRowsNo();
-	Matrix * loopBase =  new Matrix ( base_M );
-	for ( unsigned int size = base_M.getRowsNo() ; size > 0 ; size-- ) {
+	if ( base_M.isEmpty() ) return 0;
+	if ( base_M.isSquareSize() ) {
+		if ( determinant( base_M ) ) return base_M.getRowsNo();
+		return subRank( base_M );
+	} else {
+		//TODO Matrix can be not square
+	}
+}
+
+unsigned int MatrixOperations::subRank( const Matrix & base_M ) {
+	unsigned int rank = 0;
+	unsigned int size = base_M.getRowsNo();
+	if ( size > 1) {
 		Matrix * subMatrix = new Matrix( size - 1 , size - 1 );
 		for ( unsigned int row = 0 ; row < size ; row++ ) {
 			for ( unsigned int column = 0 ; column < size ; column++ ) {
-				createSubMatrix( * loopBase , * subMatrix , row , column );
+				createSubMatrix( base_M , * subMatrix , row , column );
 				if ( determinant( * subMatrix ) ) {
-					unsigned int sub_matrix_rank = subMatrix->getRowsNo();
+					unsigned int return_rank = subMatrix->getRowsNo();
 					delete subMatrix;
-					delete loopBase;
-					return sub_matrix_rank;
+					return return_rank;
+				} else {
+					unsigned int tmp = subRank( * subMatrix );
+					if ( tmp > rank ) rank = tmp;
 				}
 			}
 		}
-		loopBase->matrixDataPtr = subMatrix->matrixDataPtr;			// Not sure if its ok to do it that way or just copy data. Both will be del anyway.
 		delete subMatrix;
+	} else {
+		if ( determinant( base_M ) ) return base_M.getRowsNo();
 	}
-	delete loopBase;
-	return 0;
+	return rank;
 }

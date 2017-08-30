@@ -22,6 +22,7 @@ class MatrixOperations {
 	static int detLaplaceMethod( const Matrix & );
 	static int detGaussMethod( const Matrix & );
 	static void createSubMatrix( const Matrix & , Matrix & , unsigned int , unsigned int );
+	static unsigned int subRank( const Matrix & );
 
 public:
 	MatrixOperations();

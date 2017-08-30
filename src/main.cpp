@@ -168,6 +168,34 @@ void test() {
 	s.fillRowWithData(tab4, 4);
 	s.printMatrix();
 	printf ("rank : %d \n" , s.rank() );
+
+	Matrix sr(5,5);
+	int atab0[5] = { 0 ,  3 ,-5, 2, 3};
+	int atab1[5] = {8 ,6 ,-7, 4, 2};
+	int atab2[5] = {0 ,0 ,0, 3, 0};
+	int atab3[5] = {4 ,3 ,1 ,2, -5};
+	int atab4[5] = {8 ,6 ,-1 ,4, -6};
+
+	sr.fillRowWithData(atab2, 2);
+
+	sr.printMatrix();
+	printf ("rank : %d \n" , sr.rank() );
+
+	Matrix srb(5,5);
+	int abtab0[5] = { 1 ,  0 ,1, 0, 0};
+	int abtab1[5] = {0 ,0 ,0, 1, 0};
+	int abtab2[5] = {0 ,1 ,0, 0, 0};
+	int abtab3[5] = {0 ,0 ,0 ,0, 0};
+	int abtab4[5] = {1 ,0 ,0 ,0, 1};
+
+	srb.fillRowWithData(abtab0, 0);
+	srb.fillRowWithData(abtab1, 1);
+	srb.fillRowWithData(abtab2, 2);
+	srb.fillRowWithData(abtab3, 3);
+	srb.fillRowWithData(abtab4, 4);
+
+	srb.printMatrix();
+	printf ("rank : %d \n" , srb.rank() );
 	//Ziom.printMatrix();
 	//{
 	//	Matrix Maciek(4,4);
