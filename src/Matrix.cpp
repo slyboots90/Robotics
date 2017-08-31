@@ -161,6 +161,24 @@ bool Matrix::fillRowWithData( vector < int > * data_ptr , unsigned int row_index
 	return 1;
 }
 
+void Matrix::eraseRow( unsigned int index ) {
+	if( this->isEmpty() ) {
+		printf( "ERROR: Cannot cut row - Matrix is empty!\n" );
+		return;
+	}
+	if ( index > this->getRowsNo() - 1 ) {
+		printf( "ERROR: Cannot cut row - Index out of Matrix!\n" );
+		return;
+	}
+	vector < vector < int > >::iterator it = matrixData->begin();
+	for ( unsigned int i = 0 ; it != matrixData->end() ; ++it , i++ ) {
+		if ( i == index ) {
+			matrixData->erase( it );
+			return;
+		}
+	}
+}
+
 unsigned int Matrix::getRowsNo( void ) const {
 	if ( matrixData->empty() ) return 0;
 	return matrixData->size();
@@ -227,6 +245,27 @@ bool Matrix::fillColumnWithData( vector < int > * data_ptr , unsigned int column
 	}
 	printf ( "Cannot fill: Unexpected error, while filling Column\n" );
 	return 1;
+}
+
+void Matrix::eraseColumn( unsigned int index ) {
+	if( this->isEmpty() ) {
+		printf( "ERROR: Cannot cut column - Matrix is empty!\n" );
+		return;
+	}
+	if ( index > this->getColumnsNo() - 1 ) {
+		printf( "ERROR: Cannot cut column - Index out of Matrix!\n" );
+		return;
+	}
+	vector < vector < int > >::iterator it_row = matrixData->begin();
+	for ( ; it_row != matrixData->end() ; ++it_row ) {
+		vector < int >::iterator it_col = it_row->begin();
+		for ( unsigned int i = 0 ; it_col != it_row->end() ; ++it_col , i++ ) {
+			if ( i == index ) {
+				it_row->erase( it_col );
+				break;
+			}
+		}
+	}
 }
 
 unsigned int Matrix::getColumnsNo( void ) const {
@@ -351,4 +390,3 @@ void Matrix::copyData( shared_ptr < Matrix > base_M ) {
 		}
 	}
 }
-

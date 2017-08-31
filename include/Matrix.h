@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <memory>							// shared_ptr
+#include "../include/Timer.h"
 
 using namespace std;
 
@@ -45,11 +46,13 @@ public:
 	bool addRowWithData( vector < int > * );
 	bool fillRowWithData( int * , unsigned int );
 	bool fillRowWithData( vector < int > * , unsigned int );
+	void eraseRow( unsigned int );
 	// Columns
 	void addColumn( void );
 	bool addColumnWithData( vector < int > * );
 	bool fillColumnWithData( int * , unsigned int );
 	bool fillColumnWithData( vector < int > * , unsigned int );
+	void eraseColumn( unsigned int );
 	// Operators
 	void operator =( shared_ptr < Matrix > );
 	shared_ptr < Matrix > operator *( const Matrix & );
@@ -65,6 +68,7 @@ public:
 
 protected:
 	void copyData( shared_ptr < Matrix > );
+
 };
 
 #endif /* MATRIX_H_ */

@@ -9,6 +9,7 @@
 #include <iostream>
 #include "../include/Matrix.h"
 #include "../include/MatrixTest.h"
+#include "../include/Timer.h"
 
 using namespace std;
 
@@ -131,7 +132,7 @@ void test() {
 	//cout << "Eva dimensionX: " << (int) Eva.verifyMatrixDimensionX() << " Eva dimensionY: " << (int) Eva.verifyMatrixDimensionY() << endl;
 	//cout << "Adam dimensionX: " << (int) Adam.verifyMatrixDimensionX() << " Adam dimensionY: " << (int) Adam.verifyMatrixDimensionY() << endl;
 
-
+	Timer * a = new Timer;
 	//Matrix Ziom(4,4);
 	//Ziom.fillRowWithData(&c3, 0);
 	//Ziom.printMatrix();
@@ -155,6 +156,8 @@ void test() {
 		//Ziom.printMatrix();
 		//Ziom =  rrrr * 2;
 	}
+	delete a;
+	Timer * ax = new Timer;
 	Matrix s(5,5);
 	int tab0[5] = { 4 ,  3 ,-5, 2, 3};
 	int tab1[5] = {8 ,6 ,-7, 4, 2};
@@ -168,7 +171,8 @@ void test() {
 	s.fillRowWithData(tab4, 4);
 	s.printMatrix();
 	printf ("rank : %d \n" , s.rank() );
-
+	delete ax;
+	Timer * ac = new Timer;
 	Matrix sr(5,5);
 	int atab0[5] = { 0 ,  3 ,-5, 2, 3};
 	int atab1[5] = {8 ,6 ,-7, 4, 2};
@@ -180,7 +184,8 @@ void test() {
 
 	sr.printMatrix();
 	printf ("rank : %d \n" , sr.rank() );
-
+	delete ac;
+	Timer * av = new Timer;
 	Matrix srb(5,5);
 	int abtab0[5] = { 1 ,  0 ,1, 0, 0};
 	int abtab1[5] = {0 ,0 ,0, 1, 0};
@@ -196,6 +201,20 @@ void test() {
 
 	srb.printMatrix();
 	printf ("rank : %d \n" , srb.rank() );
+	delete av;
+	Timer * ab = new Timer;
+	srb.eraseRow( 3 );
+	srb.printMatrix();
+	srb.eraseRow( 3 );
+	srb.printMatrix();
+	srb.eraseColumn( 3 );
+	srb.printMatrix();
+
+	delete ab;
+
+	Matrix srbs;
+	srbs.eraseRow( 3 );
+	srbs.eraseColumn( 3 );
 	//Ziom.printMatrix();
 	//{
 	//	Matrix Maciek(4,4);

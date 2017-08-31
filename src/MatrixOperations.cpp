@@ -240,7 +240,6 @@ int MatrixOperations::detLaplaceMethod( const Matrix & base_M ) {
 	unsigned int row = 0;
 	int det = 0 , minor = 0;
 	const vector < int > * main_row = base_M.getRow( row );
-	//TODO very slow operation
 	Matrix * subMatrix = new Matrix( base_M.getRowsNo() - 1 , base_M.getColumnsNo() - 1 );
 	//det A = (-1)1+1 × a11 × M1,1 + (-1)1+2 × a12 × M1,2 + (-1)1+3 × a13 × M1,3 + n...
 	for ( unsigned int i = 0 ; i < base_M.getColumnsNo() ; i++ ) {
@@ -275,20 +274,29 @@ int MatrixOperations::detGaussMethod( const Matrix & base_M ) {
 	return 0;
 }
 
+
+
+
 unsigned int MatrixOperations::rank( const Matrix & base_M ) {
+
 	if ( base_M.isEmpty() ) return 0;
 	if ( base_M.isSquareSize() ) {
 		if ( determinant( base_M ) ) return base_M.getRowsNo();
 		return subRank( base_M );
 	} else {
 		//TODO Matrix can be not square
+		// 1. Wyznacz wszstkie kwadratowe podmacierze
+		// 2. sprawdz wyznacznik tych macierzy jesli niezerowy to zwroc
+		// 3. wywolaj subRank i przechowoj najwieksza wartosc
+
 	}
 }
 
 unsigned int MatrixOperations::subRank( const Matrix & base_M ) {
+
 	unsigned int rank = 0;
 	unsigned int size = base_M.getRowsNo();
-	if ( size > 1) {
+	if ( size > 1 ) {
 		Matrix * subMatrix = new Matrix( size - 1 , size - 1 );
 		for ( unsigned int row = 0 ; row < size ; row++ ) {
 			for ( unsigned int column = 0 ; column < size ; column++ ) {
