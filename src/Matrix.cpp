@@ -124,6 +124,7 @@ void Matrix::addRow( void ) {
 }
 
 bool Matrix::addRowWithData( vector < int > * data_ptr ) {
+	if ( data_ptr == NULL ) return 1;
 	if ( ! matrixData->empty() ) {
 		this->addRow();
 	} else {
@@ -133,6 +134,7 @@ bool Matrix::addRowWithData( vector < int > * data_ptr ) {
 }
 
 bool Matrix::fillRowWithData( int * data_ptr , unsigned int row_index ) {
+	if ( data_ptr == NULL ) return 1;
 	if ( this->verifyRowIndex( row_index ) ) {
 		return 1;
 	} else {
@@ -146,6 +148,7 @@ bool Matrix::fillRowWithData( int * data_ptr , unsigned int row_index ) {
 }
 
 bool Matrix::fillRowWithData( vector < int > * data_ptr , unsigned int row_index ) {
+	if ( data_ptr == NULL ) return 1;
 	if ( this->verifyRowIndex( row_index ) ) {
 		return 1;
 	} else {
@@ -184,7 +187,7 @@ unsigned int Matrix::getRowsNo( void ) const {
 	return matrixData->size();
 }
 
-const vector< int > * Matrix::getRow( unsigned int index ) const {
+const vector < int > * Matrix::getRow( unsigned int index ) const {
 	if ( matrixData->empty() ) {
 		printf( "ERROR: Cannot getRow - Matrix is empty\n" );
 		return NULL;
@@ -207,6 +210,7 @@ void Matrix::addColumn( void ) {
 }
 
 bool Matrix::addColumnWithData( vector < int > * data_ptr ) {
+	if ( data_ptr == NULL ) return 1;
 	if ( ! matrixData->empty() ) {
 		this->addColumn();
 	} else {
@@ -216,6 +220,7 @@ bool Matrix::addColumnWithData( vector < int > * data_ptr ) {
 }
 
 bool Matrix::fillColumnWithData( int * data_ptr , unsigned int column_index ) {
+	if ( data_ptr == NULL ) return 1;
 	if ( this->verifyColumnIndex( column_index ) ) {
 		return 1;
 	} else {
@@ -229,6 +234,7 @@ bool Matrix::fillColumnWithData( int * data_ptr , unsigned int column_index ) {
 }
 
 bool Matrix::fillColumnWithData( vector < int > * data_ptr , unsigned int column_index ) {
+	if ( data_ptr == NULL ) return 1;
 	if ( this->verifyColumnIndex( column_index ) ) {
 		return 1;
 	} else {

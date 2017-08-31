@@ -274,26 +274,57 @@ int MatrixOperations::detGaussMethod( const Matrix & base_M ) {
 	return 0;
 }
 
-
-
-
 unsigned int MatrixOperations::rank( const Matrix & base_M ) {
-
 	if ( base_M.isEmpty() ) return 0;
 	if ( base_M.isSquareSize() ) {
 		if ( determinant( base_M ) ) return base_M.getRowsNo();
 		return subRank( base_M );
 	} else {
-		//TODO Matrix can be not square
-		// 1. Wyznacz wszstkie kwadratowe podmacierze
-		// 2. sprawdz wyznacznik tych macierzy jesli niezerowy to zwroc
-		// 3. wywolaj subRank i przechowoj najwieksza wartosc
-
+		unsigned int diff = 0;
+		unsigned int rank = 0;
+		Matrix * subBase_M;
+		if ( base_M.getRowsNo() > base_M.getColumnsNo() ) {
+			diff = base_M.getRowsNo() - base_M.getColumnsNo();
+			subBase_M = new Matrix( base_M.getColumnsNo() , base_M.getColumnsNo() );
+			for ( unsigned int i = 0 ; i < diff + 1 ; i++ ) {
+				for ( unsigned int j = 0 ; j < base_M.getColumnsNo() ; j++ ) {
+					const vector < int > * tmp_vector = base_M.getRow( i + j );
+					vector < int > * data = new vector < int >;
+					for ( unsigned int k = 0 ; k < tmp_vector->size() ; k++ ) {
+						data->push_back( tmp_vector->at( k ) );
+					}
+					subBase_M->fillRowWithData( data , j );
+					delete data;
+				}
+				unsigned int tmp = MatrixOperations::rank( * subBase_M );
+				if ( tmp > rank ) rank = tmp;
+			}
+			delete subBase_M;
+			return rank;
+		} else {
+			diff = base_M.getColumnsNo() - base_M.getRowsNo();
+			subBase_M = new Matrix( base_M.getRowsNo() , base_M.getRowsNo() );
+			for ( unsigned int i = 0 ; i < diff + 1 ; i++ ) {
+				for ( unsigned int j = 0 ; j < base_M.getRowsNo() ; j++ ) {
+					vector < const int * > pointers_to_column;
+					base_M.getColumn( & pointers_to_column , i + j );
+					vector < int > * data = new vector < int >;
+					for ( unsigned int k = 0 ; k < pointers_to_column.size() ; k++ ) {
+						data->push_back(  * pointers_to_column.at( k ) );
+					}
+					subBase_M->fillColumnWithData( data , j );
+					delete data;
+				}
+				unsigned int tmp = MatrixOperations::rank( * subBase_M );
+				if ( tmp > rank ) rank = tmp;
+			}
+			delete subBase_M;
+			return rank;
+		}
 	}
 }
 
 unsigned int MatrixOperations::subRank( const Matrix & base_M ) {
-
 	unsigned int rank = 0;
 	unsigned int size = base_M.getRowsNo();
 	if ( size > 1 ) {

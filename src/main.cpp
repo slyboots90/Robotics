@@ -171,6 +171,11 @@ void test() {
 	s.fillRowWithData(tab4, 4);
 	s.printMatrix();
 	printf ("rank : %d \n" , s.rank() );
+
+	s.eraseRow( 0 );
+	s.eraseRow( 0 );
+	s.printMatrix();
+	printf ("rank : %d \n" , s.rank() );
 	delete ax;
 	Timer * ac = new Timer;
 	Matrix sr(5,5);
@@ -203,13 +208,10 @@ void test() {
 	printf ("rank : %d \n" , srb.rank() );
 	delete av;
 	Timer * ab = new Timer;
-	srb.eraseRow( 3 );
-	srb.printMatrix();
-	srb.eraseRow( 3 );
-	srb.printMatrix();
 	srb.eraseColumn( 3 );
+	srb.eraseColumn( 0 );
 	srb.printMatrix();
-
+	printf ("rank : %d \n" , srb.rank() );
 	delete ab;
 
 	Matrix srbs;
