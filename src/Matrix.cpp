@@ -18,10 +18,6 @@ Matrix::Matrix( ) {
 }
 
 Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) {
-	if ( ! no_of_rows || ! no_of_colums ) {
-		printf ( "Amount of rows or columns cannot be 0!\n" );
-		return;
-	}
 	matrixDataPtr = shared_ptr < vector < vector < int > > > ( new vector < vector < int > > );
 	this->allocateMatrixVectors( no_of_rows , no_of_colums );
 }
