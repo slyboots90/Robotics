@@ -14,7 +14,7 @@
 
 using namespace std;
 
-struct params {
+struct jointParams {
 	double d;				// segment offset
 	double theta;			// angle of joint
 	double r;				// segment length
@@ -23,13 +23,14 @@ struct params {
 
 class DHparam {
 
-	shared_ptr < vector < params > > transformations;
+	shared_ptr < vector < jointParams > > transformations;
 
 public:
 	DHparam();
 	virtual ~DHparam();
-	void addParams( params );
-	void singleHomogeneousTransformation( void );
+	void addJointParams( jointParams );
+	shared_ptr < Matrix > singleHomogeneousTransformation( unsigned int );
+	shared_ptr < Matrix > transformation( unsigned int );
 };
 
 #endif /* DHPARAM_H_ */

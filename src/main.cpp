@@ -9,22 +9,23 @@
 #include <iostream>
 #include "../include/Matrix.h"
 #include "../include/MatrixTest.h"
+#include "../include/DHparam.h"
 #include "../include/Timer.h"
 
 using namespace std;
 
 void test(void);
+void dh(void);
 
 int main() {
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 	MatrixTest start;
 	test();
+	dh();
 	return 0;
 }
 
 void test() {
-
-
 
 	//Matrix Eva(4,3);
 	//Eva.printMatrix();
@@ -47,9 +48,9 @@ void test() {
 //	Pankracy.addRow();
 //	Pankracy.addRow();
 //
-	vector<int> a1, a2, a3, a4, a5;
-	vector<int> b1, b2, b3;
-	vector<int> c1, c2, c3;
+	vector<double> a1, a2, a3, a4, a5;
+	vector<double> b1, b2, b3;
+	vector<double> c1, c2, c3;
 
 	a1.push_back(7);
 	a1.push_back(5);
@@ -145,6 +146,8 @@ void test() {
 		rrrr.fillRowWithData(&a3, 2);
 		rrrr.fillRowWithData(&a4, 3);
 		rrrr.fillRowWithData(&a5, 4);
+		printf( "TUTUTUT");
+		rrrr.printMatrix();
 		//rrrr.printMatrix();
 #include <stdio.h>
 		//printf ("Det : %d \n" , rrrr.det() );
@@ -159,11 +162,11 @@ void test() {
 	delete a;
 	Timer * ax = new Timer;
 	Matrix s(5,5);
-	int tab0[5] = { 4 ,  3 ,-5, 2, 3};
-	int tab1[5] = {8 ,6 ,-7, 4, 2};
-	int tab2[5] = {4 ,3 ,-8, 2, 7};
-	int tab3[5] = {4 ,3 ,1 ,2, -5};
-	int tab4[5] = {8 ,6 ,-1 ,4, -6};
+	double tab0[5] = { 4 ,  3 ,-5, 2, 3};
+	double tab1[5] = {8 ,6 ,-7, 4, 2};
+	double tab2[5] = {4 ,3 ,-8, 2, 7};
+	double tab3[5] = {4 ,3 ,1 ,2, -5};
+	double tab4[5] = {8 ,6 ,-1 ,4, -6};
 	s.fillRowWithData(tab0, 0);
 	s.fillRowWithData(tab1, 1);
 	s.fillRowWithData(tab2, 2);
@@ -179,11 +182,11 @@ void test() {
 	delete ax;
 	Timer * ac = new Timer;
 	Matrix sr(5,5);
-	int atab0[5] = { 0 ,  3 ,-5, 2, 3};
-	int atab1[5] = {8 ,6 ,-7, 4, 2};
-	int atab2[5] = {0 ,0 ,0, 3, 0};
-	int atab3[5] = {4 ,3 ,1 ,2, -5};
-	int atab4[5] = {8 ,6 ,-1 ,4, -6};
+	double atab0[5] = { 0 ,  3 ,-5, 2, 3};
+	double atab1[5] = {8 ,6 ,-7, 4, 2};
+	double atab2[5] = {0 ,0 ,0, 3, 0};
+	double atab3[5] = {4 ,3 ,1 ,2, -5};
+	double atab4[5] = {8 ,6 ,-1 ,4, -6};
 
 	sr.fillRowWithData(atab2, 2);
 
@@ -192,11 +195,11 @@ void test() {
 	delete ac;
 	Timer * av = new Timer;
 	Matrix srb(5,5);
-	int abtab0[5] = { 1 ,  0 ,1, 0, 0};
-	int abtab1[5] = {0 ,0 ,0, 1, 0};
-	int abtab2[5] = {0 ,1 ,0, 0, 0};
-	int abtab3[5] = {0 ,0 ,0 ,0, 0};
-	int abtab4[5] = {1 ,0 ,0 ,0, 1};
+	double abtab0[5] = { 1 ,  0 ,1, 0, 0};
+	double abtab1[5] = {0 ,0 ,0, 1, 0};
+	double abtab2[5] = {0 ,1 ,0, 0, 0};
+	double abtab3[5] = {0 ,0 ,0 ,0, 0};
+	double abtab4[5] = {1 ,0 ,0 ,0, 1};
 
 	srb.fillRowWithData(abtab0, 0);
 	srb.fillRowWithData(abtab1, 1);
@@ -214,9 +217,7 @@ void test() {
 	printf ("rank : %d \n" , srb.rank() );
 	delete ab;
 
-	Matrix srbs;
-	srbs.eraseRow( 3 );
-	srbs.eraseColumn( 3 );
+	//}
 	//Ziom.printMatrix();
 	//{
 	//	Matrix Maciek(4,4);
@@ -228,4 +229,16 @@ void test() {
 	//Huh = Adam;
 	//}
 	//Adam.printMatrix();
+}
+
+void dh() {
+	DHparam kin;
+	jointParams st;
+	st.alpha = 30;
+	st.d = 4;
+	st.r = 12;
+	st.theta = 90;
+	kin.addJointParams( st );
+	kin.addJointParams( st );
+	kin.transformation( 2 );
 }
