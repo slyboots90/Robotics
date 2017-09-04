@@ -303,6 +303,17 @@ shared_ptr < Matrix > Matrix::operator *( const Matrix & argument ) {
 	return result;
 }
 
+shared_ptr < Matrix > Matrix::operator *( shared_ptr < Matrix > argument ) {
+	shared_ptr < Matrix > result ( new Matrix( ) );
+	if ( this->isColumnsNoEqualRowsNo( * argument ) ) {
+		MatrixOperations::multiplication( * result , * this , * argument );
+	} else {
+		printf( "ERROR: Cannot multiple - size of Matrix doesn't match!\n" );
+		return NULL;
+	}
+	return result;
+}
+
 shared_ptr < Matrix > Matrix::operator *( double argument ) {
 	shared_ptr < Matrix > result ( new Matrix( ) );
 	if ( ! this->isEmpty() ) {
