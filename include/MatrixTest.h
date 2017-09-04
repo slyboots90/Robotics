@@ -13,12 +13,13 @@
 
 class MatrixTest {
 
-	int testData[15] = { 5 , 7 , 12 , 44 , 77 , 22 , 142 , 537 , 873 , 17 , 56 , 2 , 9 , 0 , 11 };
-	int * data_ptr;
-	std::vector < int > * data_vector_ptr;
-	int scalar = 2;
+	double testData[ 25 ] = { 5 , 7 , 12 , 44 , 77 , 22 , 142 , 537 , 873 , 17 , 56 , 2 , 9 , 0 , 11 , 41 , -5 , -1 , 0 , 31 , -67 , 4 , 9 , -6 , 18 };
+	double * data_ptr;
+	std::vector < double > * data_vector_ptr;
+	double scalar = 2;
 	void Fill1on1Matrix( Matrix & matrix );
 	void Fill3on3Matrix( Matrix & matrix );
+	void Fill5on5Matrix( Matrix & matrix );
 	void Fill3on5Matrix( Matrix & matrix );
 	void Fill5on3Matrix( Matrix & matrix );
 
@@ -103,6 +104,21 @@ class MatrixTest {
 	void Invert1on1MatrixIntoNewMatrix( void );
 	void Invert3on3MatrixIntoNewMatrix( void );
 	void Invert3on5MatrixIntoNewMatrix( void );
+	void Determinant1on1Matrix( void );
+	void Determinant3on3Matrix( void );
+	void Determinant5on5Matrix( void );
+	void Rank1on1MatrixExpect0( void );
+	void Rank1on1MatrixExpect1( void );
+	void Rank3on3MatrixExpect0( void );
+	void Rank3on3MatrixExpect1( void );
+	void Rank3on3MatrixExpect2( void );
+	void Rank3on3MatrixExpect3( void );
+	void Rank5on5MatrixExpect2( void );
+	void Rank5on5MatrixExpect3( void );
+	void Rank3on5MatrixExpect2( void );
+	void Rank5on3MatrixExpect2( void );
+	void Rank3on5MatrixExpect0( void );
+	void Rank5on3MatrixExpect0( void );
 
 public:
 	MatrixTest();

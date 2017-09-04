@@ -114,6 +114,21 @@ void MatrixTest::TestSuiteOperations( void ) {
 	Invert1on1MatrixIntoNewMatrix( );
 	Invert3on3MatrixIntoNewMatrix( );
 	Invert3on5MatrixIntoNewMatrix( );
+	Determinant1on1Matrix( );
+	Determinant3on3Matrix( );
+	Determinant5on5Matrix( );
+	Rank1on1MatrixExpect0( );
+	Rank1on1MatrixExpect1( );
+	Rank3on3MatrixExpect0( );
+	Rank3on3MatrixExpect1( );
+	Rank3on3MatrixExpect2( );
+	Rank3on3MatrixExpect3( );
+	Rank5on5MatrixExpect2( );
+	Rank5on5MatrixExpect3( );
+	Rank3on5MatrixExpect2( );
+	Rank5on3MatrixExpect2( );
+	Rank3on5MatrixExpect0( );
+	Rank5on3MatrixExpect0( );
 }
 
 void MatrixTest::CreateEmptyMatrix( void ) {
@@ -300,7 +315,7 @@ void MatrixTest::FillMatrix3on3ColumnWithDataUsingPointer( void ) {
 void MatrixTest::FillMatrix1on1RowWithDataUsingVector( void ) {
 	Matrix Eva( 1 , 1 );
 	printf ( " TEST: FillMatrix1on1RowWithDataUsingVector " );
-	data_vector_ptr = new std::vector < int >;
+	data_vector_ptr = new std::vector < double >;
 	for( unsigned int i = 0 ; i < 1 ; i++ ) data_vector_ptr->push_back( testData[ i ] );
 	Eva.fillRowWithData( data_vector_ptr , 0 );
 	delete data_vector_ptr;
@@ -310,7 +325,7 @@ void MatrixTest::FillMatrix1on1RowWithDataUsingVector( void ) {
 void MatrixTest::FillMatrix3on3RowWithDataUsingVector( void ) {
 	Matrix Eva( 3 , 3 );
 	printf ( " TEST: FillMatrix3on3RowWithDataUsingVector " );
-	data_vector_ptr = new std::vector < int >;
+	data_vector_ptr = new std::vector < double >;
 	for( unsigned int i = 1 ; i < 10 ; i++ )  {
 		data_vector_ptr->push_back( testData[ i - 1 ] );
 		if ( ! ( i % 3 ) ) {
@@ -325,7 +340,7 @@ void MatrixTest::FillMatrix3on3RowWithDataUsingVector( void ) {
 void MatrixTest::FillMatrix1on1ColumnWithDataUsingVector( void ) {
 	Matrix Eva( 1 , 1 );
 	printf ( " TEST: FillMatrix1on1ColumnWithDataUsingVector " );
-	data_vector_ptr = new std::vector < int >;
+	data_vector_ptr = new std::vector < double >;
 	for( unsigned int i = 0 ; i < 1 ; i++ ) data_vector_ptr->push_back( testData[ i ] );
 	Eva.fillColumnWithData( data_vector_ptr , 0 );
 	delete data_vector_ptr;
@@ -335,7 +350,7 @@ void MatrixTest::FillMatrix1on1ColumnWithDataUsingVector( void ) {
 void MatrixTest::FillMatrix3on3ColumnWithDataUsingVector( void ) {
 	Matrix Eva( 3 , 3 );
 	printf ( " TEST: FillMatrix3on3ColumnWithDataUsingVector " );
-	data_vector_ptr = new std::vector < int >;
+	data_vector_ptr = new std::vector < double >;
 	for( unsigned int i = 1 ; i < 10 ; i++ )  {
 			data_vector_ptr->push_back( testData[ i - 1 ] );
 			if ( ! ( i % 3 ) ) {
@@ -350,7 +365,7 @@ void MatrixTest::FillMatrix3on3ColumnWithDataUsingVector( void ) {
 void MatrixTest::AddRowWithDataToEmptyMatrix( void ) {
 	Matrix Eva;
 	printf ( " TEST: AddRowWithDataToEmptyMatrix " );
-	data_vector_ptr = new std::vector < int >;
+	data_vector_ptr = new std::vector < double >;
 	for( unsigned int i = 0 ; i < 1 ; i++ )  data_vector_ptr->push_back( testData[ i ] );
 	Eva.addRowWithData( data_vector_ptr );
 	delete data_vector_ptr;
@@ -360,7 +375,7 @@ void MatrixTest::AddRowWithDataToEmptyMatrix( void ) {
 void MatrixTest::AddRowWithDataTo1on1Matrix( void ) {
 	Matrix Eva( 1 , 1 );
 	printf ( " TEST: AddRowWithDataTo1on1Matrix " );
-	data_vector_ptr = new std::vector < int >;
+	data_vector_ptr = new std::vector < double >;
 	for( unsigned int i = 0 ; i < 1 ; i++ )  data_vector_ptr->push_back( testData[ i ] );
 	Eva.addRowWithData( data_vector_ptr );
 	delete data_vector_ptr;
@@ -370,7 +385,7 @@ void MatrixTest::AddRowWithDataTo1on1Matrix( void ) {
 void MatrixTest::AddRowWithDataTo3on3Matrix( void ) {
 	Matrix Eva( 3 , 3 );
 	printf ( " TEST: AddRowWithDataTo3on3Matrix " );
-	data_vector_ptr = new std::vector < int >;
+	data_vector_ptr = new std::vector < double >;
 	for( unsigned int i = 0 ; i < 3 ; i++ )  data_vector_ptr->push_back( testData[ i ] );
 	Eva.addRowWithData( data_vector_ptr );
 	delete data_vector_ptr;
@@ -380,7 +395,7 @@ void MatrixTest::AddRowWithDataTo3on3Matrix( void ) {
 void MatrixTest::AddColumnWithDataToEmptyMatrix( void ) {
 	Matrix Eva;
 	printf ( " TEST: AddColumnWithDataToEmptyMatrix " );
-	data_vector_ptr = new std::vector < int >;
+	data_vector_ptr = new std::vector < double >;
 	for( unsigned int i = 0 ; i < 1 ; i++ )  data_vector_ptr->push_back( testData[ i ] );
 	Eva.addColumnWithData( data_vector_ptr );
 	delete data_vector_ptr;
@@ -390,7 +405,7 @@ void MatrixTest::AddColumnWithDataToEmptyMatrix( void ) {
 void MatrixTest::AddColumnWithDataTo1on1Matrix( void ) {
 	Matrix Eva( 1 , 1 );
 	printf ( " TEST: AddColumnWithDataTo1on1Matrix " );
-	data_vector_ptr = new std::vector < int >;
+	data_vector_ptr = new std::vector < double >;
 	for( unsigned int i = 0 ; i < 1 ; i++ )  data_vector_ptr->push_back( testData[ i ] );
 	Eva.addColumnWithData( data_vector_ptr );
 	delete data_vector_ptr;
@@ -400,7 +415,7 @@ void MatrixTest::AddColumnWithDataTo1on1Matrix( void ) {
 void MatrixTest::AddColumnWithDataTo3on3Matrix( void ) {
 	Matrix Eva( 3 , 3 );
 	printf ( " TEST: AddColumnWithDataTo3on3Matrix " );
-	data_vector_ptr = new std::vector < int >;
+	data_vector_ptr = new std::vector < double >;
 	for( unsigned int i = 0 ; i < 3 ; i++ )  data_vector_ptr->push_back( testData[ i ] );
 	Eva.addColumnWithData( data_vector_ptr );
 	delete data_vector_ptr;
@@ -729,6 +744,110 @@ void MatrixTest::Invert3on5MatrixIntoNewMatrix( void ) {
 	Matrix Eva( 3 , 5 );
 	Matrix Adam( 3 , 5 );
 	printf ( " TEST: Invert3on5MatrixIntoNewMatrix " );
+	printf("\n");
+}
+
+void MatrixTest::Determinant1on1Matrix( void ) {
+	Matrix Eva( 1 , 1 );
+	printf ( " TEST: Determinant1on1Matrix \n" );
+	Fill1on1Matrix( Eva );
+	printf ( "  Det %d\n" , Eva.det() );
+}
+
+void MatrixTest::Determinant3on3Matrix( void ) {
+	Matrix Eva( 3 , 3 );
+	printf ( " TEST: Determinant3on3Matrix \n" );
+	Fill3on3Matrix( Eva );
+	printf ( "  Det %d\n" , Eva.det() );
+}
+
+void MatrixTest::Determinant5on5Matrix( void ) {
+	Matrix Eva( 5 , 5 );
+	printf ( " TEST: Determinant5on5Matrix \n" );
+	Fill5on5Matrix( Eva );
+	printf ( "  Det %d\n" , Eva.det() );
+}
+
+void MatrixTest::Rank1on1MatrixExpect0( void ) {
+	Matrix Eva( 1 , 1 );
+	printf ( " TEST: Rank1on1MatrixExpect0 \n" );
+	Fill1on1Matrix( Eva );
+	printf ( "  Rank %d\n" , Eva.rank() );
+}
+
+void MatrixTest::Rank1on1MatrixExpect1( void ) {
+	Matrix Eva( 1 , 1 );
+	printf ( " TEST: Rank1on1MatrixExpect1 \n" );
+	Fill1on1Matrix( Eva );
+	printf ( "  Rank %d\n" , Eva.rank() );
+}
+
+void MatrixTest::Rank3on3MatrixExpect0( void ) {
+	Matrix Eva( 3 , 3 );
+	printf ( " TEST: Rank3on3MatrixExpect0 \n" );
+	printf ( "  Rank %d\n" , Eva.rank() );
+}
+
+void MatrixTest::Rank3on3MatrixExpect1( void ) {
+	Matrix Eva( 3 , 3 );
+	printf ( " TEST: Rank3on3MatrixExpect1 \n" );
+	Fill3on3Matrix( Eva );
+	printf ( "  Rank %d\n" , Eva.rank() );
+}
+
+void MatrixTest::Rank3on3MatrixExpect2( void ) {
+	Matrix Eva( 3 , 3 );
+	printf ( " TEST: Rank3on3MatrixExpect2 \n" );
+	Fill3on3Matrix( Eva );
+	printf ( "  Rank %d\n" , Eva.rank() );
+}
+
+void MatrixTest::Rank3on3MatrixExpect3( void ) {
+	Matrix Eva( 3 , 3 );
+	printf ( " TEST: Rank3on3MatrixExpect3 \n" );
+	Fill3on3Matrix( Eva );
+	printf ( "  Rank %d\n" , Eva.rank() );
+}
+
+void MatrixTest::Rank5on5MatrixExpect2( void ) {
+	Matrix Eva( 5 , 5 );
+	printf ( " TEST: Rank5on5MatrixExpect2 \n" );
+	Fill5on5Matrix( Eva );
+	printf ( "  Rank %d\n" , Eva.rank() );
+}
+
+void MatrixTest::Rank5on5MatrixExpect3( void ) {
+	Matrix Eva( 5 , 5 );
+	printf ( " TEST: Rank5on5MatrixExpect3 \n" );
+	Fill5on5Matrix( Eva );
+	printf ( "  Rank %d\n" , Eva.rank() );
+}
+
+void MatrixTest::Rank3on5MatrixExpect2( void ) {
+	Matrix Eva( 3 , 5 );
+	printf ( " TEST: Rank3on5MatrixExpect2 \n" );
+	Fill3on5Matrix( Eva );
+	printf ( "  Rank %d\n" , Eva.rank() );
+}
+
+void MatrixTest::Rank5on3MatrixExpect2( void ) {
+	Matrix Eva( 5 , 3 );
+	printf ( " TEST: Rank5on3MatrixExpect2 \n" );
+	Fill5on3Matrix( Eva );
+	printf ( "  Rank %d\n" , Eva.rank() );
+}
+
+void MatrixTest::Rank3on5MatrixExpect0( void ) {
+	Matrix Eva( 3 , 5 );
+	printf ( " TEST: Rank3on5MatrixExpect0 \n" );
+	Fill3on5Matrix( Eva );
+	printf ( "  Rank %d\n" , Eva.rank() );
+}
+void MatrixTest::Rank5on3MatrixExpect0( void ) {
+	Matrix Eva( 5 , 3 );
+	printf ( " TEST: Rank5on3MatrixExpect0 \n" );
+	Fill5on3Matrix( Eva );
+	printf ( "  Rank %d\n" , Eva.rank() );
 }
 
 //########## HELPER FUNCTION ###########//
@@ -741,6 +860,14 @@ void MatrixTest::Fill3on3Matrix( Matrix & matrix ) {
 	matrix.fillRowWithData( data_ptr , 0 );
 	matrix.fillRowWithData( data_ptr + 3 , 1 );
 	matrix.fillRowWithData( data_ptr + 6 , 2 );
+}
+
+void MatrixTest::Fill5on5Matrix( Matrix & matrix ) {
+	matrix.fillRowWithData( data_ptr , 0 );
+	matrix.fillRowWithData( data_ptr + 5 , 1 );
+	matrix.fillRowWithData( data_ptr + 10 , 2 );
+	matrix.fillRowWithData( data_ptr + 15 , 3 );
+	matrix.fillRowWithData( data_ptr + 20 , 4 );
 }
 
 void MatrixTest::Fill3on5Matrix( Matrix & matrix ) {
