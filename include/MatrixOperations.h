@@ -15,12 +15,12 @@ using namespace std;
 
 class MatrixOperations {
 
-	static int vectorMultiplication( const vector< int > * , vector< const int * > * );
-	static int smallDetCalculation( const Matrix & base );
-	static int detSarrusMethod( const Matrix & );
+	static double vectorMultiplication( const vector < double > * , vector < const double * > * );
+	static double smallDetCalculation( const Matrix & base );
+	static double detSarrusMethod( const Matrix & );
 	static void detSarrusMethodFunWay( const Matrix & );
-	static int detLaplaceMethod( const Matrix & );
-	static int detGaussMethod( const Matrix & );
+	static double detLaplaceMethod( const Matrix & );
+	static double detGaussMethod( const Matrix & );
 	static void createSubMatrix( const Matrix & , Matrix & , unsigned int , unsigned int );
 	static unsigned int subRank( const Matrix & );
 
@@ -28,12 +28,12 @@ public:
 	MatrixOperations();
 	virtual ~MatrixOperations();
 	static void multiplication( Matrix & , const Matrix & , const Matrix & );
-	static void scalarmultiplication( Matrix & , const Matrix & , int );
-	static void scalarmultiplication( Matrix & , int );
+	static void scalarmultiplication( Matrix & , const Matrix & , double );
+	static void scalarmultiplication( Matrix & , double );
 	static void addition( Matrix & , const Matrix & , const Matrix & );
 	static void subtraction( Matrix & , const Matrix & , const Matrix & );
 	static void transposition( Matrix & , const Matrix & );
-	static int determinant( const Matrix & );
+	static double determinant( const Matrix & );
 	static unsigned int rank( const Matrix & );
 	//TODO Following implementation needed
 	static void inverse( Matrix & , const Matrix & );

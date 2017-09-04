@@ -21,12 +21,12 @@ MatrixOperations::~MatrixOperations() {
 }
 
 void MatrixOperations::multiplication( Matrix & product , const Matrix & multiplicand , const Matrix & multiplier ) {
-	const vector < int > * row_pointer = NULL;
+	const vector < double > * row_pointer = NULL;
 	if ( ! multiplicand.isEmpty() && ! multiplier.isEmpty() ) {
 		for ( unsigned int i = 0 ; i < multiplicand.getRowsNo() ; i++ ) {
-			vector < int > temporary_vector;
+			vector < double > temporary_vector;
 			for ( unsigned int j = 0 ; j < multiplier.getColumnsNo() ; j++ ) {
-				vector < const int * > pointers_to_column;
+				vector < const double * > pointers_to_column;
 				row_pointer = multiplicand.getRow( i );
 				if ( row_pointer == NULL) {
 					printf( "Fail to get Row from Matrix\n" );
@@ -46,11 +46,11 @@ void MatrixOperations::multiplication( Matrix & product , const Matrix & multipl
 	}
 }
 
-void MatrixOperations::scalarmultiplication( Matrix & product , const Matrix & multiplicand , int multiplier ) {
-	const vector < int > * row_pointer = NULL;
+void MatrixOperations::scalarmultiplication( Matrix & product , const Matrix & multiplicand , double multiplier ) {
+	const vector < double > * row_pointer = NULL;
 	if ( ! multiplicand.isEmpty() ) {
 		for ( unsigned int i = 0 ; i < multiplicand.getRowsNo() ; i++ ) {
-			vector < int > temporary_vector;
+			vector < double > temporary_vector;
 			row_pointer = multiplicand.getRow( i );
 			if ( row_pointer == NULL) {
 				printf( "Fail to get Row from Matrix\n" );
@@ -66,7 +66,7 @@ void MatrixOperations::scalarmultiplication( Matrix & product , const Matrix & m
 	}
 }
 
-void MatrixOperations::scalarmultiplication( Matrix & multiplicand , int multiplier ) {
+void MatrixOperations::scalarmultiplication( Matrix & multiplicand , double multiplier ) {
 	if ( ! multiplicand.isEmpty() ) {
 		for ( unsigned int i = 0 ; i < multiplicand.getRowsNo() ; i++ ) {
 			for( unsigned int j = 0 ; j < multiplicand.getColumnsNo() ; j++ ) {
@@ -76,8 +76,8 @@ void MatrixOperations::scalarmultiplication( Matrix & multiplicand , int multipl
 	}
 }
 
-int MatrixOperations::vectorMultiplication( const vector < int > * row_pointer , vector < const int * > * column_pointer ) {
-	int result = 0;
+double MatrixOperations::vectorMultiplication( const vector < double > * row_pointer , vector < const double * > * column_pointer ) {
+	double result = 0;
 	if ( row_pointer->size() != column_pointer->size() ) {
 		printf ( "Size of multiplied vectors isn't equal - must be the same! row size: %d, column size: %d\n" , row_pointer->size() , column_pointer->size() );
 	} else {
@@ -90,11 +90,11 @@ int MatrixOperations::vectorMultiplication( const vector < int > * row_pointer ,
 }
 
 void MatrixOperations::addition( Matrix & sum , const Matrix & component_a , const Matrix & component_b ) {
-	const vector < int > * component_a_row_pointer = NULL;
-	const vector < int > * component_b_row_pointer = NULL;
+	const vector < double > * component_a_row_pointer = NULL;
+	const vector < double > * component_b_row_pointer = NULL;
 		if ( ! component_a.isEmpty() && ! component_b.isEmpty() ) {
 			for ( unsigned int i = 0 ; i < component_a.getRowsNo() ; i++ ) {
-				vector < int > temporary_vector;
+				vector < double > temporary_vector;
 				component_a_row_pointer = component_a.getRow( i );
 				component_b_row_pointer = component_b.getRow( i );
 				if ( component_a_row_pointer == NULL || component_b_row_pointer == NULL ) {
@@ -102,7 +102,7 @@ void MatrixOperations::addition( Matrix & sum , const Matrix & component_a , con
 					break;
 				}
 				for ( unsigned int j = 0 ; j < component_a.getColumnsNo() ; j++ ) {
-					int outcome_value = component_a_row_pointer->at( j ) + component_b_row_pointer->at( j );
+					double outcome_value = component_a_row_pointer->at( j ) + component_b_row_pointer->at( j );
 					temporary_vector.push_back( outcome_value );
 				}
 				if ( sum.addRowWithData( & temporary_vector ) ) {
@@ -113,11 +113,11 @@ void MatrixOperations::addition( Matrix & sum , const Matrix & component_a , con
 }
 
 void MatrixOperations::subtraction( Matrix & difference , const Matrix & minuend , const Matrix & subtrahend ) {
-	const vector < int > * minuend_row_pointer = NULL;
-	const vector < int > * subtrahend_row_pointer = NULL;
+	const vector < double > * minuend_row_pointer = NULL;
+	const vector < double > * subtrahend_row_pointer = NULL;
 		if ( ! minuend.isEmpty() && ! subtrahend.isEmpty() ) {
 			for ( unsigned int i = 0 ; i < minuend.getRowsNo() ; i++ ) {
-				vector < int > temporary_vector;
+				vector < double > temporary_vector;
 				minuend_row_pointer = minuend.getRow( i );
 				subtrahend_row_pointer = subtrahend.getRow( i );
 				if ( subtrahend_row_pointer == NULL || minuend_row_pointer == NULL ) {
@@ -125,7 +125,7 @@ void MatrixOperations::subtraction( Matrix & difference , const Matrix & minuend
 					break;
 				}
 				for ( unsigned int j = 0 ; j < minuend.getColumnsNo() ; j++ ) {
-					int outcome_value = minuend_row_pointer->at( j ) - subtrahend_row_pointer->at( j );
+					double outcome_value = minuend_row_pointer->at( j ) - subtrahend_row_pointer->at( j );
 					temporary_vector.push_back( outcome_value );
 				}
 				if ( difference.addRowWithData( & temporary_vector ) ) {
@@ -136,10 +136,10 @@ void MatrixOperations::subtraction( Matrix & difference , const Matrix & minuend
 }
 
 void MatrixOperations::transposition( Matrix & base_MT, const Matrix & base_M ) {
-	const vector < int > * matrix_base_row_pointer = NULL;
+	const vector < double > * matrix_base_row_pointer = NULL;
 	if ( ! base_M.isEmpty() ) {
 		for ( unsigned int i = 0 ; i < base_M.getRowsNo() ; i++ ) {
-			vector < int > temporary_vector;
+			vector < double > temporary_vector;
 			matrix_base_row_pointer = base_M.getRow( i );
 			if ( matrix_base_row_pointer == NULL ) {
 				printf( "Fail to get Row from Matrix\n" );
@@ -153,7 +153,7 @@ void MatrixOperations::transposition( Matrix & base_MT, const Matrix & base_M ) 
 	}
 }
 
-int MatrixOperations::determinant( const Matrix & base_M ) {
+double MatrixOperations::determinant( const Matrix & base_M ) {
 	if ( base_M.isEmpty( ) ) {
 		printf( "Fail to calculate determinant, Matrix is empty\n" );
 		return 0;
@@ -162,14 +162,14 @@ int MatrixOperations::determinant( const Matrix & base_M ) {
 		switch ( base_M.getRowsNo( ) ) {
 			case 1:
 			case 2: {
-				return smallDetCalculation( base_M );
+				return MatrixOperations::smallDetCalculation( base_M );
 			}
 			case 3: {
 				//detSarrusMethodFunWay( base_M );
-				return detSarrusMethod( base_M );
+				return MatrixOperations::detSarrusMethod( base_M );
 			}
 			default:
-				return detLaplaceMethod( base_M );
+				return MatrixOperations::detLaplaceMethod( base_M );
 		}
 	} else {
 		printf( "Fail to calculate determinant, Matrix isn't square size: %dx%d\n" , base_M.getRowsNo() , base_M.getColumnsNo() );
@@ -178,21 +178,21 @@ int MatrixOperations::determinant( const Matrix & base_M ) {
 	return 0;
 }
 
-int MatrixOperations::smallDetCalculation( const Matrix & base_M ) {
+double MatrixOperations::smallDetCalculation( const Matrix & base_M ) {
 	if ( base_M.getRowsNo( ) == 1 ) {
-		const vector < int > * rp = base_M.getRow( 0 );
+		const vector < double > * rp = base_M.getRow( 0 );
 		return rp->at( 0 );
 	} else {
-		const vector < int > * rpt = base_M.getRow( 0 );
-		const vector < int > * rpb = base_M.getRow( 1 );
+		const vector < double > * rpt = base_M.getRow( 0 );
+		const vector < double > * rpb = base_M.getRow( 1 );
 		return rpt->at( 0 ) * rpb->at( 1 ) - rpb->at( 0 ) * rpt->at( 1 );
 	}
 }
 
-int MatrixOperations::detSarrusMethod( const Matrix & base_M ) {
-	const vector < int > * rpt = base_M.getRow( 0 );
-	const vector < int > * rpm = base_M.getRow( 1 );
-	const vector < int > * rpb = base_M.getRow( 2 );
+double MatrixOperations::detSarrusMethod( const Matrix & base_M ) {
+	const vector < double > * rpt = base_M.getRow( 0 );
+	const vector < double > * rpm = base_M.getRow( 1 );
+	const vector < double > * rpb = base_M.getRow( 2 );
 	// a11a22a33+a12a23a31+a13a21a32-(a13a22a31+a11a23a32+a12a21a33)
 	int product_a = 0 , product_b = 0 , product_c = 0;
 	product_a = rpt->at( 0 ) * rpm->at( 1 ) * rpb->at( 2 );
@@ -209,8 +209,8 @@ int MatrixOperations::detSarrusMethod( const Matrix & base_M ) {
 void MatrixOperations::detSarrusMethodFunWay( const Matrix & base_M ) {
 	shared_ptr < Matrix > subMatrix ( new Matrix( base_M ) );
 	for ( unsigned int i = 0 ; i < 2 ; i++ ) {
-		vector < const int * > pointers_to_column;
-		vector < int > new_column;
+		vector < const double * > pointers_to_column;
+		vector < double > new_column;
 		base_M.getColumn( & pointers_to_column , i );
 		for ( unsigned int j = 0 ; j < pointers_to_column.size() ; j++ ) {
 			new_column.push_back( * pointers_to_column.at( j ) );
@@ -233,18 +233,18 @@ void MatrixOperations::detSarrusMethodFunWay( const Matrix & base_M ) {
 		}
 		sub_sum2 += sub_product;
 	}
-	printf ( "Det FunWay = %d\n" , sub_sum1 - sub_sum2 );
+	printf ( "Det FunWay = %5.3lf\n" , sub_sum1 - sub_sum2 );
 }
 
-int MatrixOperations::detLaplaceMethod( const Matrix & base_M ) {
+double MatrixOperations::detLaplaceMethod( const Matrix & base_M ) {
 	unsigned int row = 0;
-	int det = 0 , minor = 0;
-	const vector < int > * main_row = base_M.getRow( row );
+	double det = 0 , minor = 0;
+	const vector < double > * main_row = base_M.getRow( row );
 	Matrix * subMatrix = new Matrix( base_M.getRowsNo() - 1 , base_M.getColumnsNo() - 1 );
 	//det A = (-1)1+1 × a11 × M1,1 + (-1)1+2 × a12 × M1,2 + (-1)1+3 × a13 × M1,3 + n...
 	for ( unsigned int i = 0 ; i < base_M.getColumnsNo() ; i++ ) {
-		createSubMatrix( base_M , * subMatrix , row , i );
-		subMatrix->getColumnsNo() == 3 ? minor = detSarrusMethod( * subMatrix ) : minor = detLaplaceMethod( * subMatrix );
+		MatrixOperations::createSubMatrix( base_M , * subMatrix , row , i );
+		subMatrix->getColumnsNo() == 3 ? minor = MatrixOperations::detSarrusMethod( * subMatrix ) : minor = MatrixOperations::detLaplaceMethod( * subMatrix );
 		det += pow( -1 , row + i ) * main_row->at( i ) * minor;
 	}
 	delete subMatrix;
@@ -254,10 +254,10 @@ int MatrixOperations::detLaplaceMethod( const Matrix & base_M ) {
 void MatrixOperations::createSubMatrix( const Matrix & base_M , Matrix & subMatrix , unsigned int row , unsigned int column ) {
 	for ( unsigned int i = 0 , j = 0 ; i < base_M.getColumnsNo() ; i++ ) {
 		if ( i == column ) continue;
-		vector < const int * > column_ptr;
-		vector < int > * insert_column = new vector < int >;
+		vector < const double * > column_ptr;
+		vector < double > * insert_column = new vector < double >;
 		base_M.getColumn( & column_ptr , i );
-		vector < const int * >::iterator it = column_ptr.begin();
+		vector < const double * >::iterator it = column_ptr.begin();
 		for ( unsigned int j = 0 ; j < row ; j++ ) it++;
 		column_ptr.erase( it );
 		for ( unsigned int j = 0 ; j < column_ptr.size() ; j++ ) {
@@ -269,7 +269,7 @@ void MatrixOperations::createSubMatrix( const Matrix & base_M , Matrix & subMatr
 	}
 }
 
-int MatrixOperations::detGaussMethod( const Matrix & base_M ) {
+double MatrixOperations::detGaussMethod( const Matrix & base_M ) {
 	//TODO
 	return 0;
 }
@@ -277,8 +277,8 @@ int MatrixOperations::detGaussMethod( const Matrix & base_M ) {
 unsigned int MatrixOperations::rank( const Matrix & base_M ) {
 	if ( base_M.isEmpty() ) return 0;
 	if ( base_M.isSquareSize() ) {
-		if ( determinant( base_M ) ) return base_M.getRowsNo();
-		return subRank( base_M );
+		if ( MatrixOperations::determinant( base_M ) ) return base_M.getRowsNo();
+		return MatrixOperations::subRank( base_M );
 	} else {
 		unsigned int diff = 0;
 		unsigned int rank = 0;
@@ -288,8 +288,8 @@ unsigned int MatrixOperations::rank( const Matrix & base_M ) {
 			subBase_M = new Matrix( base_M.getColumnsNo() , base_M.getColumnsNo() );
 			for ( unsigned int i = 0 ; i < diff + 1 ; i++ ) {
 				for ( unsigned int j = 0 ; j < base_M.getColumnsNo() ; j++ ) {
-					const vector < int > * tmp_vector = base_M.getRow( i + j );
-					vector < int > * data = new vector < int >;
+					const vector < double > * tmp_vector = base_M.getRow( i + j );
+					vector < double > * data = new vector < double >;
 					for ( unsigned int k = 0 ; k < tmp_vector->size() ; k++ ) {
 						data->push_back( tmp_vector->at( k ) );
 					}
@@ -306,9 +306,9 @@ unsigned int MatrixOperations::rank( const Matrix & base_M ) {
 			subBase_M = new Matrix( base_M.getRowsNo() , base_M.getRowsNo() );
 			for ( unsigned int i = 0 ; i < diff + 1 ; i++ ) {
 				for ( unsigned int j = 0 ; j < base_M.getRowsNo() ; j++ ) {
-					vector < const int * > pointers_to_column;
+					vector < const double * > pointers_to_column;
 					base_M.getColumn( & pointers_to_column , i + j );
-					vector < int > * data = new vector < int >;
+					vector < double > * data = new vector < double >;
 					for ( unsigned int k = 0 ; k < pointers_to_column.size() ; k++ ) {
 						data->push_back(  * pointers_to_column.at( k ) );
 					}
@@ -331,20 +331,20 @@ unsigned int MatrixOperations::subRank( const Matrix & base_M ) {
 		Matrix * subMatrix = new Matrix( size - 1 , size - 1 );
 		for ( unsigned int row = 0 ; row < size ; row++ ) {
 			for ( unsigned int column = 0 ; column < size ; column++ ) {
-				createSubMatrix( base_M , * subMatrix , row , column );
-				if ( determinant( * subMatrix ) ) {
+				MatrixOperations::createSubMatrix( base_M , * subMatrix , row , column );
+				if ( MatrixOperations::determinant( * subMatrix ) ) {
 					unsigned int return_rank = subMatrix->getRowsNo();
 					delete subMatrix;
 					return return_rank;
 				} else {
-					unsigned int tmp = subRank( * subMatrix );
+					unsigned int tmp = MatrixOperations::subRank( * subMatrix );
 					if ( tmp > rank ) rank = tmp;
 				}
 			}
 		}
 		delete subMatrix;
 	} else {
-		if ( determinant( base_M ) ) return base_M.getRowsNo();
+		if ( MatrixOperations::determinant( base_M ) ) return base_M.getRowsNo();
 	}
 	return rank;
 }

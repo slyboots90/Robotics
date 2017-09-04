@@ -17,7 +17,7 @@ using namespace std;
 class Matrix {
 
 	friend class MatrixOperations;
-	shared_ptr < vector < vector < int > > > matrixDataPtr;
+	shared_ptr < vector < vector < double > > > matrixDataPtr;
 
 	Matrix( const Matrix & base_M );
 
@@ -31,9 +31,9 @@ class Matrix {
 	bool verifyColumnIndex( unsigned int ) const;
 
 	unsigned int getRowsNo( void ) const;
-	const vector< int > * getRow( unsigned int ) const;
+	const vector < double > * getRow( unsigned int ) const;
 	unsigned int getColumnsNo( void ) const;
-	bool getColumn( vector< const int * > * , unsigned int ) const;
+	bool getColumn( vector < const double * > * , unsigned int ) const;
 
 public:
 	Matrix();
@@ -43,25 +43,25 @@ public:
 	void printMatrix( void ) const;
 	// Rows
 	void addRow( void );
-	bool addRowWithData( vector < int > * );
-	bool fillRowWithData( int * , unsigned int );
-	bool fillRowWithData( vector < int > * , unsigned int );
+	bool addRowWithData( vector < double > * );
+	bool fillRowWithData( double * , unsigned int );
+	bool fillRowWithData( vector < double > * , unsigned int );
 	void eraseRow( unsigned int );
 	// Columns
 	void addColumn( void );
-	bool addColumnWithData( vector < int > * );
-	bool fillColumnWithData( int * , unsigned int );
-	bool fillColumnWithData( vector < int > * , unsigned int );
+	bool addColumnWithData( vector < double > * );
+	bool fillColumnWithData( double * , unsigned int );
+	bool fillColumnWithData( vector < double > * , unsigned int );
 	void eraseColumn( unsigned int );
 	// Operators
 	void operator =( shared_ptr < Matrix > );
 	shared_ptr < Matrix > operator *( const Matrix & );
-	shared_ptr < Matrix > operator *( int );
-	void operator *=( int );
+	shared_ptr < Matrix > operator *( double );
+	void operator *=( double );
 	shared_ptr < Matrix > operator +( const Matrix & );
 	shared_ptr < Matrix > operator -( const Matrix & );
 	// Operations
-	int det( void );
+	double det( void );
 	unsigned int rank( void );
 	void transIntra( void );
 	shared_ptr < Matrix > transInter( void );

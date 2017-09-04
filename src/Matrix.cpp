@@ -13,17 +13,17 @@
 
 
 Matrix::Matrix( ) {
-	matrixDataPtr = shared_ptr < vector < vector < int > > > ( new vector < vector < int > > );
+	matrixDataPtr = shared_ptr < vector < vector < double > > > ( new vector < vector < double > > );
 	this->allocateMatrixVectors( 0 , 0 );
 }
 
 Matrix::Matrix( unsigned int no_of_rows , unsigned int no_of_colums ) {
-	matrixDataPtr = shared_ptr < vector < vector < int > > > ( new vector < vector < int > > );
+	matrixDataPtr = shared_ptr < vector < vector < double > > > ( new vector < vector < double > > );
 	this->allocateMatrixVectors( no_of_rows , no_of_colums );
 }
 
 Matrix::Matrix( const Matrix & base_M ) {
-	matrixDataPtr = shared_ptr < vector < vector < int > > > ( new vector < vector < int > > );
+	matrixDataPtr = shared_ptr < vector < vector < double > > > ( new vector < vector < double > > );
 	this->allocateMatrixVectors( base_M.getRowsNo() , base_M.getColumnsNo() );
 	for ( unsigned int i = 0 ; i < base_M.getRowsNo() ; i++ ) {
 		for ( unsigned int j = 0 ; j < base_M.getColumnsNo() ; j++ ) {
@@ -76,7 +76,7 @@ void Matrix::allocateMatrixVectors( unsigned int no_of_rows , unsigned int no_of
 }
 
 void Matrix::allocateVectorInVector( void ) {
-	vector < int > allocation_vector;
+	vector < double > allocation_vector;
 	matrixData->push_back( allocation_vector );
 }
 
@@ -100,8 +100,8 @@ void Matrix::printMatrix( void ) const {
 	printf( "\n" );
 	for ( unsigned i = 0 ; i < matrixData->size() ; i++ ) {
 		printf( "|" );
-		for ( vector < int >::iterator it = matrixData->at( i ).begin() ; it != matrixData->at( i ).end() ; ++it ) {
-			printf( "%5d " , * it );
+		for ( vector < double >::iterator it = matrixData->at( i ).begin() ; it != matrixData->at( i ).end() ; ++it ) {
+			printf( "%5.3lf " , * it );
 		}
 		printf( "|\n" );
 	}
@@ -110,7 +110,7 @@ void Matrix::printMatrix( void ) const {
 
 void Matrix::addRow( void ) {
 	this->allocateVectorInVector( );
-	vector < vector < int > >::iterator it = matrixData->end();
+	vector < vector < double > >::iterator it = matrixData->end();
 	it--;																// Iterator set on new added row
 	unsigned int y_size;
 	matrixData->size() > 1 ? y_size = ( it - 1 )->size() : y_size = 1; // it - 1 because new row must be the same y size as previous
@@ -119,7 +119,7 @@ void Matrix::addRow( void ) {
 	}
 }
 
-bool Matrix::addRowWithData( vector < int > * data_ptr ) {
+bool Matrix::addRowWithData( vector < double > * data_ptr ) {
 	if ( data_ptr == NULL ) return 1;
 	if ( ! matrixData->empty() ) {
 		this->addRow();
@@ -129,12 +129,12 @@ bool Matrix::addRowWithData( vector < int > * data_ptr ) {
 	return this->fillRowWithData( data_ptr , matrixData->size() - 1 );
 }
 
-bool Matrix::fillRowWithData( int * data_ptr , unsigned int row_index ) {
+bool Matrix::fillRowWithData( double * data_ptr , unsigned int row_index ) {
 	if ( data_ptr == NULL ) return 1;
 	if ( this->verifyRowIndex( row_index ) ) {
 		return 1;
 	} else {
-		for ( vector < int >::iterator it = matrixData->at( row_index ).begin() ; it < matrixData->at( row_index ).end() ; it++ , data_ptr++ ) {
+		for ( vector < double >::iterator it = matrixData->at( row_index ).begin() ; it < matrixData->at( row_index ).end() ; it++ , data_ptr++ ) {
 			 * it = * data_ptr;
 		}
 		return 0;
@@ -143,7 +143,7 @@ bool Matrix::fillRowWithData( int * data_ptr , unsigned int row_index ) {
 	return 1;
 }
 
-bool Matrix::fillRowWithData( vector < int > * data_ptr , unsigned int row_index ) {
+bool Matrix::fillRowWithData( vector < double > * data_ptr , unsigned int row_index ) {
 	if ( data_ptr == NULL ) return 1;
 	if ( this->verifyRowIndex( row_index ) ) {
 		return 1;
@@ -169,7 +169,7 @@ void Matrix::eraseRow( unsigned int index ) {
 		printf( "ERROR: Cannot cut row - Index out of Matrix!\n" );
 		return;
 	}
-	vector < vector < int > >::iterator it = matrixData->begin();
+	vector < vector < double > >::iterator it = matrixData->begin();
 	for ( unsigned int i = 0 ; it != matrixData->end() ; ++it , i++ ) {
 		if ( i == index ) {
 			matrixData->erase( it );
@@ -183,7 +183,7 @@ unsigned int Matrix::getRowsNo( void ) const {
 	return matrixData->size();
 }
 
-const vector < int > * Matrix::getRow( unsigned int index ) const {
+const vector < double > * Matrix::getRow( unsigned int index ) const {
 	if ( matrixData->empty() ) {
 		printf( "ERROR: Cannot getRow - Matrix is empty\n" );
 		return NULL;
@@ -198,14 +198,14 @@ void Matrix::addColumn( void ) {
 	if ( matrixData->empty() ) {
 		this->addRow();
 	} else {
-		vector < vector < int > >::iterator it;
+		vector < vector < double > >::iterator it;
 		for ( it = matrixData->begin() ; it != matrixData->end() ; ++it ) {
 			it->push_back( 0 );
 		}
 	}
 }
 
-bool Matrix::addColumnWithData( vector < int > * data_ptr ) {
+bool Matrix::addColumnWithData( vector < double > * data_ptr ) {
 	if ( data_ptr == NULL ) return 1;
 	if ( ! matrixData->empty() ) {
 		this->addColumn();
@@ -215,12 +215,12 @@ bool Matrix::addColumnWithData( vector < int > * data_ptr ) {
 	return this->fillColumnWithData( data_ptr , matrixData->begin()->size() - 1 );
 }
 
-bool Matrix::fillColumnWithData( int * data_ptr , unsigned int column_index ) {
+bool Matrix::fillColumnWithData( double * data_ptr , unsigned int column_index ) {
 	if ( data_ptr == NULL ) return 1;
 	if ( this->verifyColumnIndex( column_index ) ) {
 		return 1;
 	} else {
-		for ( vector < vector < int > >::iterator it = matrixData->begin() ; it < matrixData->end() ; it++ , data_ptr++ ) {
+		for ( vector < vector < double > >::iterator it = matrixData->begin() ; it < matrixData->end() ; it++ , data_ptr++ ) {
 			it->at( column_index ) = * data_ptr;
 		}
 		return 0;
@@ -229,7 +229,7 @@ bool Matrix::fillColumnWithData( int * data_ptr , unsigned int column_index ) {
 	return 1;
 }
 
-bool Matrix::fillColumnWithData( vector < int > * data_ptr , unsigned int column_index ) {
+bool Matrix::fillColumnWithData( vector < double > * data_ptr , unsigned int column_index ) {
 	if ( data_ptr == NULL ) return 1;
 	if ( this->verifyColumnIndex( column_index ) ) {
 		return 1;
@@ -238,8 +238,8 @@ bool Matrix::fillColumnWithData( vector < int > * data_ptr , unsigned int column
 			printf ( "Cannot fill: Size of data vector doesn't match the Matrix!\n" );
 			return 1;
 		} else {
-			vector < vector < int > >::iterator it = matrixData->begin();
-			for ( vector < int >::iterator it_data = data_ptr->begin() ;  it != matrixData->end() ; it++ , it_data++ ) {
+			vector < vector < double > >::iterator it = matrixData->begin();
+			for ( vector < double >::iterator it_data = data_ptr->begin() ;  it != matrixData->end() ; it++ , it_data++ ) {
 				it->at( column_index ) = * it_data;
 			}
 			return 0;
@@ -258,9 +258,9 @@ void Matrix::eraseColumn( unsigned int index ) {
 		printf( "ERROR: Cannot cut column - Index out of Matrix!\n" );
 		return;
 	}
-	vector < vector < int > >::iterator it_row = matrixData->begin();
+	vector < vector < double > >::iterator it_row = matrixData->begin();
 	for ( ; it_row != matrixData->end() ; ++it_row ) {
-		vector < int >::iterator it_col = it_row->begin();
+		vector < double >::iterator it_col = it_row->begin();
 		for ( unsigned int i = 0 ; it_col != it_row->end() ; ++it_col , i++ ) {
 			if ( i == index ) {
 				it_row->erase( it_col );
@@ -275,7 +275,7 @@ unsigned int Matrix::getColumnsNo( void ) const {
 	return matrixData->begin()->size();
 }
 
-bool Matrix::getColumn( vector < const int * > * column_vector , unsigned int index ) const {
+bool Matrix::getColumn( vector < const double * > * column_vector , unsigned int index ) const {
 	if ( this->verifyColumnIndex( index ) ) {
 		printf( "ERROR: Cannot getColumn - index of of range\n" );
 		return 1;
@@ -303,7 +303,7 @@ shared_ptr < Matrix > Matrix::operator *( const Matrix & argument ) {
 	return result;
 }
 
-shared_ptr < Matrix > Matrix::operator *( int argument ) {
+shared_ptr < Matrix > Matrix::operator *( double argument ) {
 	shared_ptr < Matrix > result ( new Matrix( ) );
 	if ( ! this->isEmpty() ) {
 		MatrixOperations::scalarmultiplication( * result , * this , argument );
@@ -314,7 +314,7 @@ shared_ptr < Matrix > Matrix::operator *( int argument ) {
 	return result;
 }
 
-void Matrix::operator *=( int argument ) {
+void Matrix::operator *=( double argument ) {
 	if ( ! this->isEmpty() ) {
 		MatrixOperations::scalarmultiplication( * this , argument );
 	} else {
@@ -344,7 +344,7 @@ shared_ptr < Matrix > Matrix::operator -( const Matrix & argument ) {
 	return result;
 }
 
-int Matrix::det( void ) {
+double Matrix::det( void ) {
 	if ( ! this->isEmpty() ) {
 		return MatrixOperations::determinant( * this );
 	} else {
@@ -384,7 +384,7 @@ shared_ptr < Matrix > Matrix::transInter( void ) {
 }
 
 void Matrix::copyData( shared_ptr < Matrix > base_M ) {
-	this->matrixDataPtr = shared_ptr < vector < vector < int > > > ( new vector < vector < int > > );
+	this->matrixDataPtr = shared_ptr < vector < vector < double > > > ( new vector < vector < double > > );
 	this->allocateMatrixVectors( base_M->getRowsNo() , base_M->getColumnsNo() );
 	for ( unsigned int i = 0 ; i < base_M->getRowsNo() ; i++ ) {
 		for ( unsigned int j = 0 ; j < base_M->getColumnsNo() ; j++ ) {
