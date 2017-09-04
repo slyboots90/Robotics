@@ -36,7 +36,7 @@ void MatrixOperations::multiplication( Matrix & product , const Matrix & multipl
 					printf( "Fail to get Column from Matrix\n" );
 					break;
 				}
-				int outcome_value = MatrixOperations::vectorMultiplication( row_pointer , & pointers_to_column );
+				double outcome_value = MatrixOperations::vectorMultiplication( row_pointer , & pointers_to_column );
 				temporary_vector.push_back( outcome_value );
 			}
 			if ( product.addRowWithData( & temporary_vector ) ) {
