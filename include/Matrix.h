@@ -29,8 +29,6 @@ class Matrix {
 	void allocateVectorInVector( void );
 	bool verifyRowIndex( unsigned int ) const;
 	bool verifyColumnIndex( unsigned int ) const;
-	const vector < double > * getRow( unsigned int ) const;
-	bool getColumn( vector < const double * > * , unsigned int ) const;
 
 public:
 	Matrix();
@@ -45,6 +43,7 @@ public:
 	bool fillRowWithData( vector < double > * , unsigned int );
 	void eraseRow( unsigned int );
 	unsigned int getRowsNo( void ) const;
+	const vector < double > * getRow( unsigned int ) const;
 	// Columns
 	void addColumn( void );
 	bool addColumnWithData( vector < double > * );
@@ -52,6 +51,7 @@ public:
 	bool fillColumnWithData( vector < double > * , unsigned int );
 	void eraseColumn( unsigned int );
 	unsigned int getColumnsNo( void ) const;
+	bool getColumn( vector < const double * > * , unsigned int ) const;
 	// Operators
 	void operator =( shared_ptr < Matrix > );
 	shared_ptr < Matrix > operator *( const Matrix & );
