@@ -18,12 +18,28 @@ using namespace std;
 void dh( void );
 
 string AppTitle = "DHparams";
-#define winSizeX 500
-#define winSizeY 100
+#define winSizeX 800
+#define winSizeY 500
+
+#define ID_BUTTON_ADD_JOINT 	101
+#define ID_BUTTON_SHOW_CHAIN 	102
+#define ID_BUTTON_REMOVE_JOINT 	103
+
+HWND button_add_joint;
+HWND button_show_chain;
+HWND button_remove_joint;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 int WinMain( HINSTANCE hInst , HINSTANCE , LPSTR , int nCmdShow ) {
+
+	#ifdef DEBUG_BUILD
+	    printf("RUNNING DEBUG BUILD");
+	    MatrixTest start;
+	#else
+	    printf("Running... this is a release build.");
+	    MatrixTest start;
+	#endif
 
 	WNDCLASS wc;
 	HWND hwnd;
@@ -46,6 +62,10 @@ int WinMain( HINSTANCE hInst , HINSTANCE , LPSTR , int nCmdShow ) {
 
 	if ( ! hwnd ) return 0;
 
+	button_add_joint = CreateWindowEx( WS_EX_CLIENTEDGE , "BUTTON" , "Add joint" , WS_CHILD | WS_VISIBLE | WS_BORDER , 0 , 0 , 150 , 30 , hwnd , ( HMENU ) ID_BUTTON_ADD_JOINT , hInst , NULL );
+	button_show_chain = CreateWindowEx( WS_EX_CLIENTEDGE , "BUTTON" , "Show chain" , WS_CHILD | WS_VISIBLE | WS_BORDER , 0 , 30 , 150 , 30 , hwnd , ( HMENU ) ID_BUTTON_SHOW_CHAIN , hInst , NULL );
+	button_remove_joint = CreateWindowEx( WS_EX_CLIENTEDGE , "BUTTON" , "Remove joint" , WS_CHILD | WS_VISIBLE | WS_BORDER , 0 , 60 , 150 , 30 , hwnd , ( HMENU ) ID_BUTTON_REMOVE_JOINT , hInst , NULL );
+
 	ShowWindow( hwnd , nCmdShow );
 	UpdateWindow( hwnd );
 
@@ -53,7 +73,7 @@ int WinMain( HINSTANCE hInst , HINSTANCE , LPSTR , int nCmdShow ) {
 		TranslateMessage( & msg );
 		DispatchMessage( & msg );
 	}
-	return 0;
+	return msg.wParam;
 }
 
 LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam ) {
@@ -71,6 +91,20 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 		case WM_DESTROY:
 			PostQuitMessage( 0 );
 			break;
+		case WM_COMMAND: {
+			switch( wparam ) {
+				case ID_BUTTON_ADD_JOINT:
+					MessageBox( hwnd, "Nacisnales przycisk button_add_joint!", "Ha!", MB_ICONINFORMATION );
+					break;
+				case ID_BUTTON_SHOW_CHAIN:
+					MessageBox( hwnd, "Nacisnales przycisk button_show_chain!", "Ha!", MB_ICONINFORMATION );
+					break;
+				case ID_BUTTON_REMOVE_JOINT:
+					MessageBox( hwnd, "Nacisnales przycisk button_remove_joint!", "Ha!", MB_ICONINFORMATION );
+					break;
+				}
+			break;
+		}
 		default:
 			return DefWindowProc( hwnd , msg , wparam , lparam );
 	}
@@ -78,12 +112,6 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 }
 
 //int main() {
-//#ifdef DEBUG_BUILD
-//    printf("RUNNING DEBUG BUILD");
-//    MatrixTest start;
-//#else
-//    printf("Running... this is a release build.");
-//#endif
 //	//dh();
 //	return 0;
 //}
