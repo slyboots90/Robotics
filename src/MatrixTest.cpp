@@ -751,21 +751,21 @@ void MatrixTest::Determinant1on1Matrix( void ) {
 	Matrix Eva( 1 , 1 );
 	printf ( " TEST: Determinant1on1Matrix \n" );
 	Fill1on1Matrix( Eva );
-	printf ( "  Det %d\n" , Eva.det() );
+	printf ( "  Det %f\n" , Eva.det() );
 }
 
 void MatrixTest::Determinant3on3Matrix( void ) {
 	Matrix Eva( 3 , 3 );
 	printf ( " TEST: Determinant3on3Matrix \n" );
 	Fill3on3Matrix( Eva );
-	printf ( "  Det %d\n" , Eva.det() );
+	printf ( "  Det %f\n" , Eva.det() );
 }
 
 void MatrixTest::Determinant5on5Matrix( void ) {
 	Matrix Eva( 5 , 5 );
 	printf ( " TEST: Determinant5on5Matrix \n" );
 	Fill5on5Matrix( Eva );
-	printf ( "  Det %d\n" , Eva.det() );
+	printf ( "  Det %f\n" , Eva.det() );
 }
 
 void MatrixTest::Rank1on1MatrixExpect0( void ) {
