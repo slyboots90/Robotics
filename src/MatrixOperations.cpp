@@ -217,17 +217,17 @@ void MatrixOperations::detSarrusMethodFunWay( const Matrix & base_M ) {
 		}
 		subMatrix->addColumnWithData( & new_column );
 	}
-	int sub_sum1 = 0;
+	double sub_sum1 = 0;
 	for ( unsigned int i = 0 ; i < 3 ; i++ ) {
-		int sub_product = 1;
+		double sub_product = 1;
 		for ( unsigned int j = 0 ; j < 3 ; j++ ) {
 			sub_product *= subMatrix->matrixDataPtr->at( j ).at( i + j );
 		}
 		sub_sum1 += sub_product;
 	}
-	int sub_sum2 = 0;
+	double sub_sum2 = 0;
 	for ( unsigned int i = 0 ; i < 3 ; i++ ) {
-		int sub_product = 1;
+		double sub_product = 1;
 		for ( unsigned int j = 2 , k = 0 ; k < 3 ; j-- , k++ ) {
 			sub_product *= subMatrix->matrixDataPtr->at( j ).at( k + i );
 		}
