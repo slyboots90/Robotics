@@ -11,15 +11,29 @@
 
 DHparam::DHparam() {
 	transformations = shared_ptr < vector < jointParams > > ( new vector < jointParams > );
-
+	end_coordination.x = 0;
+	end_coordination.y = 0;
+	end_coordination.z = 0;
 }
 
 DHparam::~DHparam() {
 	// TODO Auto-generated destructor stub
 }
 
-void DHparam::addJointParams( jointParams dhparams ) {
-	transformations->push_back( dhparams );
+bool DHparam::addJointParams( jointParams dhparams ) {
+	if ( this->validateParams( dhparams ) ) {				// It still will be working, but come on...
+		transformations->push_back( dhparams );
+		return 1;
+	} else {
+		printf ( "ERROR: Cannot add jointParams, angle should be between -360 & 360 !\n");
+		return 0;
+	}
+}
+
+bool DHparam::validateParams( jointParams dhparams ) {
+	if ( ! ( dhparams.alpha < 360 ) && ! ( dhparams.alpha > -360 ) ) return 0;
+	if ( ! ( dhparams.theta < 360 ) && ! ( dhparams.theta > -360 ) ) return 0;
+	return 1;
 }
 
 shared_ptr < Matrix > DHparam::singleHomogeneousTransformation( unsigned int joint_index) {
@@ -74,4 +88,16 @@ shared_ptr < Matrix > DHparam::transformation( unsigned int joint_End ) {
 	}
 	transformations_M->printMatrix();
 	return transformations_M;
+}
+
+void DHparam::designateCoordinates( void ) {
+	shared_ptr < Matrix > transformations_M ( new Matrix( ) );
+	transformations_M = this->transformation( transformations->size() );
+	const vector < double > * xRow = transformations_M->getRow( 0 );
+	const vector < double > * yRow = transformations_M->getRow( 1 );
+	const vector < double > * zRow = transformations_M->getRow( 2 );
+	end_coordination.x = xRow->back();
+	end_coordination.y = yRow->back();
+	end_coordination.z = zRow->back();
+	printf ( "X: %f Y: %f Z: %f \n" , end_coordination.x , end_coordination.y , end_coordination.z );
 }

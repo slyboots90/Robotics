@@ -24,13 +24,21 @@ struct jointParams {
 class DHparam {
 
 	shared_ptr < vector < jointParams > > transformations;
+	shared_ptr < Matrix > singleHomogeneousTransformation( unsigned int );
+	bool validateParams( jointParams );
+
+	struct xyzRelativeToBase {
+		double x;
+		double y;
+		double z;
+	} end_coordination;
 
 public:
 	DHparam();
 	virtual ~DHparam();
-	void addJointParams( jointParams );
-	shared_ptr < Matrix > singleHomogeneousTransformation( unsigned int );
+	bool addJointParams( jointParams );
 	shared_ptr < Matrix > transformation( unsigned int );
+	void designateCoordinates( void );
 };
 
 #endif /* DHPARAM_H_ */
