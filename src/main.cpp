@@ -32,6 +32,10 @@ string SubWindowName = "Add Joint";
 #define SIG_SUCCESS				500
 #define SIG_FAILED				501
 
+#define DRAW_ROW				700
+#define DRAW_TAB_X				200
+#define DRAW_TAB_Y				 30
+
 HINSTANCE hInst;
 HWND hwnd_main;
 HWND hwnd_child;
@@ -39,10 +43,12 @@ HWND button_add_joint;
 HWND button_show_chain;
 HWND button_remove_joint;
 HWND button_add;
+
 #define INPUT_BOXES 8
 HWND input[ INPUT_BOXES ];
 
 DHparam * dhp = NULL;
+unsigned int no_of_joints;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 LRESULT CALLBACK WindowProcChild(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
@@ -53,6 +59,8 @@ void fillChildWindow( );
 int createChildWindow( );
 bool verifyAndAddValues( );
 double getValues( unsigned int );
+void drawRow( HDC , int , int );
+void fillInitRow( HDC );
 
 int WinMain( HINSTANCE hInst_l , HINSTANCE , LPSTR , int nCmdShow ) {
 
@@ -90,6 +98,12 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 			GetClientRect( hwnd , & r );
 			dc = BeginPaint( hwnd , & ps );
 			DrawText( dc , "Welcom in DH" , -1 , & r , DT_SINGLELINE | DT_CENTER | DT_VCENTER );
+			int y_offset = DRAW_TAB_Y;
+			// TODO Printing just once !
+			for ( unsigned int i = 0 ; i < no_of_joints + 1 ; i++ , y_offset += 30 ) {
+				drawRow( dc , DRAW_TAB_X , y_offset  );
+			}
+			fillInitRow( dc );
 			EndPaint( hwnd , & ps );
 			break;
 		}
@@ -141,6 +155,8 @@ LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM 
 			switch( wparam ) {
 				case ID_BUTTON_ADD: {
 					if ( verifyAndAddValues( ) ) {
+						no_of_joints++;
+						SendMessage( hwnd_main , WM_PAINT , DRAW_ROW , 0 );
 						//MessageBox( NULL , "Successful added joint ! " , "Success !" , MB_ICONINFORMATION );
 						//SendMessage( hwnd_main , WM_PARENTNOTIFY , 0 , 0 );
 					} else {
@@ -281,3 +297,29 @@ double getValues( unsigned int index ) {
 	return double_v;
 }
 
+void drawRow( HDC dc , int x_start , int y_start ) {
+	int x_current = x_start;
+	int y_current = y_start;
+	int column_width = 100;
+	int column_high = 30;
+	for ( unsigned int i = 0 ; i < 5 ; i++ ) {
+		MoveToEx( dc , x_current , y_current , NULL );
+		x_current += column_width;
+		LineTo( dc , x_current , y_current );
+		y_current += column_high;
+		LineTo( dc , x_current , y_current );
+		x_current -= column_width;
+		LineTo( dc , x_current , y_current );
+		y_current -= column_high;
+		LineTo( dc , x_current , y_current );
+		x_current += column_width;
+	}
+}
+
+void fillInitRow( HDC dc ) {
+	TextOut( dc , 230 , 38 , TEXT( "Joint" ) , 5 );
+	TextOut( dc , 230 + 100 , 38 , TEXT( "  d  " ) , 5 );
+	TextOut( dc , 230 + 200 , 38 , TEXT( "theta" ) , 5 );
+	TextOut( dc , 230 + 300 , 38 , TEXT( "  r  " ) , 5 );
+	TextOut( dc , 230 + 400 , 38 , TEXT( "alpha" ) , 5 );
+}
