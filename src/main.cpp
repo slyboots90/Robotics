@@ -21,13 +21,16 @@ string AppTitle = "Denavit-Hartenberg notation";
 string SubWindowName = "Add Joint";
 #define mainWinSizeX 800
 #define mainWinSizeY 500
-#define childWinSizeX 320
-#define childWinSizeY 200
+#define childWinSizeX 330
+#define childWinSizeY 150
 
 #define ID_BUTTON_ADD_JOINT 	101
 #define ID_BUTTON_SHOW_CHAIN 	102
 #define ID_BUTTON_REMOVE_JOINT 	103
 #define ID_BUTTON_ADD 			104
+
+#define SIG_SUCCESS				500
+#define SIG_FAILED				501
 
 HINSTANCE hInst;
 HWND hwnd_main;
@@ -36,10 +39,8 @@ HWND button_add_joint;
 HWND button_show_chain;
 HWND button_remove_joint;
 HWND button_add;
-HWND d_input;
-HWND theta_input;
-HWND r_input;
-HWND alpha_input;
+#define INPUT_BOXES 8
+HWND input[ INPUT_BOXES ];
 
 DHparam * dhp = NULL;
 
@@ -50,6 +51,8 @@ void fillMainWindow( );
 int initChildWindow( );
 void fillChildWindow( );
 int createChildWindow( );
+bool verifyAndAddValues( );
+double getValues( unsigned int );
 
 int WinMain( HINSTANCE hInst_l , HINSTANCE , LPSTR , int nCmdShow ) {
 
@@ -110,6 +113,19 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 				}
 			break;
 		}
+		case WM_PARENTNOTIFY: {
+			switch( wparam ) {
+				case SIG_SUCCESS:
+					//MessageBox( hwnd , "Successful added joint ! " , "Success !" , MB_ICONINFORMATION );
+					break;
+				case SIG_FAILED:
+					//MessageBox( hwnd , "Failed to add joint ! ", "Failed !" , MB_ICONINFORMATION );
+					break;
+				default:
+					break;
+			}
+			break;
+		}
 		default:
 			return DefWindowProc( hwnd , msg , wparam , lparam );
 	}
@@ -117,7 +133,6 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 }
 
 LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam ) {
-	static jointParams jParams;
 	switch ( msg ) {
 		case WM_PAINT: {
 			break;
@@ -125,15 +140,12 @@ LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM 
 		case WM_COMMAND: {
 			switch( wparam ) {
 				case ID_BUTTON_ADD: {
-//					TCHAR buff[1024];
-//					GetWindowText(d_input, buff, 1024);
-//					jParams.d = stod(buff);
-//					GetWindowText(theta_input, buff, 1024);
-//					jParams.theta = stod(buff);
-//					GetWindowText(r_input, buff, 1024);
-//					jParams.r = stod(buff);
-//					GetWindowText(alpha_input, buff, 1024);
-//					jParams.alpha = stod(buff);
+					if ( verifyAndAddValues( ) ) {
+						//MessageBox( NULL , "Successful added joint ! " , "Success !" , MB_ICONINFORMATION );
+						//SendMessage( hwnd_main , WM_PARENTNOTIFY , 0 , 0 );
+					} else {
+						//SendMessage( hwnd_main , WM_PARENTNOTIFY , 0 , 0 );
+					}
 					DestroyWindow( hwnd_child );
 					break;
 				}
@@ -150,18 +162,6 @@ LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM 
 			return DefWindowProc( hwnd , msg , wparam , lparam );
 	}
 	return 0;
-}
-
-void dh() {
-	DHparam kin;
-	jointParams st;
-	st.alpha = 30;
-	st.d = 4;
-	st.r = 12;
-	st.theta = 90;
-	kin.addJointParams( st );
-	kin.addJointParams( st );
-	kin.designateCoordinates( );
 }
 
 int initMainWindow( ) {
@@ -214,18 +214,70 @@ void fillMainWindow( ) {
 }
 
 void fillChildWindow( ) {
-	HWND hStatic_d = CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 0 , 150 , 30 , hwnd_child , NULL , hInst , NULL );
+	// Static
+	HWND hStatic_d = CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 0 , 150 , 20 , hwnd_child , NULL , hInst , NULL );
 	SetWindowText( hStatic_d , " Segment Offset " );
-	HWND hStatic_theta = CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 30 , 150 , 30 , hwnd_child , NULL , hInst , NULL );
+	HWND hStatic_theta = CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 20 , 150 , 20 , hwnd_child , NULL , hInst , NULL );
 	SetWindowText( hStatic_theta , " Angle of Joint " );
-	HWND hStatic_r = CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 60 , 150 , 30 , hwnd_child , NULL , hInst , NULL );
+	HWND hStatic_r = CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 40 , 150 , 20 , hwnd_child , NULL , hInst , NULL );
 	SetWindowText( hStatic_r , " Segment Length " );
-	HWND hStatic_alpha = CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 90 , 150 , 30 , hwnd_child , NULL , hInst , NULL );
+	HWND hStatic_alpha = CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 60 , 150 , 20 , hwnd_child , NULL , hInst , NULL );
 	SetWindowText( hStatic_alpha , " Twist Angle " );
-	button_add_joint = CreateWindowEx( WS_EX_CLIENTEDGE , "BUTTON" , "Add" , WS_CHILD | WS_VISIBLE | WS_BORDER , 0 , 120 , 300 , 30 , hwnd_child , ( HMENU ) ID_BUTTON_ADD , hInst , NULL );
-	d_input = CreateWindowEx( WS_EX_CLIENTEDGE , "EDIT" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER | ES_NUMBER , 150 , 0 , 150 , 30 , hwnd_child , NULL , hInst , NULL );
-	theta_input = CreateWindowEx( WS_EX_CLIENTEDGE , "EDIT" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER | ES_NUMBER , 150 , 30 , 150 , 30 , hwnd_child , NULL , hInst , NULL );
-	r_input = CreateWindowEx( WS_EX_CLIENTEDGE , "EDIT" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER | ES_NUMBER , 150 , 60 , 150 , 30 , hwnd_child , NULL , hInst , NULL );
-	alpha_input = CreateWindowEx( WS_EX_CLIENTEDGE , "EDIT" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER | ES_NUMBER , 150 , 90 , 150 , 30 , hwnd_child , NULL , hInst , NULL );
+	// Add button
+	button_add_joint = CreateWindowEx( WS_EX_CLIENTEDGE , "BUTTON" , "Add" , WS_CHILD | WS_VISIBLE | WS_BORDER , 0 , 80 , 310 , 30 , hwnd_child , ( HMENU ) ID_BUTTON_ADD , hInst , NULL );
 
+	int x_offset, y_offset;
+	for ( unsigned int i = 0 ; i < INPUT_BOXES ; i++ ) {
+		i % 2 ? x_offset = 235 : x_offset = 150;
+		input[ i ] = CreateWindowEx( WS_EX_CLIENTEDGE , "EDIT" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER | ES_NUMBER, x_offset , y_offset , 75 , 20 , hwnd_child , NULL , hInst , NULL );
+		if ( x_offset == 235 ) y_offset += 20;
+	}
+	HWND dots [ INPUT_BOXES / 2 ];
+	for ( unsigned int i = 0 ; i < INPUT_BOXES / 2 ; i++ ) {
+		dots [ i ] = CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | ES_CENTER , 225 , i * 20 , 10 , 20 , hwnd_child , NULL , hInst , NULL );
+		SetWindowText( dots [ i ] , "." );
+	}
 }
+
+bool verifyAndAddValues( ) {
+	if ( dhp == NULL ) return false;
+	jointParams jParams;
+	for ( unsigned int i = 0 ; i < INPUT_BOXES ; i += 2 ) {
+		double value = getValues( i );
+		switch ( i ) {
+				case 0:
+					jParams.d = value;
+					break;
+				case 2: {
+					if ( ! (value < 360 && value > -360) ) return false;
+					jParams.theta = value;
+					break;
+				}
+				case 4:
+					jParams.r = value;
+					break;
+				case 6: {
+					if ( ! (value < 360 && value > -360) ) return false;
+					jParams.alpha = value;
+					break;
+				}
+				default:
+					break;
+		}
+	}
+	dhp->addJointParams( jParams );
+	return true;
+}
+
+double getValues( unsigned int index ) {
+	TCHAR buff_h[ 20 ];
+	TCHAR buff_l[ 20 ];
+	GetWindowText( input[ index ] , buff_h , 20 );
+	GetWindowText( input[ index + 1 ] , buff_l , 20 );
+	string doubl_h = buff_h ;
+	string doubl_l = buff_l ;
+	string string_v = doubl_h + "." + doubl_l;
+	double double_v = atof( string_v.c_str( ) );
+	return double_v;
+}
+
