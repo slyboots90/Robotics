@@ -36,6 +36,11 @@ const jointParams * DHparam::getJointParams( unsigned int index ) {
 	return & transformations->at( index );
 }
 
+unsigned int DHparam::getNoOfJoints( void ) {
+	if ( transformations->empty( ) ) return 0;
+	return transformations->size( );
+}
+
 bool DHparam::validateParams( jointParams dhparams ) {
 	if ( ! ( dhparams.alpha < 360 ) && ! ( dhparams.alpha > -360 ) ) return 0;
 	if ( ! ( dhparams.theta < 360 ) && ! ( dhparams.theta > -360 ) ) return 0;
