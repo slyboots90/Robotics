@@ -23,13 +23,16 @@
 using namespace std;
 
 HINSTANCE hInst;
-HWND hwnd_main;
 HWND hwnd_child;
 
 DHparam * dhp = NULL;
 
 LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
 LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
+
+// SAVE for future
+// HDC hdc = GetWindowDC( hwnd );
+// ReleaseDC( hwnd , hdc );
 
 int WinMain( HINSTANCE hInst_l , HINSTANCE , LPSTR , int nCmdShow ) {
 
@@ -39,6 +42,8 @@ int WinMain( HINSTANCE hInst_l , HINSTANCE , LPSTR , int nCmdShow ) {
 	#else
 	    printf("Running... this is a release build.");
 	#endif
+
+	HWND hwnd_main;
 
 	if ( ! initMainWindow( hwnd_main , hInst ) ) return 0;
 	if ( ! initAddJointWindow( hInst ) ) return 0;
@@ -81,7 +86,7 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 		case WM_COMMAND: {
 			switch( wparam ) {
 				case ID_BUTTON_ADD_JOINT: {
-					if ( ! createAddJointWindow( hwnd_main , hwnd_child , hInst ) ) break;
+					if ( ! createAddJointWindow( hwnd , hwnd_child , hInst ) ) break;
 					ShowWindow( hwnd_child , SW_SHOW );
 				    UpdateWindow( hwnd_child );
 					break;
@@ -123,17 +128,13 @@ LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM 
 			switch( wparam ) {
 				case ID_BUTTON_ADD: {
 					if ( verifyAndAddValues( dhp ) ) {
-						HDC hdc = GetWindowDC( hwnd_main );
-						//HDC hdc = GetWindowDC( GetTopWindow( hwnd) );
-						RedrawWindow( hwnd_main , NULL , NULL , RDW_INVALIDATE | RDW_UPDATENOW );
-						UpdateWindow( hwnd_main );
-						ReleaseDC( hwnd_main , hdc );
+						RedrawWindow( GetParent( hwnd ) , NULL , NULL , RDW_INVALIDATE | RDW_UPDATENOW );
 						//MessageBox( NULL , "Successful added joint ! " , "Success !" , MB_ICONINFORMATION );
 						//SendMessage( hwnd_main , WM_PARENTNOTIFY , 0 , 0 );
 					} else {
 						//SendMessage( hwnd_main , WM_PARENTNOTIFY , 0 , 0 );
 					}
-					DestroyWindow( hwnd_child );
+					DestroyWindow( hwnd );
 					break;
 				}
 				default:
@@ -150,4 +151,3 @@ LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM 
 	}
 	return 0;
 }
-
