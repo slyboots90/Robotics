@@ -86,6 +86,7 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 		case WM_COMMAND: {
 			switch( wparam ) {
 				case ID_BUTTON_ADD_JOINT: {
+					//TODO hwnd_child and hInst should be local in main
 					if ( ! createAddJointWindow( hwnd , hwnd_child , hInst ) ) break;
 					ShowWindow( hwnd_child , SW_SHOW );
 				    UpdateWindow( hwnd_child );
@@ -143,7 +144,7 @@ LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM 
 			break;
 		}
 		case WM_DESTROY: {
-			DestroyWindow( hwnd_child );
+			DestroyWindow( hwnd );
 			break;
 		}
 		default:
