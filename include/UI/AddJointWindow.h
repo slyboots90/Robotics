@@ -18,8 +18,8 @@
 
 #define INPUT_BOXES 		8
 
-int initChildWindow( HINSTANCE & );
-int createChildWindow( HWND & , HWND & , HINSTANCE & );
-void fillChildWindow( HWND & , HINSTANCE & );
+int initAddJointWindow( HINSTANCE & );
+int createAddJointWindow( HWND & , HWND & , HINSTANCE & );
+void fillAddJointWindow( HWND & , HINSTANCE & );
 
 #endif /* UI_ADDJOINTWINDOW_H_ */

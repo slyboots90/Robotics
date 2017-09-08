@@ -1,5 +1,5 @@
 //============================================================================
-// Name        : Matrix.cpp
+// Name        : Main.cpp
 // Author      : Mateusz Fraszczynski
 // Version     : 1.0
 // Copyright   : Your copyright notice
@@ -41,7 +41,7 @@ int WinMain( HINSTANCE hInst_l , HINSTANCE , LPSTR , int nCmdShow ) {
 	#endif
 
 	if ( ! initMainWindow( hwnd_main , hInst ) ) return 0;
-	if ( ! initChildWindow( hInst ) ) return 0;
+	if ( ! initAddJointWindow( hInst ) ) return 0;
 	fillMainWindow( hwnd_main , hInst );
 
 	dhp = new DHparam();
@@ -68,7 +68,7 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 			dc = BeginPaint( hwnd , & ps );
 			DrawText( dc , "Welcome in DH" , -1 , & r , DT_SINGLELINE | DT_CENTER | DT_VCENTER );
 			int y_offset = DRAW_TAB_Y;
-			for ( unsigned int i = 0 ; i < dhp->getNoOfJoints() + 1 ; i++ , y_offset += 30 ) {
+			for ( unsigned int i = 0 ; i < dhp->getNoOfJoints() + 1 ; i++ , y_offset += COLUMN_HIGH ) {
 				drawRowInMainWindowTable( dc , DRAW_TAB_X , y_offset  );
 			}
 			fillRowsInMainWindowTable( dc , dhp );
@@ -81,7 +81,7 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 		case WM_COMMAND: {
 			switch( wparam ) {
 				case ID_BUTTON_ADD_JOINT: {
-					if ( ! createChildWindow( hwnd_main , hwnd_child , hInst ) ) break;
+					if ( ! createAddJointWindow( hwnd_main , hwnd_child , hInst ) ) break;
 					ShowWindow( hwnd_child , SW_SHOW );
 				    UpdateWindow( hwnd_child );
 					break;
@@ -123,7 +123,9 @@ LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM 
 			switch( wparam ) {
 				case ID_BUTTON_ADD: {
 					if ( verifyAndAddValues( dhp ) ) {
-						HDC hdc = GetWindowDC( hwnd_main );
+
+						//HDC hdc = GetWindowDC( hwnd_main );
+						HDC hdc = GetWindowDC( GetTopWindow(hwnd));
 						SendMessage( hwnd_main , WM_PAINT , ( WPARAM ) hdc , 0 );
 						//TODO remove blinking
 						ShowWindow( hwnd_main , SW_HIDE );
