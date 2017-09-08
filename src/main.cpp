@@ -12,10 +12,9 @@
 #include "../include/DHparam.h"
 #include "../include/Timer.h"
 #include <windows.h>
+#include <sstream>
 
 using namespace std;
-
-void dh( void );
 
 string AppTitle = "Denavit-Hartenberg notation";
 string SubWindowName = "Add Joint";
@@ -231,7 +230,7 @@ int createChildWindow( ) {
 
 void fillMainWindow( ) {
 	button_add_joint = CreateWindowEx( WS_EX_CLIENTEDGE , "BUTTON" , "Add joint" , WS_CHILD | WS_VISIBLE | WS_BORDER , 0 , 0 , 150 , 30 , hwnd_main , ( HMENU ) ID_BUTTON_ADD_JOINT , hInst , NULL );
-	button_show_chain = CreateWindowEx( WS_EX_CLIENTEDGE , "BUTTON" , "Show chain" , WS_CHILD | WS_VISIBLE | WS_BORDER , 0 , 30 , 150 , 30 , hwnd_main , ( HMENU ) ID_BUTTON_SHOW_CHAIN , hInst , NULL );
+	button_show_chain = CreateWindowEx( WS_EX_CLIENTEDGE , "BUTTON" , "Show position" , WS_CHILD | WS_VISIBLE | WS_BORDER , 0 , 30 , 150 , 30 , hwnd_main , ( HMENU ) ID_BUTTON_SHOW_CHAIN , hInst , NULL );
 	button_remove_joint = CreateWindowEx( WS_EX_CLIENTEDGE , "BUTTON" , "Remove joint" , WS_CHILD | WS_VISIBLE | WS_BORDER , 0 , 60 , 150 , 30 , hwnd_main , ( HMENU ) ID_BUTTON_REMOVE_JOINT , hInst , NULL );
 }
 
@@ -321,16 +320,48 @@ void drawRow( HDC dc , int x_start , int y_start ) {
 }
 
 void fillRows( HDC dc ) {
-	TextOut( dc , 230 , 38 , TEXT( "Joint" ) , 5 );
-	TextOut( dc , 230 + 100 , 38 , TEXT( "  d  " ) , 5 );
-	TextOut( dc , 230 + 200 , 38 , TEXT( "theta" ) , 5 );
-	TextOut( dc , 230 + 300 , 38 , TEXT( "  r  " ) , 5 );
-	TextOut( dc , 230 + 400 , 38 , TEXT( "alpha" ) , 5 );
 	for ( unsigned int i = 0 ; i < no_of_joints + 1 ; i++ ) {
-		TextOut( dc , 230 , 38 + ( i * COLUMN_HIGH ) , TEXT( "Joint" ) , 5 );
-		TextOut( dc , 230 + 100 , 38 + ( i * COLUMN_HIGH ) , TEXT( "  d  " ) , 5 );
-		TextOut( dc , 230 + 200 , 38 + ( i * COLUMN_HIGH ) , TEXT( "theta" ) , 5 );
-		TextOut( dc , 230 + 300 , 38 + ( i * COLUMN_HIGH ) , TEXT( "  r  " ) , 5 );
-		TextOut( dc , 230 + 400 , 38 + ( i * COLUMN_HIGH ) , TEXT( "alpha" ) , 5 );
+		if ( ! i ) {
+			TextOut( dc , 230 , 38 , TEXT( "Joint" ) , 5 );
+			TextOut( dc , 230 + 100 , 38 , TEXT( "  d  " ) , 5 );
+			TextOut( dc , 230 + 200 , 38 , TEXT( "theta" ) , 5 );
+			TextOut( dc , 230 + 300 , 38 , TEXT( "  r  " ) , 5 );
+			TextOut( dc , 230 + 400 , 38 , TEXT( "alpha" ) , 5 );
+		} else {
+			const jointParams * params = dhp->getJointParams( i - 1 );
+			if ( params == NULL ) return;
+			for ( unsigned int j = 0 ; j < 5 ; j++ ) {
+				ostringstream ss_value;
+				string str_value;
+				switch ( j ) {
+					case 0: {
+						ss_value << i;
+						str_value = ss_value.str();
+						break;
+					}
+					case 1: {
+						ss_value << params->d;
+						str_value = ss_value.str();
+						break;
+					}
+					case 2: {
+						ss_value << params->theta;
+						str_value = ss_value.str();
+						break;
+					}
+					case 3: {
+						ss_value << params->r;
+						str_value = ss_value.str();
+						break;
+					}
+					case 4: {
+						ss_value << params->alpha;
+						str_value = ss_value.str();
+						break;
+					}
+				}
+				TextOut( dc , 230 + ( j * 100 ) , 38 + ( i * COLUMN_HIGH ) , TEXT( str_value.c_str() ) , str_value.size() );
+			}
+		}
 	}
 }
