@@ -9,7 +9,6 @@
 #define BUTTONSID_H_
 
 #define ID_BUTTON_ADD_JOINT 	101
-//TODO show position
 #define ID_BUTTON_SHOW_POS 		102
 #define ID_BUTTON_REMOVE_JOINT 	103
 #define ID_BUTTON_ADD 			104
