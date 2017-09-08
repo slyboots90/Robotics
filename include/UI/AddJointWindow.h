@@ -8,6 +8,9 @@
 #ifndef UI_ADDJOINTWINDOW_H_
 #define UI_ADDJOINTWINDOW_H_
 
+// Include UI
+// Include Classes
+// Include libs
 #include <windows.h>
 
 #define WIN_SIZE_X 			330

@@ -1,12 +1,12 @@
 //============================================================================
 // Name        : Matrix.cpp
 // Author      : Mateusz Fraszczynski
-// Version     :
+// Version     : 1.0
 // Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description : Denavit-Hartenberg notation implementation in C++, Ansi-style
 //============================================================================
 
-
+#include "../include/HelperFunctions.h"
 // Include UI
 #include "../include/UI/MainWindow.h"
 #include "../include/UI/AddJointWindow.h"
@@ -16,35 +16,20 @@
 #include "../include/MatrixTest.h"
 #include "../include/DHparam.h"
 #include "../include/Timer.h"
-// Incude lib
+// Include libs
 #include <iostream>
 #include <windows.h>
-#include <sstream>
 
 using namespace std;
-
-#define DRAW_ROW				700
-#define DRAW_TAB_X				200
-#define DRAW_TAB_Y				 30
-#define COLUMN_WIDTH 			100
-#define COLUMN_HIGH				 30
 
 HINSTANCE hInst;
 HWND hwnd_main;
 HWND hwnd_child;
 
-extern HWND input[ INPUT_BOXES ];
-
 DHparam * dhp = NULL;
-unsigned int no_of_joints;
 
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
-LRESULT CALLBACK WindowProcChild(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
-
-bool verifyAndAddValues( );
-double getValues( unsigned int );
-void drawRow( HDC , int , int );
-void fillRows( HDC );
+LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
+LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
 
 int WinMain( HINSTANCE hInst_l , HINSTANCE , LPSTR , int nCmdShow ) {
 
@@ -83,10 +68,10 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 			dc = BeginPaint( hwnd , & ps );
 			DrawText( dc , "Welcome in DH" , -1 , & r , DT_SINGLELINE | DT_CENTER | DT_VCENTER );
 			int y_offset = DRAW_TAB_Y;
-			for ( unsigned int i = 0 ; i < no_of_joints + 1 ; i++ , y_offset += 30 ) {
-				drawRow( dc , DRAW_TAB_X , y_offset  );
+			for ( unsigned int i = 0 ; i < dhp->getNoOfJoints() + 1 ; i++ , y_offset += 30 ) {
+				drawRowInMainWindowTable( dc , DRAW_TAB_X , y_offset  );
 			}
-			fillRows( dc );
+			fillRowsInMainWindowTable( dc , dhp );
 			EndPaint( hwnd , & ps );
 			break;
 		}
@@ -137,10 +122,10 @@ LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM 
 		case WM_COMMAND: {
 			switch( wparam ) {
 				case ID_BUTTON_ADD: {
-					if ( verifyAndAddValues( ) ) {
-						no_of_joints++;
+					if ( verifyAndAddValues( dhp ) ) {
 						HDC hdc = GetWindowDC( hwnd_main );
 						SendMessage( hwnd_main , WM_PAINT , ( WPARAM ) hdc , 0 );
+						//TODO remove blinking
 						ShowWindow( hwnd_main , SW_HIDE );
 						UpdateWindow( hwnd_main );
 						ShowWindow( hwnd_main , SW_SHOW );
@@ -166,110 +151,4 @@ LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM 
 			return DefWindowProc( hwnd , msg , wparam , lparam );
 	}
 	return 0;
-}
-
-bool verifyAndAddValues( ) {
-	if ( dhp == NULL ) return false;
-	jointParams jParams;
-	for ( unsigned int i = 0 ; i < INPUT_BOXES ; i += 2 ) {
-		double value = getValues( i );
-		switch ( i ) {
-				case 0:
-					jParams.d = value;
-					break;
-				case 2: {
-					if ( ! (value < 360 && value > -360) ) return false;
-					jParams.theta = value;
-					break;
-				}
-				case 4:
-					jParams.r = value;
-					break;
-				case 6: {
-					if ( ! (value < 360 && value > -360) ) return false;
-					jParams.alpha = value;
-					break;
-				}
-				default:
-					break;
-		}
-	}
-	dhp->addJointParams( jParams );
-	return true;
-}
-
-double getValues( unsigned int index ) {
-	TCHAR buff_h[ 20 ];
-	TCHAR buff_l[ 20 ];
-	GetWindowText( input[ index ] , buff_h , 20 );
-	GetWindowText( input[ index + 1 ] , buff_l , 20 );
-	string doubl_h = buff_h ;
-	string doubl_l = buff_l ;
-	string string_v = doubl_h + "." + doubl_l;
-	double double_v = atof( string_v.c_str( ) );
-	return double_v;
-}
-
-void drawRow( HDC dc , int x_start , int y_start ) {
-	int x_current = x_start;
-	int y_current = y_start;
-	for ( unsigned int i = 0 ; i < 5 ; i++ ) {
-		MoveToEx( dc , x_current , y_current , NULL );
-		x_current += COLUMN_WIDTH;
-		LineTo( dc , x_current , y_current );
-		y_current += COLUMN_HIGH;
-		LineTo( dc , x_current , y_current );
-		x_current -= COLUMN_WIDTH;
-		LineTo( dc , x_current , y_current );
-		y_current -= COLUMN_HIGH;
-		LineTo( dc , x_current , y_current );
-		x_current += COLUMN_WIDTH;
-	}
-}
-
-void fillRows( HDC dc ) {
-	for ( unsigned int i = 0 ; i < no_of_joints + 1 ; i++ ) {
-		if ( ! i ) {
-			TextOut( dc , 230 , 38 , TEXT( "Joint" ) , 5 );
-			TextOut( dc , 230 + 100 , 38 , TEXT( "  d  " ) , 5 );
-			TextOut( dc , 230 + 200 , 38 , TEXT( "theta" ) , 5 );
-			TextOut( dc , 230 + 300 , 38 , TEXT( "  r  " ) , 5 );
-			TextOut( dc , 230 + 400 , 38 , TEXT( "alpha" ) , 5 );
-		} else {
-			const jointParams * params = dhp->getJointParams( i - 1 );
-			if ( params == NULL ) return;
-			for ( unsigned int j = 0 ; j < 5 ; j++ ) {
-				ostringstream ss_value;
-				string str_value;
-				switch ( j ) {
-					case 0: {
-						ss_value << i;
-						str_value = ss_value.str();
-						break;
-					}
-					case 1: {
-						ss_value << params->d;
-						str_value = ss_value.str();
-						break;
-					}
-					case 2: {
-						ss_value << params->theta;
-						str_value = ss_value.str();
-						break;
-					}
-					case 3: {
-						ss_value << params->r;
-						str_value = ss_value.str();
-						break;
-					}
-					case 4: {
-						ss_value << params->alpha;
-						str_value = ss_value.str();
-						break;
-					}
-				}
-				TextOut( dc , 230 + ( j * 100 ) , 38 + ( i * COLUMN_HIGH ) , TEXT( str_value.c_str() ) , str_value.size() );
-			}
-		}
-	}
 }

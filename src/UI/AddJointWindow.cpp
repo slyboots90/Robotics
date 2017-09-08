@@ -4,9 +4,10 @@
  *  Created on: 8 sep. 2017
  *      Author: mateusz.fraszczynski
  */
+// Include UI
 #include "../../include/UI/AddJointWindow.h"
 #include "../../include/UI/CommonID.h"
-
+// Include libs
 #include <iostream>
 
 using namespace std;
