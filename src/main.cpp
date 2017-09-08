@@ -6,19 +6,22 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
-#include <iostream>
+
+// Include UI
+#include "../include/UI/MainWindow.h"
+#include "../include/UI/AddJointWindow.h"
+#include "../include/UI/CommonID.h"
+// Include Classes
 #include "../include/Matrix.h"
 #include "../include/MatrixTest.h"
 #include "../include/DHparam.h"
 #include "../include/Timer.h"
+// Incude lib
+#include <iostream>
 #include <windows.h>
 #include <sstream>
-#include "../include/UI.h"
 
 using namespace std;
-
-#define SIG_SUCCESS				500
-#define SIG_FAILED				501
 
 #define DRAW_ROW				700
 #define DRAW_TAB_X				200
@@ -98,7 +101,7 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 				    UpdateWindow( hwnd_child );
 					break;
 				}
-				case ID_BUTTON_SHOW_CHAIN:
+				case ID_BUTTON_SHOW_POS:
 					MessageBox( hwnd , "Test", "..." , MB_ICONINFORMATION );
 					break;
 				case ID_BUTTON_REMOVE_JOINT:
