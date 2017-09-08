@@ -123,14 +123,10 @@ LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM 
 			switch( wparam ) {
 				case ID_BUTTON_ADD: {
 					if ( verifyAndAddValues( dhp ) ) {
-
-						//HDC hdc = GetWindowDC( hwnd_main );
-						HDC hdc = GetWindowDC( GetTopWindow(hwnd));
-						SendMessage( hwnd_main , WM_PAINT , ( WPARAM ) hdc , 0 );
-						//TODO remove blinking
-						ShowWindow( hwnd_main , SW_HIDE );
+						HDC hdc = GetWindowDC( hwnd_main );
+						//HDC hdc = GetWindowDC( GetTopWindow( hwnd) );
+						RedrawWindow( hwnd_main , NULL , NULL , RDW_INVALIDATE | RDW_UPDATENOW );
 						UpdateWindow( hwnd_main );
-						ShowWindow( hwnd_main , SW_SHOW );
 						ReleaseDC( hwnd_main , hdc );
 						//MessageBox( NULL , "Successful added joint ! " , "Success !" , MB_ICONINFORMATION );
 						//SendMessage( hwnd_main , WM_PARENTNOTIFY , 0 , 0 );
@@ -154,3 +150,4 @@ LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM 
 	}
 	return 0;
 }
+

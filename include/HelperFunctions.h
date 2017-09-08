@@ -16,5 +16,4 @@
 bool verifyAndAddValues( DHparam * );
 double getValues( unsigned int );
 
-
 #endif /* HELPERFUNCTIONS_H_ */
