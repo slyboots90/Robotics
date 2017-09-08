@@ -38,6 +38,7 @@ public:
 	DHparam();
 	virtual ~DHparam();
 	bool addJointParams( jointParams );
+	const jointParams * getJointParams( unsigned int );
 	void designateCoordinates( void );
 };
 

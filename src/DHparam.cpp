@@ -30,6 +30,12 @@ bool DHparam::addJointParams( jointParams dhparams ) {
 	}
 }
 
+const jointParams * DHparam::getJointParams( unsigned int index ) {
+	if ( transformations->empty( ) ) return NULL;
+	if ( index > transformations->size( ) ) return NULL;
+	return & transformations->at( index );
+}
+
 bool DHparam::validateParams( jointParams dhparams ) {
 	if ( ! ( dhparams.alpha < 360 ) && ! ( dhparams.alpha > -360 ) ) return 0;
 	if ( ! ( dhparams.theta < 360 ) && ! ( dhparams.theta > -360 ) ) return 0;
@@ -82,7 +88,7 @@ shared_ptr < Matrix > DHparam::transformation( unsigned int joint_End ) {
 			if ( ! i ) transformations_M = tmp;
 			else transformations_M = * transformations_M * tmp;
 		} else {
-			printf ( "ERROR: Cannot calculate Tmatrix, singleHomogeneousTransformation return NULL\n");
+			printf ( "ERROR: Cannot calculate Tmatrix, singleHomogeneousTransformation return NULL\n" );
 			return NULL;
 		}
 	}
