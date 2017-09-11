@@ -47,13 +47,9 @@ void fillShowPositionWindow( HWND & hwnd_child , HINSTANCE & hInst , DHparam * d
 	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 0 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Position X " );
 	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 20 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Position Y " );
 	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 40 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Position Z " );
-	string posX, posY, posZ;
-	posX = doubleToString( getXpos( dhp ) );
-	posY = doubleToString( getYpos( dhp ) );
-	posZ = doubleToString( getZpos( dhp ) );
-	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 0 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , posX.c_str() );
-	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 20 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , posY.c_str() );
-	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 40 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , posZ.c_str() );
+	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 0 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , doubleToString( getXpos( dhp ) ).c_str() );
+	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 20 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , doubleToString( getYpos( dhp ) ).c_str() );
+	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 40 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , doubleToString( getZpos( dhp ) ).c_str() );
 }
 
 double getXpos( DHparam * dhp ) {
