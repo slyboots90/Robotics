@@ -8,10 +8,19 @@
 #include "../include/HelperFunctions.h"
 // Include UI
 #include "../include/UI/AddJointWindow.h"
+#include "../include/UI/MainWindow.h"
+#include "../include/UI/ShowPositionWindow.h"
 // Include Classes
 // Include libs
 
 extern HWND input[ INPUT_BOXES ];
+
+int initWindows( HWND & hwnd_main , HINSTANCE & hInst ) {
+	if ( ! initMainWindow( hwnd_main , hInst ) ) return 0;
+	if ( ! initAddJointWindow( hInst ) ) return 0;
+	if ( ! initShowPositionWindow( hInst ) ) return 0;
+	return 1;
+}
 
 bool verifyAndAddValues( DHparam * dhp ) {
 	if ( dhp == NULL ) return false;
@@ -54,3 +63,4 @@ double getValues( unsigned int index ) {
 	double double_v = atof( string_v.c_str( ) );
 	return double_v;
 }
+

@@ -10,6 +10,7 @@
 // Include UI
 #include "../include/UI/MainWindow.h"
 #include "../include/UI/AddJointWindow.h"
+#include "../include/UI/ShowPositionWindow.h"
 #include "../include/UI/CommonID.h"
 // Include Classes
 #include "../include/Matrix.h"
@@ -23,12 +24,14 @@
 using namespace std;
 
 HINSTANCE hInst;
-HWND hwnd_child;
+HWND hwnd_AJ;
+HWND hwnd_SP;
 
 DHparam * dhp = NULL;
 
 LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
-LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
+LRESULT CALLBACK WindowProcChild_AddJoint( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
+LRESULT CALLBACK WindowProcChild_ShowPosition( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
 
 // SAVE for future
 // HDC hdc = GetWindowDC( hwnd );
@@ -45,9 +48,8 @@ int WinMain( HINSTANCE hInst_l , HINSTANCE , LPSTR , int nCmdShow ) {
 
 	HWND hwnd_main;
 
-	if ( ! initMainWindow( hwnd_main , hInst ) ) return 0;
-	if ( ! initAddJointWindow( hInst ) ) return 0;
-	fillMainWindow( hwnd_main , hInst );
+	if ( ! initWindows( hwnd_main , hInst ) ) return 0;
+	createMainWindow( hwnd_main , hInst );
 
 	dhp = new DHparam();
 
@@ -86,15 +88,17 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 		case WM_COMMAND: {
 			switch( wparam ) {
 				case ID_BUTTON_ADD_JOINT: {
-					//TODO hwnd_child and hInst should be local in main
-					if ( ! createAddJointWindow( hwnd , hwnd_child , hInst ) ) break;
-					ShowWindow( hwnd_child , SW_SHOW );
-				    UpdateWindow( hwnd_child );
+					//TODO hwnd_AJ and hInst should be local in main
+					if ( ! createAddJointWindow( hwnd , hwnd_AJ , hInst ) ) break;
+					ShowWindow( hwnd_AJ , SW_SHOW );
+				    UpdateWindow( hwnd_AJ );
 				    //EnumChildWindows
 					break;
 				}
 				case ID_BUTTON_SHOW_POS:
-					MessageBox( hwnd , "Test", "..." , MB_ICONINFORMATION );
+					if ( ! createShowPositionWindow( hwnd , hwnd_SP , hInst ) ) break;
+					ShowWindow( hwnd_SP , SW_SHOW );
+				    UpdateWindow( hwnd_SP );
 					break;
 				case ID_BUTTON_REMOVE_JOINT:
 					MessageBox( hwnd , "Test", "..." , MB_ICONINFORMATION );
@@ -110,7 +114,7 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 	return 0;
 }
 
-LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam ) {
+LRESULT CALLBACK WindowProcChild_AddJoint( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam ) {
 	switch ( msg ) {
 		case WM_PAINT: {
 			break;
@@ -131,6 +135,24 @@ LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM 
 				default:
 					break;
 			}
+			break;
+		}
+		case WM_DESTROY: {
+			DestroyWindow( hwnd );
+			break;
+		}
+		default:
+			return DefWindowProc( hwnd , msg , wparam , lparam );
+	}
+	return 0;
+}
+
+LRESULT CALLBACK WindowProcChild_ShowPosition( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam ) {
+	switch ( msg ) {
+		case WM_PAINT: {
+			break;
+		}
+		case WM_COMMAND: {
 			break;
 		}
 		case WM_DESTROY: {

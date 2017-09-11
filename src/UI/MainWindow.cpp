@@ -29,8 +29,13 @@ int initMainWindow( HWND & hwnd_main , HINSTANCE & hInst ) {
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = AppTitle.c_str();
 	if ( ! RegisterClass( & wc ) ) return 0;
+	return 1;
+}
+
+int createMainWindow( HWND & hwnd_main , HINSTANCE & hInst ) {
 	hwnd_main = CreateWindow( AppTitle.c_str() , AppTitle.c_str() , WS_OVERLAPPEDWINDOW , CW_USEDEFAULT , CW_USEDEFAULT , MAIN_WIN_SIZE_X , MAIN_WIN_SIZE_Y , NULL , NULL , hInst , NULL );
 	if ( ! hwnd_main ) return 0;
+	fillMainWindow( hwnd_main , hInst );
 	return 1;
 }
 

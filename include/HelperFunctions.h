@@ -12,7 +12,9 @@
 // Include Classes
 #include "DHparam.h"
 // Include libs
+#include <windows.h>
 
+int initWindows( HWND & , HINSTANCE & );
 bool verifyAndAddValues( DHparam * );
 double getValues( unsigned int );
 

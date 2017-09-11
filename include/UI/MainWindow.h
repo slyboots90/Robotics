@@ -23,6 +23,7 @@
 #define COLUMN_HIGH				 	30
 
 int initMainWindow( HWND & , HINSTANCE & );
+int createMainWindow( HWND & , HINSTANCE & );
 void fillMainWindow( HWND & , HINSTANCE & );
 void drawRowInMainWindowTable( HDC & , int , int );
 void fillRowsInMainWindowTable( HDC & , DHparam * );
