@@ -5,6 +5,7 @@
  *      Author: mateusz.fraszczynski
  */
 
+#include "../../include/HelperFunctions.h"
 // Include UI
 #include "../../include/UI/ShowPositionWindow.h"
 // Include Classes
@@ -35,18 +36,37 @@ int initShowPositionWindow( HINSTANCE & hInst ) {
 	return 1;
 }
 
-int createShowPositionWindow( HWND & hwnd_main , HWND & hwnd_child , HINSTANCE & hInst ) {
+int createShowPositionWindow( HWND & hwnd_main , HWND & hwnd_child , HINSTANCE & hInst , DHparam * dhp ) {
 	hwnd_child = CreateWindowEx( WS_EX_APPWINDOW , SubWindowName_SP.c_str() , SubWindowName_SP.c_str() ,  WS_OVERLAPPEDWINDOW | WS_EX_TOPMOST | WS_POPUP , CW_USEDEFAULT , CW_USEDEFAULT , WIN_SP_SIZE_X , WIN_SP_SIZE_Y , hwnd_main , NULL , hInst , NULL );
 	if ( ! hwnd_child ) return 0;
-	fillShowPositionWindow( hwnd_child , hInst );
+	fillShowPositionWindow( hwnd_child , hInst , dhp );
 	return 1;
 }
 
-void fillShowPositionWindow( HWND & hwnd_child , HINSTANCE & hInst ) {
+void fillShowPositionWindow( HWND & hwnd_child , HINSTANCE & hInst , DHparam * dhp ) {
 	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 0 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Position X " );
 	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 20 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Position Y " );
 	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 40 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Position Z " );
-	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 0 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " X value " );
-	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 20 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Y value " );
-	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 40 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Z value " );
+	string posX, posY, posZ;
+	posX = doubleToString( getXpos( dhp ) );
+	posY = doubleToString( getYpos( dhp ) );
+	posZ = doubleToString( getZpos( dhp ) );
+	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 0 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , posX.c_str() );
+	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 20 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , posY.c_str() );
+	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 40 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , posZ.c_str() );
+}
+
+double getXpos( DHparam * dhp ) {
+	if( dhp != NULL ) return dhp->getPositionX();
+	return 0;
+}
+
+double getYpos( DHparam * dhp ) {
+	if( dhp != NULL ) return dhp->getPositionY();
+	return 0;
+}
+
+double getZpos( DHparam * dhp ) {
+	if( dhp != NULL ) return dhp->getPositionZ();
+	return 0;
 }

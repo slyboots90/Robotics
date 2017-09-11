@@ -96,7 +96,7 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 					break;
 				}
 				case ID_BUTTON_SHOW_POS:
-					if ( ! createShowPositionWindow( hwnd , hwnd_SP , hInst ) ) break;
+					if ( ! createShowPositionWindow( hwnd , hwnd_SP , hInst , dhp ) ) break;
 					ShowWindow( hwnd_SP , SW_SHOW );
 				    UpdateWindow( hwnd_SP );
 					break;

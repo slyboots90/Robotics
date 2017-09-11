@@ -75,6 +75,7 @@ shared_ptr < Matrix > DHparam::singleHomogeneousTransformation( unsigned int joi
 	TransformationMatrix->addRowWithData( &r1 );
 	TransformationMatrix->addRowWithData( &r2 );
 	TransformationMatrix->addRowWithData( &r3 );
+	//TODO delete after all
 	TransformationMatrix->printMatrix();
 	return TransformationMatrix;
 }

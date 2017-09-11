@@ -64,3 +64,8 @@ double getValuesFromAddJointWindow( unsigned int index ) {
 	return double_v;
 }
 
+string doubleToString( double value ) {
+	ostringstream strs;
+	strs << value;
+	return strs.str();
+}
