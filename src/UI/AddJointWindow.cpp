@@ -12,17 +12,17 @@
 
 using namespace std;
 
-string SubWindowName = "Add Joint";
+string SubWindowName_AJ = "Add Joint";
 
 HWND input[ INPUT_BOXES ];
 
-LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
+LRESULT CALLBACK WindowProcChild_AddJoint( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
 
 int initAddJointWindow( HINSTANCE & hInst ) {
 	WNDCLASSEX wcx;
 	wcx.cbSize = sizeof( wcx );
 	wcx.style = CS_HREDRAW | CS_VREDRAW;
-	wcx.lpfnWndProc = WindowProcChild;
+	wcx.lpfnWndProc = WindowProcChild_AddJoint;
 	wcx.cbClsExtra = 0;
 	wcx.cbWndExtra = 0;
 	wcx.hInstance = hInst;
@@ -30,14 +30,14 @@ int initAddJointWindow( HINSTANCE & hInst ) {
 	wcx.hCursor = LoadCursor( NULL , IDC_ARROW );
 	wcx.hbrBackground = ( HBRUSH ) COLOR_WINDOWFRAME;
 	wcx.lpszMenuName =  NULL;
-	wcx.lpszClassName = SubWindowName.c_str();
+	wcx.lpszClassName = SubWindowName_AJ.c_str();
 	wcx.hIconSm = ( HICON ) LoadImage( hInst , MAKEINTRESOURCE( 5 ) , IMAGE_ICON , GetSystemMetrics( SM_CXSMICON ) , GetSystemMetrics( SM_CYSMICON ) , LR_DEFAULTCOLOR );
 	if ( ! RegisterClassEx( & wcx ) ) return 0;
 	return 1;
 }
 
 int createAddJointWindow( HWND & hwnd_main , HWND & hwnd_child , HINSTANCE & hInst ) {
-	hwnd_child = CreateWindowEx( WS_EX_APPWINDOW , SubWindowName.c_str() , SubWindowName.c_str() ,  WS_OVERLAPPEDWINDOW | WS_EX_TOPMOST | WS_POPUP , CW_USEDEFAULT , CW_USEDEFAULT , WIN_SIZE_X , WIN_SIZE_Y , hwnd_main , NULL , hInst , NULL );
+	hwnd_child = CreateWindowEx( WS_EX_APPWINDOW , SubWindowName_AJ.c_str() , SubWindowName_AJ.c_str() ,  WS_OVERLAPPEDWINDOW | WS_EX_TOPMOST | WS_POPUP , CW_USEDEFAULT , CW_USEDEFAULT , WIN_AJ_SIZE_X , WIN_AJ_SIZE_Y , hwnd_main , NULL , hInst , NULL );
 	if ( ! hwnd_child ) return 0;
 	fillAddJointWindow( hwnd_child , hInst );
 	return 1;

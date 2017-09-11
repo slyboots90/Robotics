@@ -13,8 +13,8 @@
 // Include libs
 #include <windows.h>
 
-#define WIN_SIZE_X 			330
-#define WIN_SIZE_Y 			150
+#define WIN_AJ_SIZE_X 			330
+#define WIN_AJ_SIZE_Y 			150
 
 #define INPUT_BOXES 		8
 
