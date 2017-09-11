@@ -8,6 +8,7 @@
 #include "../include/DHparam.h"
 #include "math.h"
 
+#define PI 3.14159265
 
 DHparam::DHparam() {
 	transformations = shared_ptr < vector < jointParams > > ( new vector < jointParams > );
@@ -48,25 +49,50 @@ bool DHparam::validateParams( jointParams dhparams ) {
 	return 1;
 }
 
-shared_ptr < Matrix > DHparam::singleHomogeneousTransformation( unsigned int joint_index) {
+/**
+ *
+ * DHT Matrix:
+ *
+ *  [   cos(theta)  -sin(theta)cos(alpha)     sin(theta)sin(alpha)      r*cos(theta)    ]
+ *  [   sin(theta)   cos(theta)cos(alpha)    -cos(theta)sin(alpha)      r*sin(theta)    ]
+ *  [     0             sin(alpha)                  cos(alpha)              d           ]
+ *  [     0                 0                           0                   1           ]
+ *
+ */
+
+shared_ptr < Matrix > DHparam::singleHomogeneousTransformation( unsigned int joint_index ) {
 	if ( joint_index > transformations->size() ) {
 		printf ( "ERROR: Cannot calculate s-h-t, parameters of this joint doesn't exist. Params vector size: %d , joint_index %d\n" , transformations->size() , joint_index );
 		return NULL;
 	}
 	shared_ptr < Matrix > TransformationMatrix ( new Matrix( ) );
 	vector < double > r0 , r1 , r2 , r3;
-	r0.push_back( cos( transformations->at( joint_index ).theta ) );
-	r0.push_back( -1 * sin( transformations->at( joint_index ).theta ) * cos( transformations->at( joint_index ).alpha ) );
-	r0.push_back( sin( transformations->at( joint_index ).theta ) * sin( transformations->at( joint_index ).alpha ) );
-	r0.push_back( transformations->at( joint_index ).r * cos( transformations->at( joint_index ).theta ) );
-	r1.push_back( sin( transformations->at( joint_index ).theta ) );
-	r1.push_back( cos( transformations->at( joint_index ).theta * cos( transformations->at( joint_index ).alpha ) ) );
-	r1.push_back( -1 * cos( transformations->at( joint_index ).theta ) * sin( transformations->at( joint_index ).alpha ) );
-	r1.push_back( transformations->at( joint_index ).r * sin( transformations->at( joint_index ).theta ) );
+	double sinTheta , cosTheta , sinAlpha , cosAlpha;
+	double r = transformations->at( joint_index ).r;
+	double d = transformations->at( joint_index ).d;
+	if ( transformations->at( joint_index ).unit == Degrees ) {
+		sinTheta = sin( ( transformations->at( joint_index ).theta ) * PI / 180 );
+		cosTheta = cos( ( transformations->at( joint_index ).theta ) * PI / 180 );
+		sinAlpha = sin( ( transformations->at( joint_index ).alpha ) * PI / 180 );
+		cosAlpha = cos( ( transformations->at( joint_index ).alpha ) * PI / 180 );
+	} else {
+		sinTheta = sin( transformations->at( joint_index ).theta );
+		cosTheta = cos( transformations->at( joint_index ).theta );
+		sinAlpha = sin( transformations->at( joint_index ).alpha );
+		cosAlpha = cos( transformations->at( joint_index ).alpha );
+	}
+	r0.push_back( cosTheta );
+	r0.push_back( -1 * sinTheta * cosAlpha );
+	r0.push_back( sinTheta * sinAlpha );
+	r0.push_back( r * cosTheta );
+	r1.push_back( sinTheta );
+	r1.push_back( cosTheta * cosAlpha );
+	r1.push_back( -1 * cosTheta * sinAlpha );
+	r1.push_back( r * sinTheta );
 	r2.push_back( 0 );
-	r2.push_back( sin( transformations->at( joint_index ).alpha ) );
-	r2.push_back( cos( transformations->at( joint_index ).alpha ) );
-	r2.push_back( transformations->at( joint_index ).d );
+	r2.push_back( sinAlpha );
+	r2.push_back( cosAlpha );
+	r2.push_back( d );
 	r3.push_back( 0 );
 	r3.push_back( 0 );
 	r3.push_back( 0 );
@@ -99,6 +125,7 @@ shared_ptr < Matrix > DHparam::transformation( unsigned int joint_End ) {
 			return NULL;
 		}
 	}
+	//TODO delete after all
 	transformations_M->printMatrix();
 	return transformations_M;
 }

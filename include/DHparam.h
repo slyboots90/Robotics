@@ -14,11 +14,17 @@
 
 using namespace std;
 
+enum angleUnit {
+	Degrees,
+	Radians
+};
+
 struct jointParams {
 	double d;				// segment offset
 	double theta;			// angle of joint
 	double r;				// segment length
 	double alpha;			// twist angle
+	angleUnit unit;			// angel unit
 };
 
 class DHparam {

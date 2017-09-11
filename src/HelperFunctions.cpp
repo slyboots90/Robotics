@@ -25,6 +25,8 @@ int initWindows( HWND & hwnd_main , HINSTANCE & hInst ) {
 bool verifyAndAddValues( DHparam * dhp ) {
 	if ( dhp == NULL ) return false;
 	jointParams jParams;
+	//TODO add to window
+	jParams.unit = Degrees;
 	for ( unsigned int i = 0 ; i < INPUT_BOXES ; i += 2 ) {
 		double value = getValuesFromAddJointWindow( i );
 		switch ( i ) {
