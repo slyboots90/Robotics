@@ -17,17 +17,18 @@ DHparam::DHparam() {
 }
 
 DHparam::~DHparam() {
-	// TODO Auto-generated destructor stub
+
 }
 
 bool DHparam::addJointParams( jointParams dhparams ) {
 	if ( this->validateParams( dhparams ) ) {				// It still will be working, but come on...
 		transformations->push_back( dhparams );
-		return 1;
 	} else {
 		printf ( "ERROR: Cannot add jointParams, angle should be between -360 & 360 !\n");
 		return 0;
 	}
+	this->designateCoordinates( );
+	return 1;
 }
 
 const jointParams * DHparam::getJointParams( unsigned int index ) {
@@ -110,5 +111,16 @@ void DHparam::designateCoordinates( void ) {
 	end_coordination.x = xRow->back();
 	end_coordination.y = yRow->back();
 	end_coordination.z = zRow->back();
-	printf ( "X: %f Y: %f Z: %f \n" , end_coordination.x , end_coordination.y , end_coordination.z );
+}
+
+double DHparam::getPositionX( void ) {
+	return end_coordination.x;
+}
+
+double DHparam::getPositionY( void ) {
+	return end_coordination.y;
+}
+
+double DHparam::getPositionZ( void ) {
+	return end_coordination.z;
 }

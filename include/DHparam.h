@@ -27,6 +27,7 @@ class DHparam {
 	shared_ptr < Matrix > singleHomogeneousTransformation( unsigned int );
 	bool validateParams( jointParams );
 	shared_ptr < Matrix > transformation( unsigned int );
+	void designateCoordinates( void );
 
 	struct xyzRelativeToBase {
 		double x;
@@ -40,7 +41,9 @@ public:
 	bool addJointParams( jointParams );
 	const jointParams * getJointParams( unsigned int );
 	unsigned int getNoOfJoints( void );
-	void designateCoordinates( void );
+	double getPositionX( void );
+	double getPositionY( void );
+	double getPositionZ( void );
 };
 
 #endif /* DHPARAM_H_ */
