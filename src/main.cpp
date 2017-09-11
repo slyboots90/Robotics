@@ -90,6 +90,7 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 					if ( ! createAddJointWindow( hwnd , hwnd_child , hInst ) ) break;
 					ShowWindow( hwnd_child , SW_SHOW );
 				    UpdateWindow( hwnd_child );
+				    //EnumChildWindows
 					break;
 				}
 				case ID_BUTTON_SHOW_POS:
@@ -101,19 +102,8 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 				}
 			break;
 		}
-		case WM_PARENTNOTIFY: {
-			switch( wparam ) {
-				case SIG_SUCCESS:
-					//MessageBox( hwnd , "Successful added joint ! " , "Success !" , MB_ICONINFORMATION );
-					break;
-				case SIG_FAILED:
-					//MessageBox( hwnd , "Failed to add joint ! ", "Failed !" , MB_ICONINFORMATION );
-					break;
-				default:
-					break;
-			}
+		case WM_PARENTNOTIFY:
 			break;
-		}
 		default:
 			return DefWindowProc( hwnd , msg , wparam , lparam );
 	}
@@ -130,12 +120,12 @@ LRESULT CALLBACK WindowProcChild( HWND hwnd , UINT msg , WPARAM wparam , LPARAM 
 				case ID_BUTTON_ADD: {
 					if ( verifyAndAddValues( dhp ) ) {
 						RedrawWindow( GetParent( hwnd ) , NULL , NULL , RDW_INVALIDATE | RDW_UPDATENOW );
-						//MessageBox( NULL , "Successful added joint ! " , "Success !" , MB_ICONINFORMATION );
-						//SendMessage( hwnd_main , WM_PARENTNOTIFY , 0 , 0 );
+						DestroyWindow( hwnd );
+						MessageBox(  NULL , " Successful added joint ! " , "Success !" , MB_ICONINFORMATION );
 					} else {
-						//SendMessage( hwnd_main , WM_PARENTNOTIFY , 0 , 0 );
+						DestroyWindow( hwnd );
+						MessageBox( NULL , " Failed to add joint ! ", "Failed !" , MB_ICONINFORMATION );
 					}
-					DestroyWindow( hwnd );
 					break;
 				}
 				default:
