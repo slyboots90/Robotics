@@ -13,6 +13,8 @@
 // Include Classes
 // Include libs
 
+#define ERROR_DOUBLE_VALUE			2.2E-308
+
 extern HWND input[ INPUT_BOXES ];
 
 int initWindows( HWND & hwnd_main , HINSTANCE & hInst ) {
@@ -27,22 +29,23 @@ bool verifyAndAddValues( DHparam * dhp ) {
 	jointParams jParams;
 	//TODO add to window
 	jParams.unit = Degrees;
-	for ( unsigned int i = 0 ; i < INPUT_BOXES ; i += 2 ) {
-		double value = getValuesFromAddJointWindow( i );
+	for ( unsigned int i = 0 ; i < INPUT_BOXES ; i++ ) {
+		double value = getValuesFromWindow( input[ i ] );
+		if ( value == ERROR_DOUBLE_VALUE ) return false;
 		switch ( i ) {
 				case 0:
 					jParams.d = value;
 					break;
-				case 2: {
-					if ( ! (value < 360 && value > -360) ) return false;
+				case 1: {
+					if ( ! ( value < 360 && value > -360 ) ) return false;
 					jParams.theta = value;
 					break;
 				}
-				case 4:
+				case 2:
 					jParams.r = value;
 					break;
-				case 6: {
-					if ( ! (value < 360 && value > -360) ) return false;
+				case 3: {
+					if ( ! ( value < 360 && value > -360 ) ) return false;
 					jParams.alpha = value;
 					break;
 				}
@@ -54,16 +57,20 @@ bool verifyAndAddValues( DHparam * dhp ) {
 	return true;
 }
 
-double getValuesFromAddJointWindow( unsigned int index ) {
-	TCHAR buff_h[ 20 ];
-	TCHAR buff_l[ 20 ];
-	GetWindowText( input[ index ] , buff_h , 20 );
-	GetWindowText( input[ index + 1 ] , buff_l , 20 );
-	string doubl_h = buff_h ;
-	string doubl_l = buff_l ;
-	string string_v = doubl_h + "." + doubl_l;
-	double double_v = atof( string_v.c_str( ) );
-	return double_v;
+double getValuesFromWindow( HWND hwnd ) {
+	TCHAR buff[ 30 ];
+	GetWindowText( hwnd , buff , 30 );
+	string string_v = buff;
+	//TODO case 51-1 provided in window
+	if ( checkIfStringIsNumber( string_v.c_str() ) ) {
+		return atof( string_v.c_str( ) );
+	} else {
+		return ERROR_DOUBLE_VALUE;
+	}
+}
+
+bool checkIfStringIsNumber( const string & s ) {
+    return( strspn( s.c_str() , "-.0123456789" ) == s.size() );
 }
 
 string doubleToString( double value ) {

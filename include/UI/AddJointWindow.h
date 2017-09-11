@@ -13,10 +13,10 @@
 // Include libs
 #include <windows.h>
 
-#define WIN_AJ_SIZE_X 			330
+#define WIN_AJ_SIZE_X 			320
 #define WIN_AJ_SIZE_Y 			150
 
-#define INPUT_BOXES 		8
+#define INPUT_BOXES 			4
 
 int initAddJointWindow( HINSTANCE & );
 int createAddJointWindow( HWND & , HWND & , HINSTANCE & );

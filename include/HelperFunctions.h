@@ -16,7 +16,8 @@
 
 int initWindows( HWND & , HINSTANCE & );
 bool verifyAndAddValues( DHparam * );
-double getValuesFromAddJointWindow( unsigned int );
+double getValuesFromWindow( HWND );
+bool checkIfStringIsNumber( const string & );
 string doubleToString( double );
 
 #endif /* HELPERFUNCTIONS_H_ */
