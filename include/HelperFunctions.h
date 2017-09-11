@@ -16,6 +16,6 @@
 
 int initWindows( HWND & , HINSTANCE & );
 bool verifyAndAddValues( DHparam * );
-double getValues( unsigned int );
+double getValuesFromAddJointWindow( unsigned int );
 
 #endif /* HELPERFUNCTIONS_H_ */

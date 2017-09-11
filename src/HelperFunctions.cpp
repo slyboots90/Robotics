@@ -26,7 +26,7 @@ bool verifyAndAddValues( DHparam * dhp ) {
 	if ( dhp == NULL ) return false;
 	jointParams jParams;
 	for ( unsigned int i = 0 ; i < INPUT_BOXES ; i += 2 ) {
-		double value = getValues( i );
+		double value = getValuesFromAddJointWindow( i );
 		switch ( i ) {
 				case 0:
 					jParams.d = value;
@@ -52,7 +52,7 @@ bool verifyAndAddValues( DHparam * dhp ) {
 	return true;
 }
 
-double getValues( unsigned int index ) {
+double getValuesFromAddJointWindow( unsigned int index ) {
 	TCHAR buff_h[ 20 ];
 	TCHAR buff_l[ 20 ];
 	GetWindowText( input[ index ] , buff_h , 20 );
