@@ -119,6 +119,10 @@ LRESULT CALLBACK WindowProcChild_AddJoint( HWND hwnd , UINT msg , WPARAM wparam 
 		case WM_PAINT: {
 			break;
 		}
+		case WM_CREATE: {
+			fillAddJointWindow( hwnd , hInst );
+			break;
+		}
 		case WM_COMMAND: {
 			switch( wparam ) {
 				case ID_BUTTON_ADD: {
