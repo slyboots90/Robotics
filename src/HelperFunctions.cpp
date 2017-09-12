@@ -71,7 +71,7 @@ double getValuesFromWindow( HWND hwnd ) {
 }
 
 bool checkIfStringIsNumber( const string & s ) {
-	return regex_match(s, regex("-?[0-9]+([.][0-9]+)?"));
+	return regex_match( s , regex( "-?[0-9]+([.][0-9]+)?" ) );
 }
 
 string doubleToString( double value ) {
