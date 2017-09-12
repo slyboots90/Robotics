@@ -82,6 +82,10 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 			EndPaint( hwnd , & ps );
 			break;
 		}
+		case WM_CREATE: {
+			fillMainWindow( hwnd , hInst );
+			break;
+		}
 		case WM_DESTROY:
 			PostQuitMessage( 0 );
 			break;
