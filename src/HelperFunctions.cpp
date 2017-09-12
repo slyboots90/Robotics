@@ -35,6 +35,7 @@ bool verifyAndAddValues( DHparam * dhp ) {
 		if ( value == ERROR_DOUBLE_VALUE ) return false;
 		switch ( i ) {
 				case 0:
+					//TODO add range here and in UI
 					jParams.d = value;
 					break;
 				case 1: {

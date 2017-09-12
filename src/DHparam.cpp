@@ -42,9 +42,18 @@ unsigned int DHparam::getNoOfJoints( void ) {
 }
 
 bool DHparam::validateParams( jointParams dhparams ) {
-	if ( ! ( dhparams.alpha < 360 ) && ! ( dhparams.alpha > -360 ) ) return 0;
-	if ( ! ( dhparams.theta < 360 ) && ! ( dhparams.theta > -360 ) ) return 0;
-	return 1;
+	if ( dhparams.unit == Degrees ) {
+		if ( ! ( dhparams.alpha < 360 ) && ! ( dhparams.alpha > -360 ) ) return 0;
+		if ( ! ( dhparams.theta < 360 ) && ! ( dhparams.theta > -360 ) ) return 0;
+		return 1;
+	} else if ( dhparams.unit == Radians ) {
+		if ( ! ( dhparams.alpha < 2 * PI ) && ! ( dhparams.alpha > -2 * PI ) ) return 0;
+		if ( ! ( dhparams.theta < 2 * PI ) && ! ( dhparams.theta > -2 * PI ) ) return 0;
+		return 1;
+	} else {
+		printf ( "ERROR: Unknown units, validateParams failed");
+		return 0;
+	}
 }
 
 /**
