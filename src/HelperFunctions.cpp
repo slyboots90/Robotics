@@ -17,6 +17,7 @@
 #define ERROR_DOUBLE_VALUE			2.2E-308
 
 extern HWND input[ INPUT_BOXES ];
+extern HWND listbox;
 
 int initWindows( HWND & hwnd_main , HINSTANCE & hInst ) {
 	if ( ! initMainWindow( hwnd_main , hInst ) ) return 0;
@@ -28,8 +29,12 @@ int initWindows( HWND & hwnd_main , HINSTANCE & hInst ) {
 bool verifyAndAddValues( DHparam * dhp ) {
 	if ( dhp == NULL ) return false;
 	jointParams jParams;
-	//TODO add to window
-	jParams.unit = Degrees;
+	INT selected = SendMessage( listbox , CB_GETCURSEL , 0 , 0 );
+	if ( selected == 0 ) {
+		jParams.unit = Degrees;
+	} else if ( selected == 1 ) {
+		jParams.unit = Radians;
+	}
 	for ( unsigned int i = 0 ; i < INPUT_BOXES ; i++ ) {
 		double value = getValuesFromWindow( input[ i ] );
 		if ( value == ERROR_DOUBLE_VALUE ) return false;
