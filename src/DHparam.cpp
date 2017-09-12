@@ -8,8 +8,6 @@
 #include "../include/DHparam.h"
 #include "math.h"
 
-#define PI 3.14159265
-
 DHparam::DHparam() {
 	transformations = shared_ptr < vector < jointParams > > ( new vector < jointParams > );
 	end_coordination.x = 0;
