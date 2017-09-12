@@ -12,6 +12,7 @@
 #include "../include/UI/ShowPositionWindow.h"
 // Include Classes
 // Include libs
+#include <regex>
 
 #define ERROR_DOUBLE_VALUE			2.2E-308
 
@@ -37,6 +38,7 @@ bool verifyAndAddValues( DHparam * dhp ) {
 					jParams.d = value;
 					break;
 				case 1: {
+					//TODO if jParams.unit
 					if ( ! ( value < 360 && value > -360 ) ) return false;
 					jParams.theta = value;
 					break;
@@ -61,7 +63,6 @@ double getValuesFromWindow( HWND hwnd ) {
 	TCHAR buff[ 30 ];
 	GetWindowText( hwnd , buff , 30 );
 	string string_v = buff;
-	//TODO case 51-1 provided in window
 	if ( checkIfStringIsNumber( string_v.c_str() ) ) {
 		return atof( string_v.c_str( ) );
 	} else {
@@ -70,7 +71,7 @@ double getValuesFromWindow( HWND hwnd ) {
 }
 
 bool checkIfStringIsNumber( const string & s ) {
-    return( strspn( s.c_str() , "-.0123456789" ) == s.size() );
+	return regex_match(s, regex("-?[0-9]+([.][0-9]+)?"));
 }
 
 string doubleToString( double value ) {
