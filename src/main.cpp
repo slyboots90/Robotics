@@ -96,7 +96,7 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 					break;
 				}
 				case ID_BUTTON_SHOW_POS:
-					if ( ! createShowPositionWindow( hwnd , hwnd_SP , hInst , dhp ) ) break;
+					if ( ! createShowPositionWindow( hwnd , hwnd_SP , hInst ) ) break;
 					ShowWindow( hwnd_SP , SW_SHOW );
 				    UpdateWindow( hwnd_SP );
 					break;
@@ -154,6 +154,10 @@ LRESULT CALLBACK WindowProcChild_AddJoint( HWND hwnd , UINT msg , WPARAM wparam 
 LRESULT CALLBACK WindowProcChild_ShowPosition( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam ) {
 	switch ( msg ) {
 		case WM_PAINT: {
+			break;
+		}
+		case WM_CREATE: {
+			fillShowPositionWindow( hwnd , hInst , dhp );
 			break;
 		}
 		case WM_COMMAND: {

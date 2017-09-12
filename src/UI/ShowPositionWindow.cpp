@@ -36,10 +36,9 @@ int initShowPositionWindow( HINSTANCE & hInst ) {
 	return 1;
 }
 
-int createShowPositionWindow( HWND & hwnd_main , HWND & hwnd_child , HINSTANCE & hInst , DHparam * dhp ) {
+int createShowPositionWindow( HWND & hwnd_main , HWND & hwnd_child , HINSTANCE & hInst ) {
 	hwnd_child = CreateWindowEx( WS_EX_APPWINDOW , SubWindowName_SP.c_str() , SubWindowName_SP.c_str() ,  WS_OVERLAPPEDWINDOW | WS_EX_TOPMOST | WS_POPUP , CW_USEDEFAULT , CW_USEDEFAULT , WIN_SP_SIZE_X , WIN_SP_SIZE_Y , hwnd_main , NULL , hInst , NULL );
 	if ( ! hwnd_child ) return 0;
-	fillShowPositionWindow( hwnd_child , hInst , dhp );
 	return 1;
 }
 

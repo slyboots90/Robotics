@@ -17,7 +17,7 @@
 #define WIN_SP_SIZE_Y 			400
 
 int initShowPositionWindow( HINSTANCE & );
-int createShowPositionWindow( HWND & , HWND & , HINSTANCE & , DHparam * );
+int createShowPositionWindow( HWND & , HWND & , HINSTANCE & );
 void fillShowPositionWindow( HWND & , HINSTANCE & , DHparam * );
 double getXpos( DHparam * );
 double getYpos( DHparam * );
