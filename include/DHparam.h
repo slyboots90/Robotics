@@ -27,10 +27,10 @@ enum jointType {
 };
 
 struct jointParams {
+	double a;				// segment length
+	double alpha;			// twist angle
 	double d;				// segment offset
 	double theta;			// angle of joint
-	double r;				// segment length
-	double alpha;			// twist angle
 	angleUnit unit;			// angel unit
 	jointType type;			// type of joint
 };

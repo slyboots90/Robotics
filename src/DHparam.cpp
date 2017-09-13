@@ -32,11 +32,8 @@ bool DHparam::addJointParams( jointParams dhparams ) {
 
 bool DHparam::removeLastJointParams( void ) {
 	if ( ! transformations->empty() ) {
-		//transformations->erase( transformations->pop_back( ) );
-		//transformations->pop_back( );
 		vector < jointParams >::iterator it = transformations->end();
-		it--;
-		transformations->erase( it);
+		transformations->erase( --it );
 	} else {
 		return 0;
 	}
@@ -90,7 +87,7 @@ shared_ptr < Matrix > DHparam::singleHomogeneousTransformation( unsigned int joi
 	shared_ptr < Matrix > TransformationMatrix ( new Matrix( ) );
 	vector < double > r0 , r1 , r2 , r3;
 	double sinTheta , cosTheta , sinAlpha , cosAlpha;
-	double r = transformations->at( joint_index ).r;
+	double a = transformations->at( joint_index ).a;
 	double d = transformations->at( joint_index ).d;
 	if ( transformations->at( joint_index ).unit == Degrees ) {
 		sinTheta = sin( ( transformations->at( joint_index ).theta ) * PI / 180 );
@@ -106,11 +103,11 @@ shared_ptr < Matrix > DHparam::singleHomogeneousTransformation( unsigned int joi
 	r0.push_back( cosTheta );
 	r0.push_back( -1 * sinTheta * cosAlpha );
 	r0.push_back( sinTheta * sinAlpha );
-	r0.push_back( r * cosTheta );
+	r0.push_back( a * cosTheta );
 	r1.push_back( sinTheta );
 	r1.push_back( cosTheta * cosAlpha );
 	r1.push_back( -1 * cosTheta * sinAlpha );
-	r1.push_back( r * sinTheta );
+	r1.push_back( a * sinTheta );
 	r2.push_back( 0 );
 	r2.push_back( sinAlpha );
 	r2.push_back( cosAlpha );

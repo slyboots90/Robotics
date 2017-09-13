@@ -82,22 +82,22 @@ void fillRowsInMainWindowTable( HDC & dc , DHparam * dhp ) {
 						break;
 					}
 					case 1: {
-						ss_value << params->d;
+						ss_value << params->a;
 						str_value = ss_value.str();
 						break;
 					}
 					case 2: {
-						ss_value << params->theta;
+						ss_value << params->alpha;
 						str_value = ss_value.str();
 						break;
 					}
 					case 3: {
-						ss_value << params->r;
+						ss_value << params->d;
 						str_value = ss_value.str();
 						break;
 					}
 					case 4: {
-						ss_value << params->alpha;
+						ss_value << params->theta;
 						str_value = ss_value.str();
 						break;
 					}

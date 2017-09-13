@@ -10,6 +10,7 @@
 #include "../include/UI/AddJointWindow.h"
 #include "../include/UI/MainWindow.h"
 #include "../include/UI/ShowPositionWindow.h"
+#include "../include/UI/CommonID.h"
 // Include Classes
 // Include libs
 #include <regex>
@@ -47,16 +48,17 @@ bool verifyAndAddValues( DHparam * dhp ) {
 		if ( value == ERROR_DOUBLE_VALUE ) return false;
 		switch ( i ) {
 				case 0:
-					//TODO add range here and in UI
-					jParams.d = value;
+					//TODO add range here and in UI ( help info )
+					if ( ! ( value < MAX_A_INPUT_VALUE && value > MIN_A_INPUT_VALUE ) ) return false;
+					jParams.a = value;
 					break;
 				case 1: {
 					if ( jParams.unit == Degrees ) {
 						if ( ! ( value < 360 && value > -360 ) ) return false;
-						jParams.theta = value;
+						jParams.alpha = value;
 					} else if ( jParams.unit == Radians ) {
 						if ( ! ( value < 2 * PI && value > -2 * PI ) ) return false;
-						jParams.theta = value;
+						jParams.alpha = value;
 					} else {
 						printf ( "ERROR: Joint Params unit not found ! ");
 						return false;
@@ -64,15 +66,15 @@ bool verifyAndAddValues( DHparam * dhp ) {
 					break;
 				}
 				case 2:
-					jParams.r = value;
+					jParams.d = value;
 					break;
 				case 3: {
 					if ( jParams.unit == Degrees ) {
 						if ( ! ( value < 360 && value > -360 ) ) return false;
-						jParams.alpha = value;
+						jParams.theta = value;
 					} else if ( jParams.unit == Radians ) {
 						if ( ! ( value < 2 * PI && value > -2 * PI ) ) return false;
-						jParams.alpha = value;
+						jParams.theta = value;
 					} else {
 						printf ( "ERROR: Joint Params unit not found ! ");
 						return false;
