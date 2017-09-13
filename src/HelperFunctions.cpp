@@ -55,30 +55,29 @@ bool verifyAndAddValues( DHparam * dhp ) {
 				case 1: {
 					if ( jParams.unit == Degrees ) {
 						if ( ! ( value < 360 && value > -360 ) ) return false;
-						jParams.alpha = value;
 					} else if ( jParams.unit == Radians ) {
 						if ( ! ( value < 2 * PI && value > -2 * PI ) ) return false;
-						jParams.alpha = value;
 					} else {
 						printf ( "ERROR: Joint Params unit not found ! ");
 						return false;
 					}
+					jParams.alpha = value;
 					break;
 				}
 				case 2:
+					if ( ! ( value < MAX_D_INPUT_VALUE && value > MIN_D_INPUT_VALUE ) ) return false;
 					jParams.d = value;
 					break;
 				case 3: {
 					if ( jParams.unit == Degrees ) {
 						if ( ! ( value < 360 && value > -360 ) ) return false;
-						jParams.theta = value;
 					} else if ( jParams.unit == Radians ) {
 						if ( ! ( value < 2 * PI && value > -2 * PI ) ) return false;
-						jParams.theta = value;
 					} else {
 						printf ( "ERROR: Joint Params unit not found ! ");
 						return false;
 					}
+					jParams.theta = value;
 					break;
 				}
 				default:
