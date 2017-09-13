@@ -16,7 +16,8 @@ string SubWindowName_AJ = "Add Joint";
 
 //TODO avoid global if possible
 HWND input[ INPUT_BOXES ];
-HWND listbox;
+HWND listbox_unit;
+HWND listbox_type;
 
 LRESULT CALLBACK WindowProcChild_AddJoint( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
 
@@ -49,12 +50,17 @@ void fillAddJointWindow( HWND & hwnd_child , HINSTANCE & hInst ) {
 	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 20 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Angle of Joint " );
 	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 40 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Segment Length " );
 	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 60 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Twist Angle " );
-	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 80 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Angle units " );
-	listbox = CreateWindowEx( WS_EX_CLIENTEDGE , "COMBOBOX" , NULL , WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST , 150 , 80 , 150 , 100 , hwnd_child , NULL , hInst , NULL );
-	SendMessage( listbox , CB_ADDSTRING , 0 , ( LPARAM ) "Degrees" );
-	SendMessage( listbox , CB_ADDSTRING , 0 , ( LPARAM ) "Radians" );
-	SendMessage( listbox , CB_SETCURSEL , (WPARAM) 0 , 0 );			// Set default value to Degrees
-	CreateWindowEx( WS_EX_CLIENTEDGE , "BUTTON" , "Add" , WS_CHILD | WS_VISIBLE | WS_BORDER , 0 , 100 , 300 , 30 , hwnd_child , ( HMENU ) ID_BUTTON_ADD , hInst , NULL );
+	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 80 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Joint Type " );
+	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 100 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Angle Units " );
+	listbox_type = CreateWindowEx( WS_EX_CLIENTEDGE , "COMBOBOX" , NULL , WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST , 150 , 80 , 150 , 100 , hwnd_child , NULL , hInst , NULL );
+	listbox_unit = CreateWindowEx( WS_EX_CLIENTEDGE , "COMBOBOX" , NULL , WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST , 150 , 100 , 150 , 100 , hwnd_child , NULL , hInst , NULL );
+	SendMessage( listbox_type , CB_ADDSTRING , 0 , ( LPARAM ) "Rotational" );
+	SendMessage( listbox_type , CB_ADDSTRING , 0 , ( LPARAM ) "Linear" );
+	SendMessage( listbox_type , CB_SETCURSEL , ( WPARAM ) 0 , 0 );			// Set default value to Rotational
+	SendMessage( listbox_unit , CB_ADDSTRING , 0 , ( LPARAM ) "Degrees" );
+	SendMessage( listbox_unit , CB_ADDSTRING , 0 , ( LPARAM ) "Radians" );
+	SendMessage( listbox_unit , CB_SETCURSEL , ( WPARAM ) 0 , 0 );			// Set default value to Degrees
+	CreateWindowEx( WS_EX_CLIENTEDGE , "BUTTON" , "Add" , WS_CHILD | WS_VISIBLE | WS_BORDER , 0 , 120 , 300 , 40 , hwnd_child , ( HMENU ) ID_BUTTON_ADD , hInst , NULL );
 	int x_offset = 150 , y_offset = 0;
 	for ( unsigned int i = 0 ; i < INPUT_BOXES ; i++ ) {
 		input[ i ] = CreateWindowEx( WS_EX_CLIENTEDGE , "EDIT" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , x_offset , y_offset , 150 , 20 , hwnd_child , NULL , hInst , NULL );

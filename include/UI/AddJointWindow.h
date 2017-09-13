@@ -14,7 +14,7 @@
 #include <windows.h>
 
 #define WIN_AJ_SIZE_X 			320
-#define WIN_AJ_SIZE_Y 			170
+#define WIN_AJ_SIZE_Y 			200
 
 #define INPUT_BOXES 			4
 
