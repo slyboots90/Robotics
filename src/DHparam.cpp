@@ -56,6 +56,7 @@ unsigned int DHparam::getNoOfJoints( void ) {
 }
 
 bool DHparam::validateParams( jointParams dhparams ) {
+	if ( dhparams.type != Rotational && dhparams.type != Linear ) return 0;
 	if ( dhparams.unit == Degrees ) {
 		if ( ! ( dhparams.alpha < 360 ) && ! ( dhparams.alpha > -360 ) ) return 0;
 		if ( ! ( dhparams.theta < 360 ) && ! ( dhparams.theta > -360 ) ) return 0;

@@ -21,12 +21,18 @@ enum angleUnit {
 	Radians
 };
 
+enum jointType {
+	Rotational,
+	Linear
+};
+
 struct jointParams {
 	double d;				// segment offset
 	double theta;			// angle of joint
 	double r;				// segment length
 	double alpha;			// twist angle
 	angleUnit unit;			// angel unit
+	jointType type;			// type of joint
 };
 
 class DHparam {

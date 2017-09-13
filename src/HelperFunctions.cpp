@@ -18,6 +18,7 @@
 
 extern HWND input[ INPUT_BOXES ];
 extern HWND listbox_unit;
+extern HWND listbox_type;
 
 int initWindows( HWND & hwnd_main , HINSTANCE & hInst ) {
 	if ( ! initMainWindow( hwnd_main , hInst ) ) return 0;
@@ -29,10 +30,16 @@ int initWindows( HWND & hwnd_main , HINSTANCE & hInst ) {
 bool verifyAndAddValues( DHparam * dhp ) {
 	if ( dhp == NULL ) return false;
 	jointParams jParams;
-	INT selected = SendMessage( listbox_unit , CB_GETCURSEL , 0 , 0 );
-	if ( selected == 0 ) {
+	INT selected_type = SendMessage( listbox_type , CB_GETCURSEL , 0 , 0 );
+	if ( selected_type == 0 ) {
+		jParams.type = Rotational;
+	} else if ( selected_type == 1 ) {
+		jParams.type = Linear;
+	}
+	INT selected_units = SendMessage( listbox_unit , CB_GETCURSEL , 0 , 0 );
+	if ( selected_units == 0 ) {
 		jParams.unit = Degrees;
-	} else if ( selected == 1 ) {
+	} else if ( selected_units == 1 ) {
 		jParams.unit = Radians;
 	}
 	for ( unsigned int i = 0 ; i < INPUT_BOXES ; i++ ) {
