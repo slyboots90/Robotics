@@ -30,6 +30,20 @@ bool DHparam::addJointParams( jointParams dhparams ) {
 	return 1;
 }
 
+bool DHparam::removeLastJointParams( void ) {
+	if ( ! transformations->empty() ) {
+		//transformations->erase( transformations->pop_back( ) );
+		//transformations->pop_back( );
+		vector < jointParams >::iterator it = transformations->end();
+		it--;
+		transformations->erase( it);
+	} else {
+		return 0;
+	}
+	this->designateCoordinates( );
+	return 1;
+}
+
 const jointParams * DHparam::getJointParams( unsigned int index ) {
 	if ( transformations->empty( ) ) return NULL;
 	if ( index > transformations->size( ) ) return NULL;
@@ -138,6 +152,7 @@ shared_ptr < Matrix > DHparam::transformation( unsigned int joint_End ) {
 }
 
 void DHparam::designateCoordinates( void ) {
+	if ( transformations->empty() ) return;
 	shared_ptr < Matrix > transformations_M ( new Matrix( ) );
 	transformations_M = this->transformation( transformations->size() );
 	const vector < double > * xRow = transformations_M->getRow( 0 );

@@ -19,5 +19,6 @@ bool verifyAndAddValues( DHparam * );
 double getValuesFromWindow( HWND );
 bool checkIfStringIsNumber( const string & );
 string doubleToString( double );
+bool removeLastJoint( DHparam * );
 
 #endif /* HELPERFUNCTIONS_H_ */

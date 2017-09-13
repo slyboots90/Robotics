@@ -100,3 +100,9 @@ string doubleToString( double value ) {
 	strs << value;
 	return strs.str();
 }
+
+bool removeLastJoint( DHparam * dhp ) {
+	if ( dhp == NULL ) return 0;
+	if ( dhp->removeLastJointParams( ) ) return 1;
+	return 0;
+}

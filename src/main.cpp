@@ -105,7 +105,15 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 				    UpdateWindow( hwnd_SP );
 					break;
 				case ID_BUTTON_REMOVE_JOINT:
-					MessageBox( hwnd , "Test", "..." , MB_ICONINFORMATION );
+				    if ( IDYES == MessageBox( hwnd , "Are you sure you want to remove last joint ?" , "Remove Joint" , MB_ICONEXCLAMATION | MB_YESNO ) ) {
+				    	if ( removeLastJoint( dhp ) ) {
+				    		//TODO refresh top window
+				    		RedrawWindow( hwnd , NULL , NULL , RDW_INVALIDATE | RDW_UPDATENOW );
+				    		MessageBox(  NULL , " Successful remove of last joint ! " , "Success !" , MB_ICONINFORMATION );
+				    	} else {
+				    		MessageBox( NULL , " Failed to remove joint ! ", "Failed !" , MB_ICONINFORMATION );
+				    	}
+				    }
 					break;
 				}
 			break;
@@ -176,3 +184,4 @@ LRESULT CALLBACK WindowProcChild_ShowPosition( HWND hwnd , UINT msg , WPARAM wpa
 	}
 	return 0;
 }
+

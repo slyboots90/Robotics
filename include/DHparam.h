@@ -47,6 +47,7 @@ public:
 	DHparam();
 	virtual ~DHparam();
 	bool addJointParams( jointParams );
+	bool removeLastJointParams( void );
 	const jointParams * getJointParams( unsigned int );
 	unsigned int getNoOfJoints( void );
 	double getPositionX( void );
