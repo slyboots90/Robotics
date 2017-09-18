@@ -13,6 +13,7 @@ DHparam::DHparam() {
 	end_coordination.x = 0;
 	end_coordination.y = 0;
 	end_coordination.z = 0;
+	rotationalMatrix = shared_ptr < Matrix > ( new Matrix ( 3 , 3 ) );
 }
 
 DHparam::~DHparam() {
@@ -150,15 +151,32 @@ shared_ptr < Matrix > DHparam::transformation( unsigned int joint_End ) {
 }
 
 void DHparam::designateCoordinates( void ) {
-	if ( transformations->empty() ) return;
+	if ( transformations->empty( ) ) return;
 	shared_ptr < Matrix > transformations_M ( new Matrix( ) );
-	transformations_M = this->transformation( transformations->size() );
-	const vector < double > * xRow = transformations_M->getRow( 0 );
-	const vector < double > * yRow = transformations_M->getRow( 1 );
-	const vector < double > * zRow = transformations_M->getRow( 2 );
-	end_coordination.x = xRow->back();
-	end_coordination.y = yRow->back();
-	end_coordination.z = zRow->back();
+	transformations_M = this->transformation( transformations->size( ) );
+	for ( unsigned int i = 0 ; i < ROTMATRIXSIZE ; i++ ) {
+		const vector < double > * rowPtr = transformations_M->getRow( i );
+		vector < double > tmp;
+		for ( unsigned int j = 0 ; j < ROTMATRIXSIZE ; j++ ) tmp.push_back( rowPtr->at( j ) );
+		rotationalMatrix->fillRowWithData( & tmp , i );
+		switch ( i ) {
+			case 0 : {
+				end_coordination.x = rowPtr->back( );
+				break;
+			}
+			case 1 : {
+				end_coordination.y = rowPtr->back( );
+				break;
+			}
+			case 2 : {
+				end_coordination.z = rowPtr->back( );
+				break;
+			}
+			default : {
+				break;
+			}
+		}
+	}
 }
 
 double DHparam::getPositionX( void ) {
@@ -171,4 +189,8 @@ double DHparam::getPositionY( void ) {
 
 double DHparam::getPositionZ( void ) {
 	return end_coordination.z;
+}
+
+shared_ptr < Matrix > DHparam::getRotationalMatrix( void ) {
+	return rotationalMatrix;
 }

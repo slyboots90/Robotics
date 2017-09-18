@@ -14,7 +14,8 @@
 
 using namespace std;
 
-#define PI 3.14159265
+#define PI 						3.14159265
+#define ROTMATRIXSIZE 			3
 
 enum angleUnit {
 	Degrees,
@@ -43,6 +44,8 @@ class DHparam {
 	shared_ptr < Matrix > transformation( unsigned int );
 	void designateCoordinates( void );
 
+	shared_ptr < Matrix > rotationalMatrix;
+
 	struct xyzRelativeToBase {
 		double x;
 		double y;
@@ -59,6 +62,7 @@ public:
 	double getPositionX( void );
 	double getPositionY( void );
 	double getPositionZ( void );
+	shared_ptr < Matrix > getRotationalMatrix( void );
 };
 
 #endif /* DHPARAM_H_ */

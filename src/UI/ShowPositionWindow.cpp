@@ -11,6 +11,7 @@
 // Include Classes
 // Include libs
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -49,6 +50,7 @@ void fillShowPositionWindow( HWND & hwnd_child , HINSTANCE & hInst , DHparam * d
 	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 0 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , doubleToString( getXpos( dhp ) ).c_str() );
 	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 20 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , doubleToString( getYpos( dhp ) ).c_str() );
 	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 150 , 40 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , doubleToString( getZpos( dhp ) ).c_str() );
+	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 0 , 80 , 300 , 20 , hwnd_child , NULL , hInst , NULL ) , " Rotation Matrix " );
 }
 
 double getXpos( DHparam * dhp ) {
@@ -64,4 +66,34 @@ double getYpos( DHparam * dhp ) {
 double getZpos( DHparam * dhp ) {
 	if( dhp != NULL ) return dhp->getPositionZ();
 	return 0;
+}
+
+void drawRowInShowPositionWindowTable( HDC & dc , int x_start , int y_start ) {
+	int x_current = x_start;
+	int y_current = y_start;
+	for ( unsigned int i = 0 ; i < ROTMATRIXSIZE ; i++ ) {
+		MoveToEx( dc , x_current , y_current , NULL );
+		x_current += WIN_SP_COLUMN_WIDTH;
+		LineTo( dc , x_current , y_current );
+		y_current += WIN_SP_COLUMN_HIGH;
+		LineTo( dc , x_current , y_current );
+		x_current -= WIN_SP_COLUMN_WIDTH;
+		LineTo( dc , x_current , y_current );
+		y_current -= WIN_SP_COLUMN_HIGH;
+		LineTo( dc , x_current , y_current );
+		x_current += WIN_SP_COLUMN_WIDTH;
+	}
+}
+
+void fillRowsInShowPositionWindowTable( HDC & dc , DHparam * dhp ) {
+	shared_ptr < Matrix > rot_M = dhp->getRotationalMatrix();
+	for ( unsigned int i = 0 ; i < ROTMATRIXSIZE ; i++ ) {
+		const vector < double > * row_ptr = rot_M->getRow( i );
+		for ( unsigned int j = 0 ; j < WIN_SP_TABLE_COLUMNS ; j++ ) {
+			ostringstream ss_value;
+			ss_value << row_ptr->at( j );
+			string str_value = ss_value.str();
+			TextOut( dc , WIN_SP_TEXT_OFFSET_X + ( j * WIN_SP_COLUMN_WIDTH ) , WIN_SP_TEXT_OFFSET_Y + ( i * WIN_SP_COLUMN_HIGH ) , TEXT( str_value.c_str() ) , str_value.size() );
+		}
+	}
 }
