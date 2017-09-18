@@ -166,6 +166,17 @@ LRESULT CALLBACK WindowProcChild_AddJoint( HWND hwnd , UINT msg , WPARAM wparam 
 LRESULT CALLBACK WindowProcChild_ShowPosition( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam ) {
 	switch ( msg ) {
 		case WM_PAINT: {
+			PAINTSTRUCT ps;
+			HDC dc;
+			RECT r;
+			GetClientRect( hwnd , & r );
+			dc = BeginPaint( hwnd , & ps );
+			int y_offset = WIN_SP_DRAW_TAB_Y;
+			for ( unsigned int i = 0 ; i < WIN_SP_TABLE_COLUMNS ; i++ , y_offset += WIN_SP_COLUMN_HIGH ) {
+				drawRowInShowPositionWindowTable( dc , WIN_SP_DRAW_TAB_X , y_offset  );
+			}
+			fillRowsInShowPositionWindowTable( dc , dhp );
+			EndPaint( hwnd , & ps );
 			break;
 		}
 		case WM_CREATE: {
