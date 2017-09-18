@@ -9,6 +9,7 @@
 #include "../../include/UI/CommonID.h"
 // Include libs
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -47,17 +48,17 @@ void fillMainWindow( HWND & hwnd_main , HINSTANCE & hInst ) {
 void drawRowInMainWindowTable( HDC & dc , int x_start , int y_start ) {
 	int x_current = x_start;
 	int y_current = y_start;
-	for ( unsigned int i = 0 ; i < TABLE_COLUMNS ; i++ ) {
+	for ( unsigned int i = 0 ; i < MAIN_TABLE_COLUMNS ; i++ ) {
 		MoveToEx( dc , x_current , y_current , NULL );
-		x_current += COLUMN_WIDTH;
+		x_current += MAIN_COLUMN_WIDTH;
 		LineTo( dc , x_current , y_current );
-		y_current += COLUMN_HIGH;
+		y_current += MAIN_COLUMN_HIGH;
 		LineTo( dc , x_current , y_current );
-		x_current -= COLUMN_WIDTH;
+		x_current -= MAIN_COLUMN_WIDTH;
 		LineTo( dc , x_current , y_current );
-		y_current -= COLUMN_HIGH;
+		y_current -= MAIN_COLUMN_HIGH;
 		LineTo( dc , x_current , y_current );
-		x_current += COLUMN_WIDTH;
+		x_current += MAIN_COLUMN_WIDTH;
 	}
 }
 
@@ -72,7 +73,7 @@ void fillRowsInMainWindowTable( HDC & dc , DHparam * dhp ) {
 		} else {
 			const jointParams * params = dhp->getJointParams( i - 1 );
 			if ( params == NULL ) return;
-			for ( unsigned int j = 0 ; j < TABLE_COLUMNS ; j++ ) {
+			for ( unsigned int j = 0 ; j < MAIN_TABLE_COLUMNS ; j++ ) {
 				ostringstream ss_value;
 				string str_value;
 				switch ( j ) {
@@ -102,7 +103,7 @@ void fillRowsInMainWindowTable( HDC & dc , DHparam * dhp ) {
 						break;
 					}
 				}
-				TextOut( dc , 230 + ( j * 100 ) , 38 + ( i * COLUMN_HIGH ) , TEXT( str_value.c_str() ) , str_value.size() );
+				TextOut( dc , MAIN_TEXT_OFFSET_X + ( j * MAIN_COLUMN_WIDTH ) , MAIN_TEXT_OFFSET_Y + ( i * MAIN_COLUMN_HIGH ) , TEXT( str_value.c_str() ) , str_value.size() );
 			}
 		}
 	}

@@ -74,9 +74,9 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 			GetClientRect( hwnd , & r );
 			dc = BeginPaint( hwnd , & ps );
 			DrawText( dc , "Welcome in DH" , -1 , & r , DT_SINGLELINE | DT_CENTER | DT_VCENTER );
-			int y_offset = DRAW_TAB_Y;
-			for ( unsigned int i = 0 ; i < dhp->getNoOfJoints() + 1 ; i++ , y_offset += COLUMN_HIGH ) {
-				drawRowInMainWindowTable( dc , DRAW_TAB_X , y_offset  );
+			int y_offset = MAIN_DRAW_TAB_Y;
+			for ( unsigned int i = 0 ; i < dhp->getNoOfJoints() + 1 ; i++ , y_offset += MAIN_COLUMN_HIGH ) {
+				drawRowInMainWindowTable( dc , MAIN_DRAW_TAB_X , y_offset  );
 			}
 			fillRowsInMainWindowTable( dc , dhp );
 			EndPaint( hwnd , & ps );
