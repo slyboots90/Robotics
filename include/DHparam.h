@@ -38,12 +38,12 @@ struct jointParams {
 
 class DHparam {
 
-	shared_ptr < vector < jointParams > > transformations;
 	shared_ptr < Matrix > singleHomogeneousTransformation( unsigned int );
 	bool validateParams( jointParams );
 	shared_ptr < Matrix > transformation( unsigned int );
 	void designateCoordinates( void );
 
+	shared_ptr < vector < jointParams > > transformations;
 	shared_ptr < Matrix > rotationalMatrix;
 
 	struct xyzRelativeToBase {
@@ -63,6 +63,8 @@ public:
 	double getPositionY( void );
 	double getPositionZ( void );
 	shared_ptr < Matrix > getRotationalMatrix( void );
+	bool updateJointValue( unsigned int , double );
+
 };
 
 #endif /* DHPARAM_H_ */

@@ -194,3 +194,17 @@ double DHparam::getPositionZ( void ) {
 shared_ptr < Matrix > DHparam::getRotationalMatrix( void ) {
 	return rotationalMatrix;
 }
+
+bool DHparam::updateJointValue( unsigned int index , double value ) {
+	if ( ! ( index < this->getNoOfJoints( ) ) ) return false;
+	jointParams * params = & ( this->transformations->at( index ) );
+	if ( params->type == Linear ) {
+		params->d = value;
+	} else if ( params->type == Rotational ) {
+		params->theta = value;
+	} else {
+		return false;
+	}
+	this->designateCoordinates( );
+	return true;
+}
