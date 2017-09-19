@@ -211,12 +211,6 @@ LRESULT CALLBACK WindowProcChild_ChangeJointParam( HWND hwnd , UINT msg , WPARAM
 	static int joint_index = -1;
 	switch ( msg ) {
 		case WM_PAINT: {
-			PAINTSTRUCT ps;
-			HDC dc;
-			RECT r;
-			GetClientRect( hwnd , & r );
-			dc = BeginPaint( hwnd , & ps );
-			EndPaint( hwnd , & ps );
 			break;
 		}
 		case WM_CREATE: {
