@@ -1,4 +1,4 @@
-# math
+# Robotics
 Robot Kinematics application [c++]
 
 This application use Matrix class, which can be use for any other operations on Matrix.
