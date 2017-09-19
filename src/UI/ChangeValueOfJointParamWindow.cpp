@@ -5,6 +5,7 @@
  *      Author: mateusz.fraszczynski
  */
 
+#include "../../include/HelperFunctions.h"
 // Include UI
 #include "../../include/UI/ChangeValueOfJointParamWindow.h"
 #include "../../include/UI/CommonID.h"
@@ -15,6 +16,8 @@
 using namespace std;
 
 string SubWindowName_JP = "Change value of joint param";
+
+HWND change_box;
 
 LRESULT CALLBACK WindowProcChild_ChangeJointParam( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
 
@@ -44,5 +47,22 @@ int createChangeValueOfJointParamWindow( HWND & hwnd_main , HWND & hwnd_child , 
 }
 
 void fillChangeValueOfJointParamWindow( HWND & hwnd_child , HINSTANCE & hInst , DHparam * dhp , unsigned int index ) {
-
+	if ( dhp == NULL ) return;
+	string joint_type , str_old_value;
+	double old_value = 0;
+	const jointParams * params = dhp->getJointParams( index );
+	if ( params->type == Linear ) {
+		joint_type = "Linear Joint - d value";
+		old_value = params->d;
+	} else if ( params->type == Rotational ) {
+		joint_type = "Rotational Joint - theta value";
+		old_value = params->theta;
+	}
+	str_old_value = doubleToString( old_value );
+	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 20 , 20 , 300 , 20 , hwnd_child , NULL , hInst , NULL ) , joint_type.c_str() );
+	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 20 , 40 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " Old Value " );
+	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 170 , 40 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , str_old_value.c_str() );
+	SetWindowText( CreateWindowEx( WS_EX_CLIENTEDGE , "STATIC" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 20 , 60 , 150 , 20 , hwnd_child , NULL , hInst , NULL ) , " New Value " );
+	change_box = CreateWindowEx( WS_EX_CLIENTEDGE , "EDIT" , NULL , WS_CHILD | WS_VISIBLE | SS_LEFT | ES_CENTER , 170 , 60 , 150 , 20 , hwnd_child , NULL , hInst , NULL );
+	CreateWindowEx( WS_EX_CLIENTEDGE , "BUTTON" , "Change" , WS_CHILD | WS_VISIBLE | WS_BORDER , 20 , 80 , 300 , 30 , hwnd_child , ( HMENU ) ID_BUTTON_CHANGE , hInst , NULL );
 }

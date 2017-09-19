@@ -209,6 +209,7 @@ LRESULT CALLBACK WindowProcChild_ShowPosition( HWND hwnd , UINT msg , WPARAM wpa
 }
 
 LRESULT CALLBACK WindowProcChild_ChangeJointParam( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam ) {
+	static int joint_index = -1;
 	switch ( msg ) {
 		case WM_PAINT: {
 			PAINTSTRUCT ps;
@@ -221,11 +222,27 @@ LRESULT CALLBACK WindowProcChild_ChangeJointParam( HWND hwnd , UINT msg , WPARAM
 		}
 		case WM_CREATE: {
 			if ( lparam == WIN_JP_LPCREATE ) {			// Because we need wparam with joint index
-				fillChangeValueOfJointParamWindow( hwnd , hInst , dhp , wparam - ID_BUTTON_CHANGE_VALUE_BEGIN );
+				joint_index = wparam - ID_BUTTON_CHANGE_VALUE_BEGIN;
+				fillChangeValueOfJointParamWindow( hwnd , hInst , dhp , joint_index );
 			}
 			break;
 		}
 		case WM_COMMAND: {
+			switch( wparam ) {
+				case ID_BUTTON_CHANGE: {
+					if ( verifyAndChangeValue( dhp , joint_index ) ) {
+						RedrawWindow( GetParent( hwnd ) , NULL , NULL , RDW_INVALIDATE | RDW_UPDATENOW );
+						DestroyWindow( hwnd );
+						MessageBox(  NULL , " Successful change joint value ! " , "Success !" , MB_ICONINFORMATION );
+					} else {
+						DestroyWindow( hwnd );
+						MessageBox( NULL , " Failed to change joint value ! ", "Failed !" , MB_ICONINFORMATION );
+					}
+				}
+					break;
+				default:
+					break;
+			}
 			break;
 		}
 		case WM_DESTROY: {

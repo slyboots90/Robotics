@@ -21,6 +21,7 @@
 extern HWND input[ INPUT_BOXES ];
 extern HWND listbox_unit;
 extern HWND listbox_type;
+extern HWND change_box;
 
 int initWindows( HWND & hwnd_main , HINSTANCE & hInst ) {
 	if ( ! initMainWindow( hwnd_main , hInst ) ) return 0;
@@ -115,4 +116,26 @@ bool removeLastJoint( DHparam * dhp ) {
 	if ( dhp == NULL ) return 0;
 	if ( dhp->removeLastJointParams( ) ) return 1;
 	return 0;
+}
+
+bool verifyAndChangeValue( DHparam * dhp , unsigned int joint_index ) {
+	if( dhp == NULL ) return false;
+	const jointParams * params = dhp->getJointParams( joint_index );
+	double value = getValuesFromWindow( change_box );
+	if ( value == ERROR_DOUBLE_VALUE ) return false;
+	if ( params->type == Linear ) {
+		if ( ! ( value < MAX_D_INPUT_VALUE && value > MIN_D_INPUT_VALUE ) ) return false;
+	} else if ( params->type == Rotational ) {
+		if ( params->unit == Degrees ) {
+			if ( ! ( value < 360 && value > -360 ) ) return false;
+		} else if ( params->unit == Radians ) {
+			if ( ! ( value < 2 * PI && value > -2 * PI ) ) return false;
+		} else {
+			printf ( "ERROR: Joint Params unit not found ! ");
+			return false;
+		}
+	} else {
+		return false;
+	}
+	return dhp->updateJointValue( joint_index , value );
 }

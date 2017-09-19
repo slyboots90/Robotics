@@ -20,5 +20,6 @@ double getValuesFromWindow( HWND );
 bool checkIfStringIsNumber( const string & );
 string doubleToString( double );
 bool removeLastJoint( DHparam * );
+bool verifyAndChangeValue( DHparam * , unsigned int );
 
 #endif /* HELPERFUNCTIONS_H_ */

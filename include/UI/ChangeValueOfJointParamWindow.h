@@ -15,7 +15,7 @@
 #include <windows.h>
 
 #define WIN_JP_SIZE_X 			350
-#define WIN_JP_SIZE_Y 			200
+#define WIN_JP_SIZE_Y 			170
 #define WIN_JP_LPCREATE			99
 
 int initChangeValueOfJointParamWindow( HINSTANCE & );
