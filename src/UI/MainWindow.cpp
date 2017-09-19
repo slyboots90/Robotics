@@ -66,10 +66,10 @@ void fillRowsInMainWindowTable( HDC & dc , DHparam * dhp ) {
 	for ( unsigned int i = 0 ; i < dhp->getNoOfJoints() + 1 ; i++ ) {
 		if ( ! i ) {
 			TextOut( dc , 230 , 38 , TEXT( "Joint" ) , 5 );
-			TextOut( dc , 230 + 100 , 38 , TEXT( "  d  " ) , 5 );
-			TextOut( dc , 230 + 200 , 38 , TEXT( "theta" ) , 5 );
-			TextOut( dc , 230 + 300 , 38 , TEXT( "  r  " ) , 5 );
-			TextOut( dc , 230 + 400 , 38 , TEXT( "alpha" ) , 5 );
+			TextOut( dc , 230 + 100 , 38 , TEXT( "  a  " ) , 5 );
+			TextOut( dc , 230 + 200 , 38 , TEXT( "alpha" ) , 5 );
+			TextOut( dc , 230 + 300 , 38 , TEXT( "  d  " ) , 5 );
+			TextOut( dc , 230 + 400 , 38 , TEXT( "theta" ) , 5 );
 		} else {
 			const jointParams * params = dhp->getJointParams( i - 1 );
 			if ( params == NULL ) return;
