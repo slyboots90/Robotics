@@ -10,6 +10,7 @@
 #include "../include/UI/AddJointWindow.h"
 #include "../include/UI/MainWindow.h"
 #include "../include/UI/ShowPositionWindow.h"
+#include "../include/UI/ChangeValueOfJointParamWindow.h"
 #include "../include/UI/CommonID.h"
 // Include Classes
 // Include libs
@@ -25,6 +26,7 @@ int initWindows( HWND & hwnd_main , HINSTANCE & hInst ) {
 	if ( ! initMainWindow( hwnd_main , hInst ) ) return 0;
 	if ( ! initAddJointWindow( hInst ) ) return 0;
 	if ( ! initShowPositionWindow( hInst ) ) return 0;
+	if ( ! initChangeValueOfJointParamWindow( hInst ) ) return 0;
 	return 1;
 }
 

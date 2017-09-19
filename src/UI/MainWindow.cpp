@@ -93,18 +93,44 @@ void fillRowsInMainWindowTable( HDC & dc , DHparam * dhp ) {
 						break;
 					}
 					case 3: {
-						ss_value << params->d;
-						str_value = ss_value.str();
+						if ( params->type != Linear ) {
+							ss_value << params->d;
+							str_value = ss_value.str();
+						}
 						break;
 					}
 					case 4: {
-						ss_value << params->theta;
-						str_value = ss_value.str();
+						if ( params->type != Rotational ) {
+							ss_value << params->theta;
+							str_value = ss_value.str();
+						}
 						break;
 					}
 				}
 				TextOut( dc , MAIN_TEXT_OFFSET_X + ( j * MAIN_COLUMN_WIDTH ) , MAIN_TEXT_OFFSET_Y + ( i * MAIN_COLUMN_HIGH ) , TEXT( str_value.c_str() ) , str_value.size() );
 			}
 		}
+	}
+}
+
+void updateButtons( HWND & hwnd , HINSTANCE & hInst , DHparam * dhp ) {
+	const jointParams * params = NULL;
+	int x_offset = 0;
+	int y_offset = 31;
+	for ( unsigned int i = 0 ; i < dhp->getNoOfJoints( ) ; i++ ) {
+		ostringstream ss_value;
+		y_offset += MAIN_COLUMN_HIGH;
+		params = dhp->getJointParams( i );
+		if ( params->type == Linear ) {
+			ss_value << params->d;
+			x_offset = 501;
+		} else if ( params->type == Rotational ) {
+			ss_value << params->theta;
+			x_offset = 601;
+		} else {
+			printf ( "ERROR: Unknown joint type ! %d " , params->type );
+		}
+		unsigned int hmenu = ID_BUTTON_CHANGE_VALUE_BEGIN + i;
+		CreateWindowEx( 0 , "BUTTON" , ss_value.str().c_str() , WS_CHILD | WS_VISIBLE | WS_BORDER , x_offset , y_offset , 100 , 30 , hwnd , (HMENU) hmenu , hInst , NULL );
 	}
 }

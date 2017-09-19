@@ -28,5 +28,6 @@ int createMainWindow( HWND & , HINSTANCE & );
 void fillMainWindow( HWND & , HINSTANCE & );
 void drawRowInMainWindowTable( HDC & , int , int );
 void fillRowsInMainWindowTable( HDC & , DHparam * );
+void updateButtons( HWND & , HINSTANCE & , DHparam * );
 
 #endif /* UI_H_ */

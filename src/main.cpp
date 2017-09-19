@@ -11,6 +11,7 @@
 #include "../include/UI/MainWindow.h"
 #include "../include/UI/AddJointWindow.h"
 #include "../include/UI/ShowPositionWindow.h"
+#include "../include/UI/ChangeValueOfJointParamWindow.h"
 #include "../include/UI/CommonID.h"
 // Include Classes
 #include "../include/Matrix.h"
@@ -26,12 +27,14 @@ using namespace std;
 HINSTANCE hInst;
 HWND hwnd_AJ;
 HWND hwnd_SP;
+HWND hwnd_JP;
 
 DHparam * dhp = NULL;
 
 LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
 LRESULT CALLBACK WindowProcChild_AddJoint( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
 LRESULT CALLBACK WindowProcChild_ShowPosition( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
+LRESULT CALLBACK WindowProcChild_ChangeJointParam( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam );
 
 // SAVE for future
 // HDC hdc = GetWindowDC( hwnd );
@@ -79,6 +82,7 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 				drawRowInMainWindowTable( dc , MAIN_DRAW_TAB_X , y_offset  );
 			}
 			fillRowsInMainWindowTable( dc , dhp );
+			updateButtons( hwnd , hInst , dhp );
 			EndPaint( hwnd , & ps );
 			break;
 		}
@@ -97,14 +101,15 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 					ShowWindow( hwnd_AJ , SW_SHOW );
 				    UpdateWindow( hwnd_AJ );
 				    //EnumChildWindows
-					break;
 				}
-				case ID_BUTTON_SHOW_POS:
+				break;
+				case ID_BUTTON_SHOW_POS: {
 					if ( ! createShowPositionWindow( hwnd , hwnd_SP , hInst ) ) break;
 					ShowWindow( hwnd_SP , SW_SHOW );
 				    UpdateWindow( hwnd_SP );
-					break;
-				case ID_BUTTON_REMOVE_JOINT:
+				}
+				break;
+				case ID_BUTTON_REMOVE_JOINT: {
 				    if ( IDYES == MessageBox( hwnd , "Are you sure you want to remove last joint ?" , "Remove Joint" , MB_ICONEXCLAMATION | MB_YESNO ) ) {
 				    	if ( removeLastJoint( dhp ) ) {
 				    		//TODO refresh top window
@@ -114,8 +119,15 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 				    		MessageBox( NULL , " Failed to remove joint ! ", "Failed !" , MB_ICONINFORMATION );
 				    	}
 				    }
-					break;
 				}
+				break;
+				case ID_BUTTON_CHANGE_VALUE_BEGIN ... ID_BUTTON_CHANGE_VALUE_END: {
+					if ( ! createChangeValueOfJointParamWindow( hwnd , hwnd_JP , hInst , wparam ) ) break;
+					ShowWindow( hwnd_JP , SW_SHOW );
+				    UpdateWindow( hwnd_JP );
+				}
+				break;
+			}
 			break;
 		}
 		case WM_PARENTNOTIFY:
@@ -173,7 +185,7 @@ LRESULT CALLBACK WindowProcChild_ShowPosition( HWND hwnd , UINT msg , WPARAM wpa
 			dc = BeginPaint( hwnd , & ps );
 			int y_offset = WIN_SP_DRAW_TAB_Y;
 			for ( unsigned int i = 0 ; i < WIN_SP_TABLE_COLUMNS ; i++ , y_offset += WIN_SP_COLUMN_HIGH ) {
-				drawRowInShowPositionWindowTable( dc , WIN_SP_DRAW_TAB_X , y_offset  );
+				drawRowInShowPositionWindowTable( dc , WIN_SP_DRAW_TAB_X , y_offset );
 			}
 			fillRowsInShowPositionWindowTable( dc , dhp );
 			EndPaint( hwnd , & ps );
@@ -196,3 +208,32 @@ LRESULT CALLBACK WindowProcChild_ShowPosition( HWND hwnd , UINT msg , WPARAM wpa
 	return 0;
 }
 
+LRESULT CALLBACK WindowProcChild_ChangeJointParam( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lparam ) {
+	switch ( msg ) {
+		case WM_PAINT: {
+			PAINTSTRUCT ps;
+			HDC dc;
+			RECT r;
+			GetClientRect( hwnd , & r );
+			dc = BeginPaint( hwnd , & ps );
+			EndPaint( hwnd , & ps );
+			break;
+		}
+		case WM_CREATE: {
+			if ( lparam == WIN_JP_LPCREATE ) {			// Because we need wparam with joint index
+				fillChangeValueOfJointParamWindow( hwnd , hInst , dhp , wparam - ID_BUTTON_CHANGE_VALUE_BEGIN );
+			}
+			break;
+		}
+		case WM_COMMAND: {
+			break;
+		}
+		case WM_DESTROY: {
+			DestroyWindow( hwnd );
+			break;
+		}
+		default:
+			return DefWindowProc( hwnd , msg , wparam , lparam );
+		}
+	return 0;
+}
