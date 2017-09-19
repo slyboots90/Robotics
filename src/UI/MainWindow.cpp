@@ -114,6 +114,9 @@ void fillRowsInMainWindowTable( HDC & dc , DHparam * dhp ) {
 }
 
 void updateButtons( HWND & hwnd , HINSTANCE & hInst , DHparam * dhp ) {
+	static vector < HWND > buttons;										// Only stored for removing buttons while refresh window
+	vector < HWND > ::iterator it = buttons.begin( );
+	for ( ; it != buttons.end( ) ; it++ ) DestroyWindow( *it );
 	const jointParams * params = NULL;
 	int x_offset = 0;
 	int y_offset = 31;
@@ -131,6 +134,6 @@ void updateButtons( HWND & hwnd , HINSTANCE & hInst , DHparam * dhp ) {
 			printf ( "ERROR: Unknown joint type ! %d " , params->type );
 		}
 		unsigned int hmenu = ID_BUTTON_CHANGE_VALUE_BEGIN + i;
-		CreateWindowEx( 0 , "BUTTON" , ss_value.str().c_str() , WS_CHILD | WS_VISIBLE | WS_BORDER , x_offset , y_offset , 100 , 30 , hwnd , (HMENU) hmenu , hInst , NULL );
+		buttons.push_back( CreateWindowEx( 0 , "BUTTON" , ss_value.str().c_str() , WS_CHILD | WS_VISIBLE | WS_BORDER , x_offset , y_offset , 100 , 30 , hwnd , (HMENU) hmenu , hInst , NULL ) );
 	}
 }
