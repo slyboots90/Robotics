@@ -9,6 +9,10 @@
 #include "../include/HelperFunctions.h"
 // Include UI
 #include "../include/UI/MainWindow.h"
+#include "../include/UI/AddJoint.h"
+#include "../include/UI/ShowPosition.h"
+#include "../include/UI/ChangeValueOfJointParam.h"
+
 #include "../include/UI/AddJointWindow.h"
 #include "../include/UI/ShowPositionWindow.h"
 #include "../include/UI/ChangeValueOfJointParamWindow.h"
@@ -79,7 +83,7 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 			DrawText( dc , "Welcome in DH" , -1 , & r , DT_SINGLELINE | DT_CENTER | DT_VCENTER );
 			int y_offset = MAIN_DRAW_TAB_Y;
 			for ( unsigned int i = 0 ; i < dhp->getNoOfJoints() + 1 ; i++ , y_offset += MAIN_COLUMN_HIGH ) {
-				drawRowInMainWindowTable( dc , MAIN_DRAW_TAB_X , y_offset  );
+				drawRowInMainWindowTable( dc , MAIN_DRAW_TAB_X , y_offset );
 			}
 			fillRowsInMainWindowTable( dc , dhp );
 			updateButtons( hwnd , hInst , dhp );
@@ -97,16 +101,14 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 			switch( wparam ) {
 				case ID_BUTTON_ADD_JOINT: {
 					//TODO hwnd_AJ and hInst should be local in main
-					if ( ! createAddJointWindow( hwnd , hwnd_AJ , hInst ) ) break;
-					ShowWindow( hwnd_AJ , SW_SHOW );
-				    UpdateWindow( hwnd_AJ );
-				    //EnumChildWindows
+					new AddJoint( hwnd , hInst , dhp );
+					//if ( ! addJointWin.isWindowCreated() ) break;
 				}
 				break;
 				case ID_BUTTON_SHOW_POS: {
-					if ( ! createShowPositionWindow( hwnd , hwnd_SP , hInst ) ) break;
-					ShowWindow( hwnd_SP , SW_SHOW );
-				    UpdateWindow( hwnd_SP );
+					//ShowPosition showPositionWin( hwnd , hInst , dhp );
+					new ShowPosition( hwnd , hInst , dhp );
+					//if ( ! showPositionWin.isWindowCreated() ) break;
 				}
 				break;
 				case ID_BUTTON_REMOVE_JOINT: {
@@ -121,9 +123,10 @@ LRESULT CALLBACK WindowProc( HWND hwnd , UINT msg , WPARAM wparam , LPARAM lpara
 				}
 				break;
 				case ID_BUTTON_CHANGE_VALUE_BEGIN ... ID_BUTTON_CHANGE_VALUE_END: {
-					if ( ! createChangeValueOfJointParamWindow( hwnd , hwnd_JP , hInst , wparam ) ) break;
-					ShowWindow( hwnd_JP , SW_SHOW );
-				    UpdateWindow( hwnd_JP );
+					new ChangeValueOfJointParam( hwnd , hInst , dhp , wparam );
+					//if ( ! createChangeValueOfJointParamWindow( hwnd , hwnd_JP , hInst , wparam ) ) break;
+					//ShowWindow( hwnd_JP , SW_SHOW );
+				    //UpdateWindow( hwnd_JP );
 				}
 				break;
 			}

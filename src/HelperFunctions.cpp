@@ -25,9 +25,9 @@ extern HWND change_box;
 
 int initWindows( HWND & hwnd_main , HINSTANCE & hInst ) {
 	if ( ! initMainWindow( hwnd_main , hInst ) ) return 0;
-	if ( ! initAddJointWindow( hInst ) ) return 0;
-	if ( ! initShowPositionWindow( hInst ) ) return 0;
-	if ( ! initChangeValueOfJointParamWindow( hInst ) ) return 0;
+	//if ( ! initAddJointWindow( hInst ) ) return 0;
+	//if ( ! initShowPositionWindow( hInst ) ) return 0;
+	//if ( ! initChangeValueOfJointParamWindow( hInst ) ) return 0;
 	return 1;
 }
 
